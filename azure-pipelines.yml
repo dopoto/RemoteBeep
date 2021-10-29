@@ -1,0 +1,90 @@
+# Node.js with Angular
+
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+- frontend
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - group: PROD
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.10'
+  displayName: 'Install Node.js 16.10'
+
+- task: replacetokens@4
+  displayName: 'Replace environment.prod.ts tokens'
+  inputs:
+    targetFiles: '**/environments/environment.*'
+    encoding: 'auto'
+    tokenPattern: 'default'
+    writeBOM: true
+    actionOnMissing: 'warn'
+    keepToken: false
+    actionOnNoFiles: 'continue'
+    enableTransforms: false
+    useLegacyPattern: false
+    enableTelemetry: true
+
+- task: replacetokens@4
+  displayName: 'Replace index.html tokens'
+  inputs:
+    targetFiles: '**/src/index*'
+    encoding: 'auto'
+    tokenPattern: 'default'
+    writeBOM: true
+    actionOnMissing: 'warn'
+    keepToken: false
+    actionOnNoFiles: 'continue'
+    enableTransforms: false
+    useLegacyPattern: false
+    enableTelemetry: true
+
+- script: |
+    npm install -g @angular/cli
+    npm install
+  displayName: 'Do npm install'
+  workingDirectory: ./FrontEnd
+
+# - script: |
+#     npx ng test --browsers=ChromeHeadless --watch=false --karma-config karma.conf.js --code-coverage
+#   displayName: 'Perform unit tests'
+#   workingDirectory: ./FrontEnd
+
+# - task: PublishTestResults@2
+#   condition: succeededOrFailed()
+#   inputs:
+#     testResultsFormat: 'JUnit'
+#     testResultsFiles: '**/TESTS-*.xml'
+#   displayName: 'Publish unit test results'
+
+- script: |
+    npm install -g @angular/cli
+    npm install
+    ng build --configuration=production
+  displayName: 'npm install and build'
+  condition: succeededOrFailed()
+  workingDirectory: ./FrontEnd
+
+## TODO
+# - task: PublishCodeCoverageResults@1
+#   displayName: 'publish code coverage report'
+#   condition: succeededOrFailed()
+#   inputs:
+#     codeCoverageTool: Cobertura
+#     summaryFileLocation: '$(Build.SourcesDirectory)/coverage/cobertura-coverage.xml'
+#     failIfCoverageEmpty: true  
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish Output'
+  inputs:
+    targetPath: FrontEnd
+    artifact: FrontEnd
