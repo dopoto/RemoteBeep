@@ -52,12 +52,12 @@ steps:
     npm install -g @angular/cli
     npm install
   displayName: 'Do npm install'
-  workingDirectory: ./FrontEnd
+  workingDirectory: ./Frontend
 
 # - script: |
 #     npx ng test --browsers=ChromeHeadless --watch=false --karma-config karma.conf.js --code-coverage
 #   displayName: 'Perform unit tests'
-#   workingDirectory: ./FrontEnd
+#   workingDirectory: ./Frontend
 
 # - task: PublishTestResults@2
 #   condition: succeededOrFailed()
