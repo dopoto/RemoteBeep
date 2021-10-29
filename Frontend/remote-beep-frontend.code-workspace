@@ -1,0 +1,39 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"workbench.colorCustomizations": {
+			"activityBar.activeBackground": "#0000f1",
+			"activityBar.activeBorder": "#200000",
+			"activityBar.background": "#0000f1",
+			"activityBar.foreground": "#e7e7e7",
+			"activityBar.inactiveForeground": "#e7e7e799",
+			"activityBarBadge.background": "#200000",
+			"activityBarBadge.foreground": "#e7e7e7",
+			"statusBar.background": "#0000be",
+			"statusBar.foreground": "#e7e7e7",
+			"statusBarItem.hoverBackground": "#0000f1",
+			"titleBar.activeBackground": "#0000be",
+			"titleBar.activeForeground": "#e7e7e7",
+			"titleBar.inactiveBackground": "#0000be99",
+			"titleBar.inactiveForeground": "#e7e7e799",
+			"editorGroup.border": "#0000f1",
+			"panel.border": "#0000f1",
+			"sash.hoverBorder": "#0000f1",
+			"sideBar.border": "#0000f1",
+			"statusBarItem.remoteBackground": "#0000be",
+			"statusBarItem.remoteForeground": "#e7e7e7"
+		},
+		"peacock.color": "#0000be",
+		"files.exclude": {
+			"**/.angular": true,
+			"**/cypress/_samples": true,
+			"**/cypress/reports": true,
+			"**/dist": true,
+			"**/node_modules": true
+		}
+	}
+}

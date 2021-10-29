@@ -1,0 +1,60 @@
+<mat-card 
+*ngIf="(mode$ | async) !== modeEnum.PlayOnly"
+class="sender-card">
+    <mat-card-header>
+        <mat-card-title>Control</mat-card-title>
+        <mat-card-subtitle
+            >Send a Play command to all connected clients</mat-card-subtitle
+        >
+    </mat-card-header>
+    <mat-card-content>
+        <div>
+            <mat-grid-list cols="1" rowHeight="100px" style="width: 100%">
+                <mat-grid-tile>
+                    <fieldset>
+                        <legend>kHz</legend>
+                        <mat-slider
+                            min="0"
+                            max="25"
+                            step="1"
+                            thumbLabel
+                            [(ngModel)]="khz"
+                            tickInterval="1"
+                        ></mat-slider>
+                    </fieldset>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <fieldset>
+                        <legend>Seconds</legend>
+                        <mat-slider
+                            min="0"
+                            max="60"
+                            step="1"
+                            thumbLabel
+                            [(ngModel)]="seconds"
+                            tickInterval="5"
+                        ></mat-slider>
+                    </fieldset>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <button
+                        *ngIf="!(isPlaying$ | async)"
+                        mat-raised-button
+                        color="primary"
+                        (click)="play()"
+                    >
+                        Play!
+                    </button>
+                    <button
+                        *ngIf="(isPlaying$ | async)"
+                        mat-raised-button
+                        color="secondary"
+                        (click)="stop()"
+                    >
+                        Stop
+                    </button>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </div>
+    </mat-card-content>
+</mat-card>

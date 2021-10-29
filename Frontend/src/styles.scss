@@ -1,0 +1,61 @@
+/* You can add global styles to this file, and also import other style files */
+
+// [node_modules/@ngx-tiny/switch-input/theme.scss]
+
+$color-handle: #fff !default;
+$color-background: #ccc !default;
+$color-selected: #1ba875 !default;
+
+ngx-switch-input {
+    .ngx-switch-input {
+        &-handle {
+            background: $color-handle;
+        }
+
+        &-background {
+            background: $color-background;
+        }
+    }
+
+    .ngx-switch-input-checked .ngx-switch-input-background {
+        background: $color-selected;
+    }
+}
+
+// /[node_modules/@ngx-tiny/switch-input/theme.scss]
+
+//html, body { height: 100%; }
+body {
+    margin: 16px;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-slider-thumb-label {
+    transform: rotate(45deg) !important;
+    border-radius: 50% 50% 0 !important;
+}
+
+.mat-slider-thumb {
+    transform: scale(0) !important;
+}
+
+.mat-slider-thumb-label-text {
+    opacity: 1 !important;
+}
+
+.mat-slider,
+.mat-form-field {
+    width: 100%;
+}
+
+.mat-raised-button {
+    width: 220px;
+}
+
+.mat-card {
+    padding:10px !important;
+}
+
+.mat-card-header-text {
+    margin: 0 10px !important;
+}

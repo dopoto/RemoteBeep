@@ -1,0 +1,24 @@
+.head {
+    height: 50px;
+    display:flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.logo {
+    float: left;
+    font-weight: 800;
+    font-size: 32px;
+    font-stretch: extra-condensed;
+    color: #5a5a5a;
+}
+
+.desc {
+    float:left;
+    font-size: 13px;
+    color: #a19d9a;
+}
+
+.options {
+    float: right;
+}

@@ -1,0 +1,39 @@
+<mat-card
+    class="watcher-container"
+    [class.control-only]="(mode$ | async) === modeEnum.ControlOnly"
+>
+    <mat-card-header>
+        <mat-card-title>Sound Player</mat-card-title>
+
+        <mat-card-subtitle *ngIf="(isPlaying$ | async)">
+            <img src="/assets/img/sound-trans.gif" />
+            <span class="primary">
+                Playing
+                {{
+                    (mode$ | async) === modeEnum.PlayOnly ||
+                    (mode$ | async) === modeEnum.ControlAndPlay
+                        ? "here"
+                        : ""
+                }}
+                {{ (freqInKhz$ | async) }} kHz for
+                {{ (durationInSeconds$ | async) }}
+                seconds...</span
+            >
+            <!-- <span class="secondary"
+                >Sent by TODO Owner @
+                TODO date.</span
+            > -->
+        </mat-card-subtitle>
+        <mat-card-subtitle *ngIf="!(isPlaying$ | async)">
+            {{ (mode$ | async) === modeEnum.ControlOnly ? "Disabled" : "Idle" }}
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-icon
+        *ngIf="(mode$ | async) === modeEnum.ControlOnly"
+        title="
+In Control Only mode, sounds will not be played on this device. To 
+play sounds here, please switch to Control &amp; Play."
+        class="volume-off"
+        >volume_off</mat-icon
+    >
+</mat-card>

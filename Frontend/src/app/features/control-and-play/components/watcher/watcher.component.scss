@@ -1,0 +1,30 @@
+.watcher-container {
+    padding-bottom: 0;
+    height: 96px;
+}
+
+.control-only {
+    background-color: #eaeaea;
+}
+
+.primary {
+    position: absolute;
+    top: 50px;
+    left: 100px;
+}
+
+.secondary {
+    position: absolute;
+    top: 70px;
+    left: 100px;
+    color: darkgray;
+    font-size: 14px;
+}
+
+.volume-off {
+    position: absolute;
+    right: 48px;
+    top: 28px;
+    font-size: 55px;
+    color: #616060;
+}
