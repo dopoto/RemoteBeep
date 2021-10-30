@@ -1,13 +1,22 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using RemoteBeep.BackEnd.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
+var environmentSettings = builder.Configuration.Get<EnvironmentSpecificSettings>();
+var environmentSettingsEntries = typeof(EnvironmentSpecificSettings).GetProperties();
+
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddUserSecrets<EnvironmentSpecificSettings>(optional: true)
+    .AddEnvironmentVariables();
 
 // Add services to the container.
 
 builder.Services.AddSignalR();
 builder.Services.AddCors();
+builder.Services.AddApplicationInsightsTelemetry(environmentSettings.ApplicationInsightsInstrumentationKey);
 
 var app = builder.Build();
 
