@@ -3,6 +3,7 @@
 trigger:
 - main
 - backend
+- signalrinaspnetcore
 
 pool:
   vmImage: ubuntu-latest
