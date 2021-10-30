@@ -1,0 +1,47 @@
+# This is a Build Deploy Pipeline for .NET 6 Web App to Azure App Service using Azure DevOps Pipeline
+
+trigger:
+- main
+- backend
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+- group: PROD
+- name: buildConfiguration
+  value: 'Release'
+- name: dotNetFramework
+  value: 'net6.0'
+- name: dotNetVersion
+  value: '6.0.x'
+- name: targetRuntime
+  value: 'linux-x64'
+- name: azureSPNName
+  value: 'azure-service-connection' # AzureDevOps portal > [Your Project] > Settings | Initially defined in Azure Portal > App Registrations. See https://subhankarsarkar.com/dot-net6-azure-web-app-deployment-using-azure-devops-pipeline/
+#  azureAppServiceName: '-- add it here-- ' #get it from your Azure portal
+
+# TODO Clean up older files in blob
+
+steps:
+
+- task: UseDotNet@2
+  displayName: 'Build .NET 6 Application'
+  inputs:
+    version: $(dotNetVersion)
+    includePreviewVersions: true
+- script: dotnet build --configuration $(buildConfiguration)
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish app as .NET 6 self-contained application for Linux runtime'
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --framework $(dotNetFramework) --runtime $(targetRuntime) --self-contained --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: True
+
+- task: PublishPipelineArtifact@1
+  displayName: 'Package the file and upload it as artifact of the build'    
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: 'Backend'
