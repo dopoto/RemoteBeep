@@ -6,7 +6,9 @@ import { IConfig } from 'src/app/core/models/config';
 
 export const environment: IConfig = {
     production: false,
-    version: 'DEV',
+    version: '0.0.1',
+    clientBuildNumber: 'DEV',
+    serverBuildNumber: 'DEV',
     apiEndpoint: 'https://localhost:7133/hub'
 };
 

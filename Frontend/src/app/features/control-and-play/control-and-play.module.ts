@@ -8,6 +8,7 @@ import { OptionsComponent } from './components/options/options.component';
 import { SenderComponent } from './components/sender/sender.component';
 import { WatcherComponent } from './components/watcher/watcher.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
     declarations: [
@@ -17,6 +18,7 @@ import { NotificationsComponent } from './components/notifications/notifications
         SenderComponent,
         WatcherComponent,
         NotificationsComponent,
+        FooterComponent,
     ],
     imports: [BrowserModule, SharedModule],
     providers: [],

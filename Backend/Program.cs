@@ -3,7 +3,6 @@ using RemoteBeep.BackEnd.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 var environmentSettings = builder.Configuration.Get<EnvironmentSpecificSettings>();
 var environmentSettingsEntries = typeof(EnvironmentSpecificSettings).GetProperties();
 
