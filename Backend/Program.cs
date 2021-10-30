@@ -14,10 +14,7 @@ builder.Configuration
 
 // Add services to the container.
 
-builder.Services
-    .AddSignalR()
-    .AddAzureSignalR();
-
+builder.Services.AddSignalR();
 builder.Services.AddCors();
 builder.Services.AddApplicationInsightsTelemetry(environmentSettings.ApplicationInsightsInstrumentationKey);
 
@@ -42,9 +39,9 @@ app.UseCors(p =>
 
 app.UseHttpsRedirection();
 app.UseRouting();
-app.UseAzureSignalR(routes =>
+app.UseEndpoints(endpoints =>
 {
-    routes.MapHub<BeepHub>("/hub");
+    endpoints.MapHub<BeepHub>("/hub");
 });
 
 app.Run();
