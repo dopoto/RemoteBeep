@@ -14,7 +14,10 @@ builder.Configuration
 
 // Add services to the container.
 
-builder.Services.AddSignalR();
+builder.Services
+    .AddSignalR()
+    .AddAzureSignalR();
+
 builder.Services.AddCors();
 builder.Services.AddApplicationInsightsTelemetry(environmentSettings.ApplicationInsightsInstrumentationKey);
 
