@@ -1,0 +1,6 @@
+steps:
+- task: FileTransform@1
+  displayName: 'File Transform: appSettings.json'
+  inputs:
+    fileType: json
+    targetFiles: '**/appsettings.json'

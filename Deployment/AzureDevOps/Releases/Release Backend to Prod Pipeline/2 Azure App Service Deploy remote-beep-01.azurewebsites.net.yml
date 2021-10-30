@@ -1,0 +1,9 @@
+# 'azure-service-connection' - see https://subhankarsarkar.com/simple-way-to-create-spn-and-service-connection-for-azure-devops-pipelines/
+
+steps:
+- task: AzureRmWebAppDeployment@4
+  displayName: 'Azure App Service Deploy: remote-beep-01.azurewebsites.net'
+  inputs:
+    azureSubscription: 'azure-service-connection'
+    appType: webAppLinux
+    WebAppName: 'remote-beep-01'

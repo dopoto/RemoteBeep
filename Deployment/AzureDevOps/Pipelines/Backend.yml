@@ -3,7 +3,6 @@
 trigger:
 - main
 - backend
-- signalrinaspnetcore
 
 pool:
   vmImage: ubuntu-latest
@@ -20,7 +19,6 @@ variables:
   value: 'linux-x64'
 - name: azureSPNName
   value: 'azure-service-connection' # AzureDevOps portal > [Your Project] > Settings | Initially defined in Azure Portal > App Registrations. See https://subhankarsarkar.com/dot-net6-azure-web-app-deployment-using-azure-devops-pipeline/
-#  azureAppServiceName: '-- add it here-- ' #get it from your Azure portal
 
 # TODO Clean up older files in blob
 

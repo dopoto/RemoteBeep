@@ -1,0 +1,12 @@
+# 'azure-service-connection' - see https://subhankarsarkar.com/simple-way-to-create-spn-and-service-connection-for-azure-devops-pipelines/
+
+steps:
+- task: AzureFileCopy@3
+  displayName: 'AzureBlob File Copy'
+  inputs:
+    SourcePath: '$(System.DefaultWorkingDirectory)/_Frontend/Frontend/dist/remote-beep-client'
+    azureSubscription: 'azure-service-connection'
+    Destination: AzureBlob
+    storage: remotebeepstorage
+    ContainerName: '$web'
+    sasTokenTimeOutInMinutes: 300
