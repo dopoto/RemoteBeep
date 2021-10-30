@@ -42,12 +42,10 @@ app.UseCors(p =>
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
-app.UseEndpoints(endpoints =>
+app.UseAzureSignalR(routes =>
 {
-    endpoints.MapHub<BeepHub>("/hub");
+    routes.MapHub<BeepHub>("/hub");
 });
-
 
 app.Run();
 
