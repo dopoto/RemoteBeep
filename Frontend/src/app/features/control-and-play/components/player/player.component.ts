@@ -4,10 +4,14 @@ import {
     combineLatest,
     distinctUntilChanged,
     filter,
+    forkJoin,
     map,
+    merge,
     Observable,
+    of,
     Subject,
     takeUntil,
+    tap,
 } from 'rxjs';
 
 import { BeepCommand } from 'src/app/core/models/beep-command';
@@ -33,8 +37,8 @@ export class PlayerComponent {
 
     isPlaying$: Observable<boolean> | undefined;
 
-    freqInKhz$: Observable<number> | undefined;
-    durationInSeconds$: Observable<number> | undefined;
+    freqInKhz: number = 0;
+    durationInSeconds: number = 0;
 
     constructor(
         private readonly store: Store<AppState>,
@@ -42,36 +46,37 @@ export class PlayerComponent {
     ) {
         this.isPlaying$ = this.store.pipe(select(selectIsPlaying));
         this.mode$ = this.store.pipe(select(selectMode));
-        this.freqInKhz$ = this.store
-            .pipe(select(selector))
-            .pipe(map((res) => res.freqInKhz));
-        this.durationInSeconds$ = this.store
-            .pipe(select(selector))
-            .pipe(map((res) => res.durationInSeconds));
 
-        const observables = {
-            isPlaying: this.isPlaying$.pipe(
+        this.store
+            .pipe(takeUntil(this.ngDestroyed$), select(selector))
+            .subscribe((res) => {
+                this.freqInKhz = res.freqInKhz;
+                this.durationInSeconds = res.durationInSeconds;
+            });
+
+        const playChanges$ = {
+            isPlaying: this.isPlaying$?.pipe(
                 filter((isPlaying) => isPlaying === true)
             ),
-            mode: this.mode$.pipe(
+            mode: this.mode$?.pipe(
                 filter(
                     (mode) =>
                         mode === PlaySoundsMode.PlayOnly ||
                         mode === PlaySoundsMode.ControlAndPlay
                 )
             ),
-            freqInKhz: this.freqInKhz$,
-            durationInSeconds: this.durationInSeconds$,
         };
-        const combined = combineLatest(observables).pipe(
-            distinctUntilChanged(),
-            takeUntil(this.ngDestroyed$)
-        );
-
-        combined.subscribe((res) => {
-            console.log("PLAYING " + JSON.stringify(res));
-            this.playService.playBeep(res.freqInKhz, res.durationInSeconds);
-        });
+        combineLatest(playChanges$)
+            .pipe(takeUntil(this.ngDestroyed$), distinctUntilChanged())
+            .subscribe(() => {
+                console.log(
+                    `PLAYING ${this.freqInKhz} khz for ${this.durationInSeconds} seconds`
+                );
+                this.playService.playBeep(
+                    this.freqInKhz,
+                    this.durationInSeconds
+                );
+            });
     }
 
     ngOnDestroy() {

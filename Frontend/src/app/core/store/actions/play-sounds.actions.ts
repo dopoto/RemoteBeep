@@ -29,14 +29,12 @@ export const changePlayModeOk = createAction(
     props<{ newPlayMode: PlaySoundsMode }>()
 );
 
-export const changeFreqStart = createAction(
-    actions.changeFreqStart,
+export const changeFreq = createAction(
+    actions.changeFreq,
     props<{ newFreqInKhz: number }>()
 );
-export const changeFreqOk = createAction(actions.changeFreqOk);
 
-export const changeDurationStart = createAction(
-    actions.changeDurationStart,
+export const changeDuration = createAction(
+    actions.changeDuration,
     props<{ newDurationInSeconds: number }>()
 );
-export const changeDurationOk = createAction(actions.changeDurationOk);

@@ -16,7 +16,7 @@
                             max="25"
                             step="1"
                             thumbLabel
-                            [ngModel]="freqInKhz$ | async"
+                            [ngModel]="freqInKhz"
                             (change)="changeFreq($event)"
                             tickInterval="1"
                         ></mat-slider>
@@ -30,7 +30,7 @@
                             max="60"
                             step="1"
                             thumbLabel
-                            [ngModel]="durationInSeconds$ | async"
+                            [ngModel]="durationInSeconds"
                             (change)="changeDuration($event)"
                             tickInterval="5"
                         ></mat-slider>

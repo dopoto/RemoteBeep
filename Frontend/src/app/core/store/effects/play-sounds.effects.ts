@@ -61,34 +61,12 @@ export class PlaySoundsEffects {
     );
 
     changeFreqStart$ = createEffect(
-        () =>
-            this.actions$.pipe(
-                ofType(actions.changeFreqStart),
-                map(() => {
-                    return actions.changeFreqOk();
-                })
-            ),
-        { dispatch: true }
-    );
-
-    changeFreqOk$ = createEffect(
-        () => this.actions$.pipe(ofType(actions.changePlayModeOk)),
+        () => this.actions$.pipe(ofType(actions.changeFreq)),
         { dispatch: false }
     );
 
-    changeDurationStart$ = createEffect(
-        () =>
-            this.actions$.pipe(
-                ofType(actions.changeDurationStart),
-                map(() => {
-                    return actions.changeDurationOk();
-                })
-            ),
-        { dispatch: true }
-    );
-
-    changeDurationOk$ = createEffect(
-        () => this.actions$.pipe(ofType(actions.changeDurationOk)),
+    changeDuration$ = createEffect(
+        () => this.actions$.pipe(ofType(actions.changeDuration)),
         { dispatch: false }
     );
 }

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { map, Observable } from 'rxjs';
+import { map, Observable, Subject, takeUntil } from 'rxjs';
 
 import { BeepCommand } from 'src/app/core/models/beep-command';
 import { PlaySoundsMode } from 'src/app/core/models/play-sounds-mode';
 import {
-    changeDurationStart,
-    changeFreqStart,
+    changeDuration,
+    changeFreq,
 } from 'src/app/core/store/actions/play-sounds.actions';
 import { sendBeepCommandStart } from 'src/app/core/store/actions/send-receive.actions';
 import { AppState } from 'src/app/core/store/app.state';
@@ -22,31 +22,35 @@ import {
     styleUrls: ['./sender.component.scss'],
 })
 export class SenderComponent implements OnInit {
+    ngDestroyed$ = new Subject();
+
     mode$: Observable<PlaySoundsMode> | undefined;
     modeEnum = PlaySoundsMode;
 
-    freqInKhz$: Observable<number> | undefined;
-    durationInSeconds$: Observable<number> | undefined;
+    freqInKhz: number | undefined;
+    durationInSeconds: number | undefined;
 
     isPlaying$: Observable<boolean> | undefined;
 
     constructor(private readonly store: Store<AppState>) {
         this.mode$ = this.store.pipe(select(selectMode));
         this.isPlaying$ = this.store.pipe(select(selectIsPlaying));
-        this.freqInKhz$ = this.store
-            .pipe(select(selector))
-            .pipe(map((res) => res.freqInKhz));
-        this.durationInSeconds$ = this.store
-            .pipe(select(selector))
-            .pipe(map((res) => res.durationInSeconds));
+        
+        this.store.pipe(
+            takeUntil(this.ngDestroyed$),
+            select(selector),
+        ).subscribe(res => {
+            this.freqInKhz = res.freqInKhz
+            this.durationInSeconds = res.durationInSeconds
+        });
     }
 
     ngOnInit(): void {}
 
     play(): void {
         const beepCommand = {
-            freqInKhz: 10,
-            durationInSeconds: 11,
+            freqInKhz: this.freqInKhz,
+            durationInSeconds:this.durationInSeconds,
         } as BeepCommand;
         this.store.dispatch(sendBeepCommandStart({ beepCommand }));
     }
@@ -54,14 +58,16 @@ export class SenderComponent implements OnInit {
     stop(): void {}
 
     changeFreq($event: any): void {
-        debugger;
-        this.store.dispatch(changeFreqStart({ newFreqInKhz: $event.value }));
+        this.store.dispatch(changeFreq({ newFreqInKhz: $event.value }));
     }
 
     changeDuration($event: any): void {
-        debugger;
         this.store.dispatch(
-            changeDurationStart({ newDurationInSeconds: $event.value })
+            changeDuration({ newDurationInSeconds: $event.value })
         );
+    }
+    
+    ngOnDestroy() {
+        this.ngDestroyed$.next(null);
     }
 }
