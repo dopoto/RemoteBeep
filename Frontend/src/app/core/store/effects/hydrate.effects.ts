@@ -3,11 +3,14 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
-import { PlaySoundsMode } from '../../models/play-sounds-mode';
+import { environment } from 'src/environments/environment';
 
+import { PlaySoundsMode } from '../../models/play-sounds-mode';
 import { LogService } from '../../services/log/log.service';
 import * as HydrationActions from '../actions/hydrate.actions';
+
 import { AppState } from '../app.state';
+import { initialPlaySoundsState } from '../reducers/play-sounds.reducers';
 
 @Injectable()
 export class HydrateEffects implements OnInitEffects {
@@ -37,15 +40,10 @@ export class HydrateEffects implements OnInitEffects {
                             ).toUpperCase(),
                             recentCommands: [],
                         },
-                        playSounds: {
-                            mode: PlaySoundsMode.ControlOnly,
-                            isPlaying: false,
-                            freqInKhz: 0,
-                            durationInSeconds: 0,
-                        },
+                        playSounds: initialPlaySoundsState,
                         //TODO:
                         meta: {
-                            appVersion: '0.0.1', //environment.version,
+                            appVersion: environment.version,
                             stateVersion: '1',
                             initializedOn: new Date(),
                         },

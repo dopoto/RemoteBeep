@@ -6,7 +6,11 @@ import { LogService } from '../log/log.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 import { beginPlayStart } from '../../store/actions/play-sounds.actions';
-import { initError } from '../../store/actions/send-receive.actions';
+import {
+    initError,
+    initOk,
+    initStart,
+} from '../../store/actions/send-receive.actions';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -22,6 +26,7 @@ export class CommandService {
     ) {}
 
     init() {
+        this.store.dispatch(initStart());
         this.hubConnection = new signalR.HubConnectionBuilder()
             .withUrl(this.baseUrl, <IHttpConnectionOptions>{
                 withCredentials: false,
@@ -31,7 +36,10 @@ export class CommandService {
         this.hubConnection.onclose(() => this.logService.info('Disconnected'));
         this.hubConnection
             .start()
-            .then(() => this.logService.info('Connection started'))
+            .then(() => {
+                this.store.dispatch(initOk());
+                this.logService.info('Connection started');
+            })
             .catch((err) => {
                 this.logService.info('Error while starting connection: ' + err);
                 this.store.dispatch(
@@ -67,7 +75,7 @@ export class CommandService {
                 command.durationInSeconds.toString()
             )
             .then(() => {
-                this.logService.info('Connection started');
+                this.logService.info('msg sent');
             });
     }
 }

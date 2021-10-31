@@ -9,6 +9,7 @@ import { SenderComponent } from './components/sender/sender.component';
 import { PlayerComponent } from './components/player/player.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
     declarations: [
@@ -19,6 +20,7 @@ import { FooterComponent } from './components/footer/footer.component';
         PlayerComponent,
         NotificationsComponent,
         FooterComponent,
+        LoaderComponent,
     ],
     imports: [BrowserModule, SharedModule],
     providers: [],

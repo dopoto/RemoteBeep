@@ -13,6 +13,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxSwitchInputModule } from '@ngx-tiny/switch-input';
 
 import { AppRoutingModule } from '../app-routing.module';
@@ -43,6 +44,7 @@ import { AppRoutingModule } from '../app-routing.module';
         MatButtonToggleModule,
         MatSnackBarModule,
         MatCardModule,
+        MatProgressSpinnerModule,
         NgxSwitchInputModule,
         AppRoutingModule,
         CommonModule,
@@ -61,6 +63,7 @@ import { AppRoutingModule } from '../app-routing.module';
         MatButtonToggleModule,
         MatSnackBarModule,
         MatCardModule,
+        MatProgressSpinnerModule,
         NgxSwitchInputModule,
         TranslateModule,
         AppRoutingModule,

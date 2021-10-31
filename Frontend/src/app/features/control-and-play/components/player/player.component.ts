@@ -2,19 +2,12 @@ import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
     combineLatest,
-    distinctUntilChanged,
     filter,
-    forkJoin,
-    map,
-    merge,
     Observable,
-    of,
     Subject,
     takeUntil,
-    tap,
 } from 'rxjs';
 
-import { BeepCommand } from 'src/app/core/models/beep-command';
 import { PlaySoundsMode } from 'src/app/core/models/play-sounds-mode';
 import { PlayService } from 'src/app/core/services/play/play.service';
 import { AppState } from 'src/app/core/store/app.state';
@@ -55,23 +48,20 @@ export class PlayerComponent {
             });
 
         const playChanges$ = {
-            isPlaying: this.isPlaying$?.pipe(
-                filter((isPlaying) => isPlaying === true)
-            ),
-            mode: this.mode$?.pipe(
-                filter(
-                    (mode) =>
-                        mode === PlaySoundsMode.PlayOnly ||
-                        mode === PlaySoundsMode.ControlAndPlay
-                )
-            ),
+            isPlaying: this.isPlaying$,
+            mode: this.mode$,
         };
         combineLatest(playChanges$)
-            .pipe(takeUntil(this.ngDestroyed$), distinctUntilChanged())
+            .pipe(
+                takeUntil(this.ngDestroyed$),
+                filter((playChanges) => playChanges.isPlaying === true),
+                filter(
+                    (playChanges) =>
+                        playChanges.mode === PlaySoundsMode.PlayOnly ||
+                        playChanges.mode === PlaySoundsMode.ControlAndPlay
+                )
+            )
             .subscribe(() => {
-                console.log(
-                    `PLAYING ${this.freqInKhz} khz for ${this.durationInSeconds} seconds`
-                );
                 this.playService.playBeep(
                     this.freqInKhz,
                     this.durationInSeconds

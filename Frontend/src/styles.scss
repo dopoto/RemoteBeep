@@ -1,5 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
+body {
+    background-color: #f5f5f5;
+}
+
 // [node_modules/@ngx-tiny/switch-input/theme.scss]
 
 $color-handle: #fff !default;
@@ -58,4 +62,11 @@ body {
 
 .mat-card-header-text {
     margin: 0 10px !important;
+}
+
+.cdk-overlay-pane {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 94px;
 }
