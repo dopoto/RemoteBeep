@@ -10,7 +10,8 @@ export const beginPlayStart = createAction(
     actions.beginPlayStart,
     props<{ beepCommand: BeepCommand }>()
 );
-export const beginPlayOk = createAction(actions.beginPlayOk,
+export const beginPlayOk = createAction(
+    actions.beginPlayOk,
     props<{ beepCommand: BeepCommand }>()
 );
 export const beginPlayError = createAction(actions.beginPlayError);
@@ -23,5 +24,19 @@ export const changePlayModeStart = createAction(
     actions.changePlayModeStart,
     props<{ newPlayMode: PlaySoundsMode }>()
 );
-export const changePlayModeOk = createAction(actions.changePlayModeOk,
-    props<{ newPlayMode: PlaySoundsMode }>());
+export const changePlayModeOk = createAction(
+    actions.changePlayModeOk,
+    props<{ newPlayMode: PlaySoundsMode }>()
+);
+
+export const changeFreqStart = createAction(
+    actions.changeFreqStart,
+    props<{ newFreqInKhz: number }>()
+);
+export const changeFreqOk = createAction(actions.changeFreqOk);
+
+export const changeDurationStart = createAction(
+    actions.changeDurationStart,
+    props<{ newDurationInSeconds: number }>()
+);
+export const changeDurationOk = createAction(actions.changeDurationOk);

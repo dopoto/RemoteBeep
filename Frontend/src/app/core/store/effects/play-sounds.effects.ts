@@ -14,7 +14,7 @@ export class PlaySoundsEffects {
             this.actions$.pipe(
                 ofType(actions.changePlayModeStart),
                 map((res) => {
-                    // TODO Save to local storage
+                    // TODO Save to local storage (??)
                     const props = { newPlayMode: res.newPlayMode };
                     return actions.changePlayModeOk(props);
                 })
@@ -23,11 +23,7 @@ export class PlaySoundsEffects {
     );
 
     changePlayModeOk$ = createEffect(
-        () =>
-            this.actions$.pipe(
-                ofType(actions.changePlayModeOk),
-                tap(() => {})
-            ),
+        () => this.actions$.pipe(ofType(actions.changePlayModeOk)),
         { dispatch: false }
     );
 
@@ -48,25 +44,51 @@ export class PlaySoundsEffects {
             this.actions$.pipe(
                 ofType(actions.beginPlayOk),
                 mergeMap((res) => {
-                    console.log('of4');
                     return of(res).pipe(
-                        delay(res.beepCommand.durationInSeconds * 1000)                        
+                        delay(res.beepCommand.durationInSeconds * 1000)
                     );
                 }),
                 map(() => {
-                    console.log('ret4');
                     return actions.stopPlayOk();
                 })
             ),
         { dispatch: true }
     );
-    
+
     stopPlayOk$ = createEffect(
+        () => this.actions$.pipe(ofType(actions.stopPlayOk)),
+        { dispatch: false }
+    );
+
+    changeFreqStart$ = createEffect(
         () =>
             this.actions$.pipe(
-                ofType(actions.stopPlayOk),
-                tap(() => {})
+                ofType(actions.changeFreqStart),
+                map(() => {
+                    return actions.changeFreqOk();
+                })
             ),
+        { dispatch: true }
+    );
+
+    changeFreqOk$ = createEffect(
+        () => this.actions$.pipe(ofType(actions.changePlayModeOk)),
+        { dispatch: false }
+    );
+
+    changeDurationStart$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(actions.changeDurationStart),
+                map(() => {
+                    return actions.changeDurationOk();
+                })
+            ),
+        { dispatch: true }
+    );
+
+    changeDurationOk$ = createEffect(
+        () => this.actions$.pipe(ofType(actions.changeDurationOk)),
         { dispatch: false }
     );
 }

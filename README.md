@@ -2,22 +2,15 @@
 
 A demo for playing sounds remotely, using .NET 6, SignalR, Angular and NGRX.
 
-## Setting up a local environment
+## Running in a local environment
 
-### Prerequisities
+### Backend
 
-- Visual Studio 2022
+Build and run from Visual Studio 2022+ or execute ```dotnet run``` in the Backend folder
 
-### Set up environment-specific variables
+### Frontend
 
-This is optional, and only needed in case you want to enable logging to Azure Application Insights from your dev environment. 
-In Visual Studio, right-click on the Backend project and choose Manage User Secrets.
+Execute ```npm start``` in the Frontend folder
 
-```
-{
-  "ApplicationInsightsConnectionString": "InstrumentationKey=[your key here];IngestionEndpoint=[your endpoint here]",
-  "ApplicationInsightsInstrumentationKey": "[your intrumentation key here]"
-}
-```
 
 

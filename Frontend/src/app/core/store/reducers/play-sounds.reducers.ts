@@ -30,6 +30,16 @@ const playSoundsReducer = createReducer(
         ...state,
         mode: newPlayMode
     })),
+
+    on(actions.changeFreqStart, (state, { newFreqInKhz }) => ({ 
+        ...state,
+        freqInKhz: newFreqInKhz
+    })),
+
+    on(actions.changeDurationStart, (state, { newDurationInSeconds }) => ({ 
+        ...state,
+        durationInSeconds: newDurationInSeconds
+    })),
 );
 
 export function reducer(state: PlaySoundsState | undefined, action: Action) {

@@ -6,12 +6,18 @@ import { LogService } from '../log/log.service';
 })
 export class PlayService {
     oscillator: any;
+    isPlaying = false;
 
-    constructor(
-        private logService: LogService
-    ) {}
+    constructor(private logService: LogService) {}
 
     playBeep(freqInKhz: number, durationInSeconds: number) {
+        if (!this.isPlaying) {
+            this.init(freqInKhz);
+            this.stop(durationInSeconds);
+        }
+    }
+
+    init(freqInKhz: number): void {
         var audioCtx = new ((<any>window).AudioContext ||
             (<any>window).webkitAudioContext)();
 
@@ -26,12 +32,18 @@ export class PlayService {
         this.oscillator.type = 'sine';
 
         this.oscillator.start();
+        this.logService.info(`Started`);
 
+        this.oscillator.onended = () => {
+            this.logService.info(`on ended `);
+            this.isPlaying = false;
+        };
+    }
+
+    stop(delayInSeconds: number) {
         setTimeout(() => {
             this.oscillator.stop();
-            this.logService.info(
-                `Stopped ${freqInKhz} khz / ${durationInSeconds} seconds.`
-            );
-        }, durationInSeconds * 1000);
+            this.logService.info(`Stopped after ${delayInSeconds} seconds.`);
+        }, delayInSeconds * 1000);
     }
 }

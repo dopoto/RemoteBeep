@@ -1,6 +1,4 @@
-<mat-card 
-*ngIf="(mode$ | async) !== modeEnum.PlayOnly"
-class="sender-card">
+<mat-card *ngIf="(mode$ | async) !== modeEnum.PlayOnly" class="sender-card">
     <mat-card-header>
         <mat-card-title>Control</mat-card-title>
         <mat-card-subtitle
@@ -18,7 +16,8 @@ class="sender-card">
                             max="25"
                             step="1"
                             thumbLabel
-                            [(ngModel)]="khz"
+                            [ngModel]="freqInKhz$ | async"
+                            (change)="changeFreq($event)"
                             tickInterval="1"
                         ></mat-slider>
                     </fieldset>
@@ -31,7 +30,8 @@ class="sender-card">
                             max="60"
                             step="1"
                             thumbLabel
-                            [(ngModel)]="seconds"
+                            [ngModel]="durationInSeconds$ | async"
+                            (change)="changeDuration($event)"
                             tickInterval="5"
                         ></mat-slider>
                     </fieldset>
@@ -46,7 +46,7 @@ class="sender-card">
                         Play!
                     </button>
                     <button
-                        *ngIf="(isPlaying$ | async)"
+                        *ngIf="isPlaying$ | async"
                         mat-raised-button
                         color="secondary"
                         (click)="stop()"

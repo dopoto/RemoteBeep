@@ -37,7 +37,7 @@ export class SendReceiveEffects {
                 // TODO Revisit
                 return from(EMPTY).pipe(
                     map(() => {
-                        return sendBeepCommandOk(data);
+                        return sendBeepCommandOk();
                     })
                 );
             })

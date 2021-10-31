@@ -21,8 +21,7 @@ export const sendBeepCommandStart = createAction(
     props<{ beepCommand: BeepCommand }>()
 );
 export const sendBeepCommandOk = createAction(
-    actions.sendBeepCommandOk,
-    props<{ beepCommand: BeepCommand }>()
+    actions.sendBeepCommandOk
 );
 export const sendBeepCommandError = createAction(
     actions.sendBeepCommandError,
