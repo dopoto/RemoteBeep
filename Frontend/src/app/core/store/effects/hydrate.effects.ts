@@ -42,7 +42,7 @@ export class HydrateEffects implements OnInitEffects {
                         },
                         playSounds: initialPlaySoundsState,
                         //TODO:
-                        meta: {
+                        appConfig: {
                             appVersion: environment.version,
                             stateVersion: '1',
                             initializedOn: new Date(),
@@ -55,8 +55,8 @@ export class HydrateEffects implements OnInitEffects {
                     try {
                         const state = JSON.parse(storageValue) as AppState;
                         //TODO Determine if this is a valid, compatible state.
-                        if (state && state.meta) {
-                            state.meta.lastNotification = undefined;
+                        if (state && state.appConfig) {
+                            state.appConfig.lastNotification = undefined;
                         }
                         if (state && state.sendReceive) {
                             state.sendReceive.recentCommands = [];

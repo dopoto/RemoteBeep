@@ -1,9 +1,6 @@
 import { AppNotification } from "./app-notification";
 
-/**
- * State meta data.
- */
-export interface MetaState {
+export interface AppConfigState {
     appVersion: string;
     stateVersion: string;
     initializedOn: Date;
