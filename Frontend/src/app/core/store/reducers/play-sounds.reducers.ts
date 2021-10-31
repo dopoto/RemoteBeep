@@ -26,7 +26,7 @@ const playSoundsReducer = createReducer(
         isPlaying: false,
     })),
 
-    on(actions.changePlayModeStart, (state, { newPlayMode }) => ({
+    on(actions.changePlayMode, (state, { newPlayMode }) => ({
         ...state,
         mode: newPlayMode,
     })),

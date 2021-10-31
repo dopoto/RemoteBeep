@@ -9,21 +9,9 @@ import { LogService } from '../../services/log/log.service';
 export class PlaySoundsEffects {
     constructor(private actions$: Actions, private logService: LogService) {}
 
-    changePlayModeStart$ = createEffect(
-        () =>
-            this.actions$.pipe(
-                ofType(actions.changePlayModeStart),
-                map((res) => {
-                    // TODO Save to local storage (??)
-                    const props = { newPlayMode: res.newPlayMode };
-                    return actions.changePlayModeOk(props);
-                })
-            ),
-        { dispatch: true }
-    );
-
-    changePlayModeOk$ = createEffect(
-        () => this.actions$.pipe(ofType(actions.changePlayModeOk)),
+    changePlayMode$ = createEffect(
+        //TODO this.router.navigate(['/home', { mode: $event.value }]);
+        () => this.actions$.pipe(ofType(actions.changePlayMode)),
         { dispatch: false }
     );
 

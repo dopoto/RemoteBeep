@@ -4,9 +4,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './features/control-and-play/components/home/home.component';
 
 const routes: Routes = [
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
-   // { path: 'home/:channel/:mode', component: HomeComponent },
     { path: 'home', component: HomeComponent },
+    { path: 'home/:channel', component: HomeComponent },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
 ];
 
 @NgModule({

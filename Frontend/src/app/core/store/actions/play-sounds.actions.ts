@@ -20,12 +20,8 @@ export const stopPlayStart = createAction(actions.stopPlayStart);
 export const stopPlayOk = createAction(actions.stopPlayOk);
 export const stopPlayError = createAction(actions.stopPlayError);
 
-export const changePlayModeStart = createAction(
-    actions.changePlayModeStart,
-    props<{ newPlayMode: PlaySoundsMode }>()
-);
-export const changePlayModeOk = createAction(
-    actions.changePlayModeOk,
+export const changePlayMode = createAction(
+    actions.changePlayMode,
     props<{ newPlayMode: PlaySoundsMode }>()
 );
 

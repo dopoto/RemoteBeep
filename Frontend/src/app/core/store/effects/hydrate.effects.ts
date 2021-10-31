@@ -41,7 +41,7 @@ export class HydrateEffects implements OnInitEffects {
                             mode: PlaySoundsMode.ControlOnly,
                             isPlaying: false,
                             freqInKhz: 0,
-                            durationInSeconds: 0
+                            durationInSeconds: 0,
                         },
                         //TODO:
                         meta: {
@@ -87,7 +87,6 @@ export class HydrateEffects implements OnInitEffects {
                         'home',
                         {
                             channel: initState.state.sendReceive.channel,
-                            mode: initState.state.playSounds.mode,
                         },
                     ]);
                 })
