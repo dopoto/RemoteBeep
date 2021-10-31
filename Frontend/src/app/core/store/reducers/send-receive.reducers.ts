@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import { SendReceiveState } from '../../models/send-receive-state';
-import * as SendReceiveActions from '../actions/send-receive.actions';
+import * as actions from '../actions/send-receive.actions';
 
 export const initialState: SendReceiveState = {
      channel: '',
@@ -11,12 +11,9 @@ export const initialState: SendReceiveState = {
 const SendReceiveReducer = createReducer(
     initialState,
 
-    // on(SendReceiveActions., () => ({
-         
-    // })),
-
-    // on(SendReceiveActions.playStop, () => ({
-        
+    // on(actions.initStart, (state) => ({ 
+    //     ...state,
+    //     i
     // })),
 );
 

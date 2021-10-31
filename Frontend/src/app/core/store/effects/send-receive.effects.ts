@@ -1,18 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, from } from 'rxjs';
-import {
-    map,
-    mergeMap,
-    tap,
-} from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { CommandService } from '../../services/command/command.service';
 
 import { LogService } from '../../services/log/log.service';
 import * as actions from '../actions/send-receive.actions';
-import {
-    sendBeepCommandOk,
-} from '../actions/send-receive.actions';
+import { sendBeepCommandOk } from '../actions/send-receive.actions';
 
 @Injectable()
 export class SendReceiveEffects {
@@ -45,11 +39,7 @@ export class SendReceiveEffects {
     );
 
     sendBeepCommandOk$ = createEffect(
-        () =>
-            this.actions$.pipe(
-                ofType(actions.sendBeepCommandOk),
-                tap(() => {})
-            ),
+        () => this.actions$.pipe(ofType(actions.sendBeepCommandOk)),
         { dispatch: false }
     );
 }

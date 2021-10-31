@@ -12,16 +12,4 @@ export class HomeComponent {
     value = 50;
     displayProgressSpinner = false;
     spinnerWithoutBackdrop = false;
-
-    constructor() {
-      this.showProgressSpinner();
-      
-    }
-    // Display progress spinner for 3 secs on click of button
-    showProgressSpinner = () => {
-        this.displayProgressSpinner = true;
-        setTimeout(() => {
-            this.displayProgressSpinner = false;
-        }, 60000);
-    };
 }

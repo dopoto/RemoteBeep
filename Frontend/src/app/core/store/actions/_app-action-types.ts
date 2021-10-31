@@ -4,10 +4,13 @@ export enum HydrateActionTypes {
     hydrateError = 'hydrateError',
 }
 
+export enum AppConfigActionTypes {
+    initStart = 'initStart',
+    initOk = 'initOk',
+    initError = 'initError',
+}
+
 export enum SendReceiveActionTypes {
-    initStart = 'sendReceiveInitStart',
-    initOk = 'sendReceiveInitOk',
-    initError = 'sendReceiveInitError',
     sendBeepCommandStart = 'sendBeepCommandStart',
     sendBeepCommandOk = 'sendBeepCommandOk',
     sendBeepCommandError = 'sendBeepCommandError',
@@ -18,7 +21,7 @@ export enum PlaySoundsActionTypes {
     beginPlayOk = 'beginPlayOk',
     beginPlayError = 'beginPlayError',
 
-    stopPlayStart = 'stopPlayStart',  // Yeah, I know...
+    stopPlayStart = 'stopPlayStart',
     stopPlayOk = 'stopPlayOk',
     stopPlayError = 'stopPlayError',
 

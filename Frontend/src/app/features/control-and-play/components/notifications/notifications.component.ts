@@ -8,7 +8,7 @@ import {
     takeUntil,
 } from 'rxjs';
 import { AppNotification } from 'src/app/core/models/app-notification';
-import { selectLastNotification } from 'src/app/core/store/selectors/meta.selectors';
+import { selectLastNotification } from 'src/app/core/store/selectors/app-config.selectors';
 
 @Component({
     selector: 'app-notifications',

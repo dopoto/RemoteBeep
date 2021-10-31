@@ -5,4 +5,6 @@ export interface AppConfigState {
     stateVersion: string;
     initializedOn: Date;
     lastNotification?: AppNotification;
+    isLoading: boolean;
+    isConnectedToServer: boolean;
 }

@@ -46,6 +46,8 @@ export class HydrateEffects implements OnInitEffects {
                             appVersion: environment.version,
                             stateVersion: '1',
                             initializedOn: new Date(),
+                            isLoading: false,
+                            isConnectedToServer: false
                         },
                     };
                     return HydrationActions.hydrateOk({ state: initialState });
@@ -55,14 +57,18 @@ export class HydrateEffects implements OnInitEffects {
                     try {
                         const state = JSON.parse(storageValue) as AppState;
                         //TODO Determine if this is a valid, compatible state.
-                        if (state && state.appConfig) {
-                            state.appConfig.lastNotification = undefined;
-                        }
-                        if (state && state.sendReceive) {
-                            state.sendReceive.recentCommands = [];
-                        }
-                        if (state && state.playSounds) {
-                            state.playSounds.isPlaying = false;
+                        if(state){
+                            if (state.appConfig) {
+                                state.appConfig.lastNotification = undefined;
+                                state.appConfig.isConnectedToServer = false;
+                                state.appConfig.isLoading = false;
+                            }
+                            if (state.sendReceive) {
+                                state.sendReceive.recentCommands = [];
+                            }
+                            if (state.playSounds) {
+                                state.playSounds.isPlaying = false;
+                            }
                         }
                         return HydrationActions.hydrateOk({ state });
                     } catch {

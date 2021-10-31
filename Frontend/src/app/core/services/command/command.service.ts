@@ -6,12 +6,9 @@ import { LogService } from '../log/log.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/app.state';
 import { beginPlayStart } from '../../store/actions/play-sounds.actions';
-import {
-    initError,
-    initOk,
-    initStart,
-} from '../../store/actions/send-receive.actions';
+
 import { environment } from 'src/environments/environment';
+import { initError, initOk, initStart } from '../../store/actions/app-config.actions';
 
 @Injectable({
     providedIn: 'root',
