@@ -16,7 +16,7 @@ import { initialPlaySoundsState } from '../reducers/play-sounds.reducers';
 export class HydrateEffects implements OnInitEffects {
     constructor(
         private actions$: Actions,
-        private store: Store<AppState>,
+        private store: Store,
         private router: Router,
         private logService: LogService
     ) {}

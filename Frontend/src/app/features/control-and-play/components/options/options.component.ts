@@ -16,7 +16,7 @@ export class OptionsComponent implements OnInit {
     mode$: Observable<PlaySoundsMode> | undefined;
     modeEnum = PlaySoundsMode;
     
-    constructor(private readonly store: Store<AppState>) {}
+    constructor(private readonly store: Store) {}
 
     ngOnInit(): void {
         this.mode$ = this.store.pipe(select(selectMode));

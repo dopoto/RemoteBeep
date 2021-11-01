@@ -11,7 +11,7 @@ export const initialPlaySoundsState: PlaySoundsState = {
     durationInSeconds: 3,
 };
 
-const playSoundsReducer = createReducer(
+export const playSoundsReducer = createReducer(
     initialPlaySoundsState,
 
     on(actions.beginPlayOk, (state, { beepCommand }) => ({
@@ -41,7 +41,3 @@ const playSoundsReducer = createReducer(
         durationInSeconds: newDurationInSeconds,
     }))
 );
-
-export function reducer(state: PlaySoundsState | undefined, action: Action) {
-    return playSoundsReducer(state, action);
-}

@@ -8,7 +8,7 @@ export const initialState: SendReceiveState = {
      recentCommands: []
 }
 
-const SendReceiveReducer = createReducer(
+export const sendReceiveReducer = createReducer(
     initialState,
 
     // on(actions.initStart, (state) => ({ 
@@ -16,7 +16,3 @@ const SendReceiveReducer = createReducer(
     //     i
     // })),
 );
-
-export function reducer(state: SendReceiveState | undefined, action: Action) {
-    return SendReceiveReducer(state, action);
-}

@@ -1,0 +1,19 @@
+<mat-card class="info__card">
+    <mat-card-header>
+        <mat-card-subtitle>Load the URL below </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="info__content">
+        <mat-form-field appearance="fill">
+            <mat-label>Your RemoteBeep channel address</mat-label>
+            <input matInput type="text" [value]="channelUrl" />
+            <button
+                mat-icon-button
+                matSuffix
+                [attr.aria-label]="'Copy to clipboard'"
+                
+            >
+                <mat-icon>visibility_off</mat-icon>
+            </button>
+        </mat-form-field>
+    </mat-card-content>
+</mat-card>

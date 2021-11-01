@@ -1,14 +1,20 @@
-<mat-card class="options-card">
+<mat-card class="options__card">
     <mat-card-header>
         <mat-card-title>Play Mode</mat-card-title>
-        <mat-card-subtitle
-            >Should this device control other devices, play sounds or
-            both?</mat-card-subtitle
+        <mat-card-subtitle *ngIf="(mode$ | async) === modeEnum.ControlOnly"
+            >No sounds will be played on this device. All devices connected to
+            xxx will play sounds.</mat-card-subtitle
+        >
+        <mat-card-subtitle *ngIf="(mode$ | async) === modeEnum.PlayOnly"
+            >po
+        </mat-card-subtitle>
+        <mat-card-subtitle *ngIf="(mode$ | async) === modeEnum.ControlAndPlay"
+            >c and p</mat-card-subtitle
         >
     </mat-card-header>
     <mat-card-content>
         <mat-button-toggle-group
-            class="options"
+            class="options__toggle-group"
             [ngModel]="mode$ | async"
             (change)="onModeChange($event)"
         >

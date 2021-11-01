@@ -20,7 +20,7 @@ export class NotificationsComponent {
     appNotification$: Observable<AppNotification | undefined>;
 
     constructor(
-        private readonly store: Store<AppState>,
+        private readonly store: Store,
         private snackBar: MatSnackBar
     ) {
         this.appNotification$ = this.store.pipe(select(selectLastNotification));

@@ -20,14 +20,10 @@ export enum PlaySoundsActionTypes {
     beginPlayStart = 'beginPlayStart',
     beginPlayOk = 'beginPlayOk',
     beginPlayError = 'beginPlayError',
-
     stopPlayStart = 'stopPlayStart',
     stopPlayOk = 'stopPlayOk',
     stopPlayError = 'stopPlayError',
-
     changePlayMode= 'changePlayMode',
-
     changeFreq = 'changeFreq',
-
     changeDuration = 'changeDuration',
 }

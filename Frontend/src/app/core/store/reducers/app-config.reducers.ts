@@ -10,34 +10,30 @@ export const initialState: AppConfigState = {
     initializedOn: new Date(),
     isLoading: false,
     isConnectedToServer: false,
-    isInGeneralError: false
+    isInGeneralError: false,
 };
 
-const appConfigReducer = createReducer(
+export const appConfigReducer = createReducer(
     initialState,
 
-    on(actions.initStart, (state) => ({ 
+    on(actions.initStart, (state) => ({
         ...state,
         isConnectedToServer: false,
         isLoading: true,
-        isInGeneralError: false
+        isInGeneralError: false,
     })),
-    
-    on(actions.initOk, (state) => ({ 
+
+    on(actions.initOk, (state) => ({
         ...state,
         isConnectedToServer: true,
         isLoading: false,
-        isInGeneralError: false
+        isInGeneralError: false,
     })),
-    
-    on(actions.initError, (state) => ({ 
+
+    on(actions.initError, (state) => ({
         ...state,
         isConnectedToServer: false,
         isLoading: false,
-        isInGeneralError: true
-    })),
+        isInGeneralError: true,
+    }))
 );
-
-export function reducer(state: AppConfigState | undefined, action: Action) {
-    return appConfigReducer(state, action);
-}

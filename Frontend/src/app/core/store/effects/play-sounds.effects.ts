@@ -10,7 +10,6 @@ export class PlaySoundsEffects {
     constructor(private actions$: Actions, private logService: LogService) {}
 
     changePlayMode$ = createEffect(
-        //TODO this.router.navigate(['/home', { mode: $event.value }]);
         () => this.actions$.pipe(ofType(actions.changePlayMode)),
         { dispatch: false }
     );

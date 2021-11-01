@@ -32,7 +32,7 @@ export class SenderComponent implements OnInit {
 
     isPlaying$: Observable<boolean> | undefined;
 
-    constructor(private readonly store: Store<AppState>) {
+    constructor(private readonly store: Store) {
         this.mode$ = this.store.pipe(select(selectMode));
         this.isPlaying$ = this.store.pipe(select(selectIsPlaying));
         

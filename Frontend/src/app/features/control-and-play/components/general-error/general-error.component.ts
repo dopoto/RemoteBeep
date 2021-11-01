@@ -37,7 +37,7 @@ export class GeneralErrorComponent {
   constructor(
       private vcRef: ViewContainerRef,
       private overlayService: OverlayService,
-      private readonly store: Store<AppState>
+      private readonly store: Store
   ) {
       this.store
           .pipe(takeUntil(this.ngDestroyed$), select(selector))

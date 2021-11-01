@@ -19,7 +19,7 @@ export class CommandService {
 
     constructor(
         private logService: LogService,
-        private readonly store: Store<AppState>
+        private readonly store: Store
     ) {}
 
     init() {
