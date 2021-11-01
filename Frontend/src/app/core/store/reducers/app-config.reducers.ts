@@ -9,7 +9,8 @@ export const initialState: AppConfigState = {
     stateVersion: '1',
     initializedOn: new Date(),
     isLoading: false,
-    isConnectedToServer: false
+    isConnectedToServer: false,
+    isInGeneralError: false
 };
 
 const appConfigReducer = createReducer(
@@ -18,19 +19,22 @@ const appConfigReducer = createReducer(
     on(actions.initStart, (state) => ({ 
         ...state,
         isConnectedToServer: false,
-        isLoading: true
+        isLoading: true,
+        isInGeneralError: false
     })),
     
     on(actions.initOk, (state) => ({ 
         ...state,
         isConnectedToServer: true,
-        isLoading: false
+        isLoading: false,
+        isInGeneralError: false
     })),
     
     on(actions.initError, (state) => ({ 
         ...state,
         isConnectedToServer: false,
-        isLoading: false
+        isLoading: false,
+        isInGeneralError: true
     })),
 );
 

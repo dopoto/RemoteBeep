@@ -1,0 +1,20 @@
+.general-error__container {
+    margin: auto;
+    width: 100%;
+    display: contents;
+}
+
+.general-error__message {
+    background-color: white;
+    border: 1px solid darkgrey;
+    border-radius: 7px;
+    padding: 20px;
+    color: crimson;
+}
+
+.general-error__title {
+    font-weight: bold;
+}
+
+.general-error__content {
+}

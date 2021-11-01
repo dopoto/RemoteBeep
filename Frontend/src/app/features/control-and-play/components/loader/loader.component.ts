@@ -1,11 +1,9 @@
 import {
     Component,
     Input,
-    OnInit,
     ViewChild,
     TemplateRef,
     ViewContainerRef,
-    DoCheck,
 } from '@angular/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { OverlayRef } from '@angular/cdk/overlay';
@@ -13,9 +11,8 @@ import { OverlayService } from 'src/app/core/services/overlay/overlay.service';
 import { OverlayConfig } from '@angular/cdk/overlay';
 import { select, Store } from '@ngrx/store';
 import { AppState } from 'src/app/core/store/app.state';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import {
-    selectIsLoading,
     selector,
 } from 'src/app/core/store/selectors/app-config.selectors';
 
@@ -30,7 +27,7 @@ export class LoaderComponent {
     @Input() strokeWidth?: number;
     @Input() value: number = 0;
     @Input() backdropEnabled = true;
-    @Input() positionGloballyCenter = true;
+    @Input() positionGloballyCenter = false;
 
     @ViewChild('progressSpinnerRef')
     private progressSpinnerRef: TemplateRef<any> | undefined;

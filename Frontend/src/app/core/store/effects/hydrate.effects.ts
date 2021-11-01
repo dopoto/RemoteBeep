@@ -47,7 +47,8 @@ export class HydrateEffects implements OnInitEffects {
                             stateVersion: '1',
                             initializedOn: new Date(),
                             isLoading: false,
-                            isConnectedToServer: false
+                            isConnectedToServer: false,
+                            isInGeneralError: false
                         },
                     };
                     return HydrationActions.hydrateOk({ state: initialState });

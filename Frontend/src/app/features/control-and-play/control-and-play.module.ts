@@ -10,6 +10,7 @@ import { PlayerComponent } from './components/player/player.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { GeneralErrorComponent } from './components/general-error/general-error.component';
 
 @NgModule({
     declarations: [
@@ -21,6 +22,7 @@ import { LoaderComponent } from './components/loader/loader.component';
         NotificationsComponent,
         FooterComponent,
         LoaderComponent,
+        GeneralErrorComponent,
     ],
     imports: [BrowserModule, SharedModule],
     providers: [],

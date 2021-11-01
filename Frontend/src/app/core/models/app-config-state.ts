@@ -7,4 +7,5 @@ export interface AppConfigState {
     lastNotification?: AppNotification;
     isLoading: boolean;
     isConnectedToServer: boolean;
+    isInGeneralError: boolean;
 }
