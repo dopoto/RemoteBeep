@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { getSelectors } from '@ngrx/router-store';
 
 import { AppConfigState } from '../../models/app-config-state';
 

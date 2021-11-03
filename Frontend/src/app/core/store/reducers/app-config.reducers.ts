@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { AppConfigState } from '../../models/app-config-state';
 import * as actions from '../actions/app-config.actions';
 
-export const initialState: AppConfigState = {
+export const initialAppConfigState: AppConfigState = {
     appVersion: environment.version,
     stateVersion: '1',
     initializedOn: new Date(),
@@ -14,7 +14,7 @@ export const initialState: AppConfigState = {
 };
 
 export const appConfigReducer = createReducer(
-    initialState,
+    initialAppConfigState,
 
     on(actions.initStart, (state) => ({
         ...state,

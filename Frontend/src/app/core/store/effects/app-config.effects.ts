@@ -6,7 +6,7 @@ import * as actions from '../actions/app-config.actions';
 import { LogService } from '../../services/log/log.service';
 
 @Injectable()
-export class PlaySoundsEffects {
+export class AppConfigEffects {
     constructor(private actions$: Actions, private logService: LogService) {}
 
     initStart$ = createEffect(

@@ -1,16 +1,38 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
-import { Action, Store } from '@ngrx/store';
-import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import {
+    Actions,
+    concatLatestFrom,
+    createEffect,
+    ofType,
+    OnInitEffects,
+} from '@ngrx/effects';
+import { Action, select, Store } from '@ngrx/store';
+import {
+    distinctUntilChanged,
+    map,
+    switchMap,
+    tap,
+    withLatestFrom,
+} from 'rxjs/operators';
+import { getSelectors, routerNavigatedAction } from '@ngrx/router-store';
+
 import { environment } from 'src/environments/environment';
-
-import { PlaySoundsMode } from '../../models/play-sounds-mode';
 import { LogService } from '../../services/log/log.service';
-import * as HydrationActions from '../actions/hydrate.actions';
-
+import * as hydrateActions from '../actions/hydrate.actions';
+import * as sendReceiveActions from '../actions/send-receive.actions';
 import { AppState } from '../app.state';
 import { initialPlaySoundsState } from '../reducers/play-sounds.reducers';
+import { initialAppConfigState } from '../reducers/app-config.reducers';
+import { initialSendReceiveState } from '../reducers/send-receive.reducers';
+import {
+    selectCurrentRoute,
+    selectQueryParam,
+    selectQueryParams,
+    selectRouteData,
+    selectRouteParam,
+    selectRouteParams,
+} from '../selectors/router.selectors';
 
 @Injectable()
 export class HydrateEffects implements OnInitEffects {
@@ -18,93 +40,109 @@ export class HydrateEffects implements OnInitEffects {
         private actions$: Actions,
         private store: Store,
         private router: Router,
+        private route: ActivatedRoute,
         private logService: LogService
     ) {}
+
+    getInitialState(): AppState {
+        const initialState: AppState = {
+            appConfig: initialAppConfigState,
+            sendReceive: initialSendReceiveState,
+            playSounds: initialPlaySoundsState,
+        };
+        return initialState;
+    }
+
+    getStateFromLocalStorage(storageValue: any): AppState {
+        let state = JSON.parse(JSON.stringify(this.getInitialState()));
+
+        const storageState = JSON.parse(storageValue) as AppState;
+        if (storageState) {
+            const ps = storageState.playSounds;
+            if (ps) {
+                if (ps.durationInSeconds) {
+                    state.playSounds.durationInSeconds = ps.durationInSeconds;
+                }
+                if (ps.freqInKhz) {
+                    state.playSounds.freqInKhz = ps.freqInKhz;
+                }
+                if (ps.mode) {
+                    state.playSounds.mode = ps.mode;
+                }
+            }
+
+            const sr = storageState.sendReceive;
+            if (sr) {
+                if (sr.channel) {
+                    state.sendReceive.channel = sr.channel;
+                }
+            }
+        }
+        return state;
+    }
 
     /**
      * When the app is initialized, load its state from local storage or initialize a minimalstate.
      */
     hydrate$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(HydrationActions.hydrateStart),
+            ofType(hydrateActions.hydrateStart),
             map(() => {
                 const storageValue = localStorage.getItem('state');
+                let state: AppState = {} as AppState;
                 if (!storageValue) {
-                    // Looks like it's our first run here. Let's pick a random
-                    // signalR channel and initialize a minimal state.
-                    const initialState: AppState = {
-                        sendReceive: {
-                            channel: (
-                                Date.now().toString(36) +
-                                Math.random().toString(36).substr(2, 5)
-                            ).toUpperCase(),
-                            recentCommands: [],
-                        },
-                        playSounds: initialPlaySoundsState,
-                        //TODO:
-                        appConfig: {
-                            appVersion: environment.version,
-                            stateVersion: '1',
-                            initializedOn: new Date(),
-                            isLoading: false,
-                            isConnectedToServer: false,
-                            isInGeneralError: false
-                        },
-                    };
-                    return HydrationActions.hydrateOk({ state: initialState });
+                    state = this.getInitialState();
                 } else {
                     // The app has been used before - let's load the state that
                     // we previously stored in local storage.
                     try {
-                        const state = JSON.parse(storageValue) as AppState;
-                        //TODO Determine if this is a valid, compatible state.
-                        if(state){
-                            if (state.appConfig) {
-                                state.appConfig.lastNotification = undefined;
-                                state.appConfig.isConnectedToServer = false;
-                                state.appConfig.isLoading = false;
-                            }
-                            if (state.sendReceive) {
-                                state.sendReceive.recentCommands = [];
-                            }
-                            if (state.playSounds) {
-                                state.playSounds.isPlaying = false;
-                            }
-                        }
-                        return HydrationActions.hydrateOk({ state });
-                    } catch {
+                        state = this.getStateFromLocalStorage(storageValue);
+                    } catch (ex) {
                         localStorage.removeItem('state');
                     }
                 }
-                return HydrationActions.hydrateError({
-                    errorMessage: 'Hydrate start error!',
-                });
+
+                this.router.navigate(['/home', {channel: state.sendReceive.channel}]);
+
+                return hydrateActions.hydrateOk({state});
+
+                // TODO
+                // return HydrationActions.hydrateError({
+                //     errorMessage: 'Hydrate start error!',
+                // });
             })
         )
     );
 
-    navigateToHome$ = createEffect(
-        () =>
-            this.actions$.pipe(
-                ofType(HydrationActions.hydrateOk),
-                tap((initState) => {
-                    this.router.navigate([
-                        'home',
-                        {
-                            channel: initState.state.sendReceive.channel,
-                        },
-                    ]);
-                })
-            ),
-        { dispatch: false }
-    );
+    // updateChannel$ = createEffect(
+    //     () =>
+    //         this.actions$.pipe(
+    //             //ofType(routerNavigatedAction),
+    //             ofType(HydrationActions.hydrateOk),
+    //             //concatLatestFrom(() => this.store.pipe(select(selectCurrentRoute))),
+    //             //concatLatestFrom(() => this.store.select(selectRouteData)),
+    //             withLatestFrom(this.store.pipe(select(selectRouteParams))),
+    //             map(([initState, r]) => {
+    //                  debugger;
+    //                 // const currentChannel = initState.state.sendReceive.channel;
+    //                 // const routeChannel = this.route.snapshot.paramMap.get('mychannel'); // TODO why is it null?
+
+    //                 // const channel = (routeChannel && routeChannel !== currentChannel) ? routeChannel : currentChannel;
+
+    //                 // this.router.navigate(['/home', {mychannel: channel}]);
+
+    //                 // return sendReceiveActions.changeChannel({channel});
+    //             })
+    //         ),
+    //     { dispatch: false }
+    // );
 
     serialize$ = createEffect(
         () =>
             this.actions$.pipe(
                 ofType(
-                    HydrationActions.hydrateOk,
-                    HydrationActions.hydrateError
+                    hydrateActions.hydrateOk,
+                    hydrateActions.hydrateError
                 ),
                 switchMap(() => this.store),
                 distinctUntilChanged(),
@@ -117,6 +155,6 @@ export class HydrateEffects implements OnInitEffects {
     );
 
     ngrxOnInitEffects(): Action {
-        return HydrationActions.hydrateStart();
+        return hydrateActions.hydrateStart();
     }
 }

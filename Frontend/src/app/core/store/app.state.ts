@@ -8,17 +8,22 @@ import { playSoundsReducer } from './reducers/play-sounds.reducers';
 import { appConfigReducer } from './reducers/app-config.reducers';
 import { sendReceiveReducer } from './reducers/send-receive.reducers';
 import { debugMetaReducer } from './reducers/debug.meta.reducer';
+import { routerReducer, RouterReducerState } from '@ngrx/router-store';
 
 export interface AppState {
+    appConfig: AppConfigState;
     sendReceive: SendReceiveState;
     playSounds: PlaySoundsState;
-    appConfig: AppConfigState;
+    router?:  RouterReducerState<any>,
 }
 
 export const reducers: ActionReducerMap<AppState> = {
+    appConfig: appConfigReducer,
     sendReceive: sendReceiveReducer,
     playSounds: playSoundsReducer,
-    appConfig: appConfigReducer,
+    router: routerReducer,
 };
 
 export const metaReducers: MetaReducer[] = [hydrationMetaReducer, debugMetaReducer];
+
+// TODO https://itnext.io/ngrx-store-testing-cheat-sheet-59e069eb47c

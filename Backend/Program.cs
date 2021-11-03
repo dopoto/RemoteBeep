@@ -19,6 +19,7 @@ builder.Services.AddApplicationInsightsTelemetry(environmentSettings.Application
 
 var app = builder.Build();
 
+// TODO
 app.UseCors(p =>
 {
     p.AllowAnyOrigin();
@@ -48,9 +49,25 @@ app.Run();
 
 public class BeepHub : Hub
 {
-    public async Task NewMessage(string freqInKhz, string durationInSeconds)
+    public async Task NewMessage(string freqInKhz, string durationInSeconds, string channelName)
     {
-        Console.WriteLine("NewMessage -  freqInKhz=" + freqInKhz + ", durationInSeconds:" + durationInSeconds);
-        await Clients.All.SendAsync("messageReceived", freqInKhz, durationInSeconds);
+        Console.WriteLine("NewMessage -  freqInKhz=" + freqInKhz + ", durationInSeconds:" + durationInSeconds + ", channel:" + channelName);
+        await Clients.Group(channelName).SendAsync("messageReceived", freqInKhz, durationInSeconds);
+    }
+
+    public async Task AddToChannel(string channelName)
+    {
+        await Groups.AddToGroupAsync(Context.ConnectionId, channelName);
+        await Clients.Group(channelName)
+            .SendAsync("addedToChannel", $"{Context.ConnectionId} has joined the channel {channelName}.");
+    }
+
+    public async Task RemoveFromChannel(string channelName)
+    {
+        await Groups.RemoveFromGroupAsync(Context.ConnectionId, channelName);
+        await Clients.Group(channelName)
+            .SendAsync("removedFromChannel", $"{Context.ConnectionId} has left the channel {channelName}.");
     }
 }
+
+

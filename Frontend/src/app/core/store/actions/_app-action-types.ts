@@ -11,6 +11,9 @@ export enum AppConfigActionTypes {
 }
 
 export enum SendReceiveActionTypes {
+    sendReceiveInit = 'sendReceiveInit',
+    changeChannel = 'changeChannel',
+    changeChannelOk = 'changeChannelOk',
     sendBeepCommandStart = 'sendBeepCommandStart',
     sendBeepCommandOk = 'sendBeepCommandOk',
     sendBeepCommandError = 'sendBeepCommandError',
