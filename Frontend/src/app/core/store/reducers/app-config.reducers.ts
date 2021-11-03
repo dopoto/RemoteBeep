@@ -35,5 +35,10 @@ export const appConfigReducer = createReducer(
         isConnectedToServer: false,
         isLoading: false,
         isInGeneralError: true,
-    }))
+    })),
+    
+    on(actions.emitNotification, (state, { appNotification }) => ({
+        ...state,
+        lastNotification: appNotification
+    })),
 );

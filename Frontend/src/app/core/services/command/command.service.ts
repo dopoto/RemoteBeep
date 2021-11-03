@@ -120,6 +120,7 @@ export class CommandService {
         this.store.dispatch(beginPlayStart({ beepCommand: beepCommand }));
     }
 
+    // TODO Revisit
     ngOnDestroy() {
         this.ngDestroyed$.next(null);
         // this.logService.info('destroying');

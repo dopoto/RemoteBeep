@@ -11,12 +11,6 @@ export const initialSendReceiveState: SendReceiveState = {
 export const sendReceiveReducer = createReducer(
     initialSendReceiveState,
 
-    //TODO remove:
-    on(actions.sendReceiveInit, (state, { channel }) => ({ 
-        ...state,
-        channel: channel
-    })),
-
     on(actions.changeChannel, (state, { channel }) => ({ 
         ...state,
         channel: channel

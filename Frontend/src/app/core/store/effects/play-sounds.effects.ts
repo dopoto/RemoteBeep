@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { delay, interval, map, mergeMap, of, switchMap, tap } from 'rxjs';
+import { delay, map, mergeMap, of } from 'rxjs';
 
 import * as actions from '../actions/play-sounds.actions';
 import { LogService } from '../../services/log/log.service';

@@ -8,10 +8,10 @@ export enum AppConfigActionTypes {
     initStart = 'initStart',
     initOk = 'initOk',
     initError = 'initError',
+    emitNotification = 'emitNotification'
 }
 
 export enum SendReceiveActionTypes {
-    sendReceiveInit = 'sendReceiveInit',
     changeChannel = 'changeChannel',
     changeChannelOk = 'changeChannelOk',
     sendBeepCommandStart = 'sendBeepCommandStart',

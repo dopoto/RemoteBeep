@@ -1,38 +1,25 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
     Actions,
-    concatLatestFrom,
     createEffect,
     ofType,
     OnInitEffects,
 } from '@ngrx/effects';
-import { Action, select, Store } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import {
     distinctUntilChanged,
     map,
     switchMap,
     tap,
-    withLatestFrom,
 } from 'rxjs/operators';
-import { getSelectors, routerNavigatedAction } from '@ngrx/router-store';
 
-import { environment } from 'src/environments/environment';
 import { LogService } from '../../services/log/log.service';
 import * as hydrateActions from '../actions/hydrate.actions';
-import * as sendReceiveActions from '../actions/send-receive.actions';
 import { AppState } from '../app.state';
 import { initialPlaySoundsState } from '../reducers/play-sounds.reducers';
 import { initialAppConfigState } from '../reducers/app-config.reducers';
 import { initialSendReceiveState } from '../reducers/send-receive.reducers';
-import {
-    selectCurrentRoute,
-    selectQueryParam,
-    selectQueryParams,
-    selectRouteData,
-    selectRouteParam,
-    selectRouteParams,
-} from '../selectors/router.selectors';
 
 @Injectable()
 export class HydrateEffects implements OnInitEffects {
@@ -113,29 +100,6 @@ export class HydrateEffects implements OnInitEffects {
             })
         )
     );
-
-    // updateChannel$ = createEffect(
-    //     () =>
-    //         this.actions$.pipe(
-    //             //ofType(routerNavigatedAction),
-    //             ofType(HydrationActions.hydrateOk),
-    //             //concatLatestFrom(() => this.store.pipe(select(selectCurrentRoute))),
-    //             //concatLatestFrom(() => this.store.select(selectRouteData)),
-    //             withLatestFrom(this.store.pipe(select(selectRouteParams))),
-    //             map(([initState, r]) => {
-    //                  debugger;
-    //                 // const currentChannel = initState.state.sendReceive.channel;
-    //                 // const routeChannel = this.route.snapshot.paramMap.get('mychannel'); // TODO why is it null?
-
-    //                 // const channel = (routeChannel && routeChannel !== currentChannel) ? routeChannel : currentChannel;
-
-    //                 // this.router.navigate(['/home', {mychannel: channel}]);
-
-    //                 // return sendReceiveActions.changeChannel({channel});
-    //             })
-    //         ),
-    //     { dispatch: false }
-    // );
 
     serialize$ = createEffect(
         () =>

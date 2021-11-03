@@ -48,6 +48,7 @@ export class SendReceiveEffects {
         { dispatch: false }
     );
 
+    // TODO Join new channel on server.
     changeChannel$ = createEffect(
         () => this.actions$.pipe(ofType(actions.changeChannel)),
         { dispatch: false }

@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { AppNotification } from '../../models/app-notification';
 
 import { AppConfigActionTypes } from './_app-action-types';
 
@@ -9,4 +10,9 @@ export const initOk = createAction(actions.initOk);
 export const initError = createAction(
     actions.initError,
     props<{ errorMessage: string }>()
+);
+
+export const emitNotification = createAction(
+    actions.emitNotification,
+    props<{ appNotification: AppNotification }>()
 );
