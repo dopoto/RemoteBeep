@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-
-import * as actions from '../actions/app-config.actions';
-import { LogService } from '../../services/log/log.service';
 import { tap } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+
+import * as actions from '../actions/app-config.actions'; 
 import { emitNotification } from '../actions/app-config.actions';
-import { AppNotification } from '../../models/app-notification';
+import { AppNotification } from 'src/app/core/models/app-notification';
+import { LogService } from 'src/app/core/services/log/log.service';
 
 @Injectable()
 export class AppConfigEffects {

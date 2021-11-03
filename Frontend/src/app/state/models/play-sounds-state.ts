@@ -1,4 +1,4 @@
-import { PlaySoundsMode } from "./play-sounds-mode";
+import { PlaySoundsMode } from "src/app/core/models/play-sounds-mode";
 
 export interface PlaySoundsState {
     mode: PlaySoundsMode;

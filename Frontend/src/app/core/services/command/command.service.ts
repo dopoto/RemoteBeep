@@ -2,18 +2,18 @@ import { Injectable } from '@angular/core';
 import { HubConnection, IHttpConnectionOptions } from '@microsoft/signalr';
 import * as signalR from '@microsoft/signalr';
 import { BeepCommand } from 'src/app/core/models/beep-command';
-import { LogService } from '../log/log.service';
 import { Store } from '@ngrx/store';
-import { beginPlayStart } from '../../store/actions/play-sounds.actions';
+import { Subject, takeUntil } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
+import { LogService } from '../log/log.service';
 import {
-    initError,
-    initOk,
     initStart,
-} from '../../store/actions/app-config.actions';
-import { selectChannel } from '../../store/selectors/send-receive.selectors';
-import { Subject, takeUntil } from 'rxjs';
+    initOk,
+    initError,
+} from 'src/app/state/actions/app-config.actions';
+import { beginPlayStart } from 'src/app/state/actions/play-sounds.actions';
+import { selectChannel } from 'src/app/state/selectors/send-receive.selectors';
 
 @Injectable({
     providedIn: 'root',
@@ -22,6 +22,8 @@ export class CommandService {
     private readonly baseUrl: string = environment.apiEndpoint;
     public hubConnection!: HubConnection;
     ngDestroyed$ = new Subject();
+
+    public channel = '';
 
     constructor(
         private logService: LogService,
@@ -33,6 +35,7 @@ export class CommandService {
             .select(selectChannel)
             .pipe(takeUntil(this.ngDestroyed$))
             .subscribe((channel) => {
+                this.channel = channel;
                 this.store.dispatch(initStart());
                 this.hubConnection = new signalR.HubConnectionBuilder()
                     .withUrl(this.baseUrl, <IHttpConnectionOptions>{
@@ -55,10 +58,8 @@ export class CommandService {
                     .then(() => {
                         this.hubConnection
                             .send('addToChannel', channel)
-                            .then(() => {
-                                this.logService.info(
-                                    'added to channel ' + channel
-                                );
+                            .then((res) => {
+                                //this.logService.info('added to channel');
                             });
                         this.store.dispatch(initOk());
                         this.logService.info('Connection started');
@@ -79,10 +80,7 @@ export class CommandService {
                     'messageReceived',
                     (freqInKhz: string, durationInSeconds: string) => {
                         this.logService.info(
-                            'Message received!:' +
-                                freqInKhz +
-                                '|' +
-                                durationInSeconds
+                            `Got msg: ${freqInKhz}|${durationInSeconds}`
                         );
                         const beepCommand = {
                             freqInKhz: +freqInKhz,
@@ -93,6 +91,10 @@ export class CommandService {
                         );
                     }
                 );
+
+                this.hubConnection.on('addedToChannel', (totalClientsInChannel: string) => {
+                    this.logService.info('addedToChannel:' + totalClientsInChannel);
+                });
             });
     }
 
@@ -102,7 +104,7 @@ export class CommandService {
                 'newMessage',
                 command.freqInKhz.toString(),
                 command.durationInSeconds.toString(),
-                channel
+                channel //TODO use this.channel
             )
             .then(() => {
                 this.logService.info('msg sent');
@@ -120,8 +122,17 @@ export class CommandService {
         this.store.dispatch(beginPlayStart({ beepCommand: beepCommand }));
     }
 
+    leaveChannel(): Promise<any> {
+       return this.hubConnection
+            .send(
+                'removeFromChannel',
+                this.channel
+            );
+    }
+
     // TODO Revisit
     ngOnDestroy() {
+        this.logService.info('destroying');
         this.ngDestroyed$.next(null);
         // this.logService.info('destroying');
         // this.hubConnection.stop().then(() => {

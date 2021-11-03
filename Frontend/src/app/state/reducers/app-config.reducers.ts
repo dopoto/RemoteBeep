@@ -1,8 +1,8 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { createReducer, on } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
-
-import { AppConfigState } from '../../models/app-config-state';
+ 
 import * as actions from '../actions/app-config.actions';
+import { AppConfigState } from '../models/app-config-state';
 
 export const initialAppConfigState: AppConfigState = {
     appVersion: environment.version,

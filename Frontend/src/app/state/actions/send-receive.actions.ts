@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-import { BeepCommand } from '../../models/beep-command';
+import { BeepCommand } from 'src/app/core/models/beep-command'; 
 import { SendReceiveActionTypes } from './_app-action-types';
 
 const actions = SendReceiveActionTypes;

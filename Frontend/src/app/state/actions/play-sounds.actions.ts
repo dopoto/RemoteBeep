@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
-import { BeepCommand } from '../../models/beep-command';
-import { PlaySoundsMode } from '../../models/play-sounds-mode';
+import { BeepCommand } from 'src/app/core/models/beep-command';
+import { PlaySoundsMode } from 'src/app/core/models/play-sounds-mode';
 import { PlaySoundsActionTypes } from './_app-action-types';
 
 const actionTypes = PlaySoundsActionTypes;

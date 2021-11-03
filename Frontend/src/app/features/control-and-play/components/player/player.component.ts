@@ -10,12 +10,8 @@ import {
 
 import { PlaySoundsMode } from 'src/app/core/models/play-sounds-mode';
 import { PlayService } from 'src/app/core/services/play/play.service';
-import { AppState } from 'src/app/core/store/app.state';
-import {
-    selectIsPlaying,
-    selectMode,
-    selector,
-} from 'src/app/core/store/selectors/play-sound.selectors';
+import { AppState } from 'src/app/state/app.state';
+import { playSoundsSelector, selectIsPlaying, selectMode } from 'src/app/state/selectors/play-sound.selectors';
 
 @Component({
     selector: 'app-player',
@@ -41,7 +37,7 @@ export class PlayerComponent {
         this.mode$ = this.store.pipe(select(selectMode));
 
         this.store
-            .pipe(takeUntil(this.ngDestroyed$), select(selector))
+            .pipe(takeUntil(this.ngDestroyed$), select(playSoundsSelector))
             .subscribe((res) => {
                 this.freqInKhz = res.freqInKhz;
                 this.durationInSeconds = res.durationInSeconds;

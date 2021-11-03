@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 
-import { selectChannel } from 'src/app/core/store/selectors/send-receive.selectors';
+import { selectChannel } from 'src/app/state/selectors/send-receive.selectors';
 
 @Component({
     selector: 'app-info',

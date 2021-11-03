@@ -4,19 +4,8 @@ import {
     Optional,
     ModuleWithProviders,
 } from '@angular/core';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { environment } from 'src/environments/environment';
-import { metaReducers, reducers } from './store/app.state';
-import { HydrateEffects } from './store/effects/hydrate.effects';
-import { SendReceiveEffects } from './store/effects/send-receive.effects';
-import { PlaySoundsEffects } from './store/effects/play-sounds.effects';
-import { AppConfigEffects } from './store/effects/app-config.effects';
-import { RouterEffects } from './store/effects/router.effects';
-import { RouterModule } from '@angular/router';
-import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StateModule } from '../state/state.module';
 
 /**
  * Module containing providers for the singleton services loaded when the application starts.
@@ -30,22 +19,7 @@ import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
  */
 @NgModule({
     imports: [
-        StoreModule.forRoot(reducers, { metaReducers }),
-        RouterModule.forRoot([]),
-        StoreRouterConnectingModule.forRoot({ routerState: RouterState.Minimal}),
-        // Instrumentation must be imported after importing StoreModule (config is optional)
-        StoreDevtoolsModule.instrument({
-            maxAge: 25, // Retains last 25 states
-            logOnly: environment.production, // Restrict extension to log-only mode
-            autoPause: true, // Pauses recording actions and state changes when the extension window is not open
-        }),
-        EffectsModule.forRoot([
-            HydrateEffects,
-            AppConfigEffects,
-            RouterEffects,
-            SendReceiveEffects,
-            PlaySoundsEffects,
-        ]),
+        StateModule
     ],
     exports: [],
 })

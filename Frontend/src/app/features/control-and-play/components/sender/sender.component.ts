@@ -1,20 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { map, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { BeepCommand } from 'src/app/core/models/beep-command';
 import { PlaySoundsMode } from 'src/app/core/models/play-sounds-mode';
-import {
-    changeDuration,
-    changeFreq,
-} from 'src/app/core/store/actions/play-sounds.actions';
-import { sendBeepCommandStart } from 'src/app/core/store/actions/send-receive.actions';
-import { AppState } from 'src/app/core/store/app.state';
-import {
-    selectIsPlaying,
-    selectMode,
-    selector,
-} from 'src/app/core/store/selectors/play-sound.selectors';
+import { changeFreq, changeDuration } from 'src/app/state/actions/play-sounds.actions';
+import { sendBeepCommandStart } from 'src/app/state/actions/send-receive.actions';
+import { selectMode, selectIsPlaying } from 'src/app/state/selectors/play-sound.selectors';
+import { playSoundsSelector } from 'src/app/state/selectors/play-sound.selectors';
 
 @Component({
     selector: 'app-sender',
@@ -38,10 +31,10 @@ export class SenderComponent implements OnInit {
         
         this.store.pipe(
             takeUntil(this.ngDestroyed$),
-            select(selector),
+            select(playSoundsSelector),
         ).subscribe(res => {
-            this.freqInKhz = res.freqInKhz
-            this.durationInSeconds = res.durationInSeconds
+            this.freqInKhz = res.freqInKhz;
+            this.durationInSeconds = res.durationInSeconds;
         });
     }
 

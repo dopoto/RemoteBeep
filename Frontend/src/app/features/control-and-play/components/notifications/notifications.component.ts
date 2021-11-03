@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { select, Store } from '@ngrx/store';
-import { AppState } from 'src/app/core/store/app.state';
 import {
     Observable,
     Subject,
     takeUntil,
 } from 'rxjs';
+
 import { AppNotification } from 'src/app/core/models/app-notification';
-import { selectLastNotification } from 'src/app/core/store/selectors/app-config.selectors';
+import { selectLastNotification } from 'src/app/state/selectors/app-config.selectors';
+
 
 @Component({
     selector: 'app-notifications',

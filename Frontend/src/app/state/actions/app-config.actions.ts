@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { AppNotification } from '../../models/app-notification';
 
+import { AppNotification } from 'src/app/core/models/app-notification';
 import { AppConfigActionTypes } from './_app-action-types';
 
 const actions = AppConfigActionTypes;

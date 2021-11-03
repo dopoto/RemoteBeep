@@ -1,3 +1,7 @@
+/**
+ * All actions supported by the application.
+ */
+
 export enum HydrateActionTypes {
     hydrateStart = 'hydrateStart',
     hydrateOk = 'hydrateOk',

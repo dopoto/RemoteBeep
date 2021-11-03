@@ -1,15 +1,15 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { PlaySoundsState } from '../../models/play-sounds-state';
+import { PlaySoundsState } from '../models/play-sounds-state';
 
-export const selector = createFeatureSelector<PlaySoundsState>('playSounds');
+export const playSoundsSelector = createFeatureSelector<PlaySoundsState>('playSounds');
 
 export const selectMode = createSelector(
-    selector,
+    playSoundsSelector,
     (state: PlaySoundsState) => state?.mode
 );
 
 export const selectIsPlaying = createSelector(
-    selector,
+    playSoundsSelector,
     (state: PlaySoundsState) => state?.isPlaying
 );

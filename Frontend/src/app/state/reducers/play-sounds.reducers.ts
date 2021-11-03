@@ -1,8 +1,8 @@
-import { Action, createReducer, on } from '@ngrx/store';
-import { PlaySoundsMode } from '../../models/play-sounds-mode';
+import { createReducer, on } from '@ngrx/store';
+import { PlaySoundsMode } from 'src/app/core/models/play-sounds-mode';
 
-import { PlaySoundsState } from '../../models/play-sounds-state';
 import * as actions from '../actions/play-sounds.actions';
+import { PlaySoundsState } from '../models/play-sounds-state';
 
 export const initialPlaySoundsState: PlaySoundsState = {
     isPlaying: false,

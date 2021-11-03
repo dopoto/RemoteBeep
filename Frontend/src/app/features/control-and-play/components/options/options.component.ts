@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+
 import { PlaySoundsMode } from 'src/app/core/models/play-sounds-mode';
-import { changePlayMode } from 'src/app/core/store/actions/play-sounds.actions';
-import { AppState } from 'src/app/core/store/app.state';
-import { selectMode } from 'src/app/core/store/selectors/play-sound.selectors';
+import { changePlayMode } from 'src/app/state/actions/play-sounds.actions';
+import { selectMode } from 'src/app/state/selectors/play-sound.selectors';
 
 @Component({
     selector: 'app-options',

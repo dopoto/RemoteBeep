@@ -13,13 +13,13 @@ import {
     switchMap,
     tap,
 } from 'rxjs/operators';
-
-import { LogService } from '../../services/log/log.service';
+ 
 import * as hydrateActions from '../actions/hydrate.actions';
 import { AppState } from '../app.state';
 import { initialPlaySoundsState } from '../reducers/play-sounds.reducers';
 import { initialAppConfigState } from '../reducers/app-config.reducers';
 import { initialSendReceiveState } from '../reducers/send-receive.reducers';
+import { LogService } from 'src/app/core/services/log/log.service';
 
 @Injectable()
 export class HydrateEffects implements OnInitEffects {

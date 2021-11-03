@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
+import { CommandService } from 'src/app/core/services/command/command.service';
 
 @Component({
     selector: 'app-home',
@@ -6,4 +7,16 @@ import { Component } from '@angular/core';
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
+
+    constructor(private commandService: CommandService) {}
+
+    leaveChannel(): Promise<any> {
+        //Return a promise so that ngOnDestroy will wait for it to finish
+        return this.commandService.leaveChannel();
+    }
+
+    @HostListener('window:beforeunload')
+    async ngOnDestroy() {
+        await this.leaveChannel();
+    }
 }

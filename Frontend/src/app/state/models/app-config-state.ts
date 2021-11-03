@@ -1,4 +1,4 @@
-import { AppNotification } from "./app-notification";
+import { AppNotification } from "../../core/models/app-notification";
 
 export interface AppConfigState {
     appVersion: string;

@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { SendReceiveState } from '../../models/send-receive-state';
 import * as actions from '../actions/send-receive.actions';
+import { SendReceiveState } from '../models/send-receive-state';
 
 export const initialSendReceiveState: SendReceiveState = {
     channel: generateChannelName(),

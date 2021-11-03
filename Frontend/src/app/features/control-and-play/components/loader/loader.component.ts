@@ -10,11 +10,9 @@ import { OverlayRef } from '@angular/cdk/overlay';
 import { OverlayService } from 'src/app/core/services/overlay/overlay.service';
 import { OverlayConfig } from '@angular/cdk/overlay';
 import { select, Store } from '@ngrx/store';
-import { AppState } from 'src/app/core/store/app.state';
 import { Subject, takeUntil } from 'rxjs';
-import {
-    selector,
-} from 'src/app/core/store/selectors/app-config.selectors';
+
+import { appConfigSelector } from 'src/app/state/selectors/app-config.selectors';
 
 @Component({
     selector: 'app-loader',
@@ -44,7 +42,7 @@ export class LoaderComponent {
         private readonly store: Store
     ) {
         this.store
-            .pipe(takeUntil(this.ngDestroyed$), select(selector))
+            .pipe(takeUntil(this.ngDestroyed$), select(appConfigSelector))
             .subscribe((res) => {
                 this.displayProgressSpinner = res.isLoading;
             });
