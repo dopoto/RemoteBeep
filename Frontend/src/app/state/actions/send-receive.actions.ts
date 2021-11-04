@@ -10,6 +10,16 @@ export const changeChannel = createAction(
     props<{ channel: string }>()
 );
 
+export const addClientToChannel = createAction(
+    actions.addClientToChannel,
+    props<{ newChannelMembersCount: number }>()
+);
+
+export const removeClientFromChannel = createAction(
+    actions.removeClientFromChannel,
+    props<{ newChannelMembersCount: number }>()
+);
+
 export const changeChannelOk = createAction(
     actions.changeChannelOk
 );

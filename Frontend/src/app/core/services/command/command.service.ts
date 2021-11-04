@@ -14,6 +14,7 @@ import {
 } from 'src/app/state/actions/app-config.actions';
 import { beginPlayStart } from 'src/app/state/actions/play-sounds.actions';
 import { selectChannel } from 'src/app/state/selectors/send-receive.selectors';
+import { addClientToChannel, removeClientFromChannel } from 'src/app/state/actions/send-receive.actions';
 
 @Injectable({
     providedIn: 'root',
@@ -92,8 +93,17 @@ export class CommandService {
                     }
                 );
 
-                this.hubConnection.on('addedToChannel', (totalClientsInChannel: string) => {
+                this.hubConnection.on('addedToChannel', (totalClientsInChannel: number) => {
                     this.logService.info('addedToChannel:' + totalClientsInChannel);
+                    const data = {newChannelMembersCount: totalClientsInChannel}
+                    this.store.dispatch(addClientToChannel(data)); //TODO Exclude self
+                });
+
+                
+                this.hubConnection.on('removedFromChannel', (totalClientsInChannel: number) => {
+                    this.logService.info('removedFromChannel:' + totalClientsInChannel);
+                    const data = {newChannelMembersCount: totalClientsInChannel}
+                    this.store.dispatch(removeClientFromChannel(data)); //TODO Exclude self
                 });
             });
     }

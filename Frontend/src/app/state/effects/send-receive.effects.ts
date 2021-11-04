@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { EMPTY, from } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
@@ -9,6 +9,8 @@ import { LogService } from 'src/app/core/services/log/log.service';
 import * as actions from '../actions/send-receive.actions';
 import { sendBeepCommandOk } from '../actions/send-receive.actions';
 import { selectChannel } from '../selectors/send-receive.selectors';
+import { emitNotification } from '../actions/app-config.actions';
+import { AppNotification } from 'src/app/core/models/app-notification';
 
 @Injectable()
 export class SendReceiveEffects {
@@ -56,6 +58,34 @@ export class SendReceiveEffects {
     
     changeChannelOk$ = createEffect(
         () => this.actions$.pipe(ofType(actions.changeChannelOk)),
+        { dispatch: false }
+    );
+
+    addClientToChannel$ = createEffect(
+        () => this.actions$.pipe(
+            ofType(actions.addClientToChannel),
+            tap(() => {
+                const appNotification: AppNotification = {
+                    text: 'A new client has joined your channel!',
+                    type: 'info'
+                }
+                this.store.dispatch(emitNotification({appNotification}));
+            })
+        ),
+        { dispatch: false }
+    );
+    
+    removeClientFromChannel$ = createEffect(
+        () => this.actions$.pipe(
+            ofType(actions.removeClientFromChannel),
+            tap(() => {
+                const appNotification: AppNotification = {
+                    text: 'A client has left your channel.',
+                    type: 'info'
+                }
+                this.store.dispatch(emitNotification({appNotification}));
+            })
+        ),
         { dispatch: false }
     );
 }
