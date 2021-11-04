@@ -4,4 +4,5 @@ export interface IConfig {
     clientBuildNumber: string,
     serverBuildNumber: string,
     apiEndpoint: string;
+    corsConnectSrcWhiteList: string;
 }

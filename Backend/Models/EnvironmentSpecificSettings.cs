@@ -25,5 +25,8 @@
         public string? ApplicationInsightsConnectionString { get; set; }
 
         public string? ApplicationInsightsInstrumentationKey { get; set; }
+
+        public string? FrontEndUrl { get; set; }
+
     }
 }

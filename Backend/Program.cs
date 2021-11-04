@@ -24,23 +24,14 @@ builder.Services.AddSingleton<ChannelService>();
 
 var app = builder.Build();
 
-// TODO
-app.UseCors(p =>
-{
-    p.AllowAnyOrigin();
-    p.WithMethods("GET");
-    p.AllowAnyHeader();
-});
-
 // Configure the HTTP request pipeline.
 
-//app.UseCors(builder =>
-//{
-//    builder.WithOrigins("http://localhost:4220")
-//        .AllowAnyHeader()
-//        .WithMethods("GET", "POST")
-//        .AllowCredentials();
-//});
+app.UseCors(builder =>
+{
+    builder.WithOrigins(environmentSettings.FrontEndUrl ?? "");
+    builder.AllowAnyHeader();
+    builder.AllowAnyMethod();
+});
 
 app.UseHttpsRedirection();
 app.UseRouting();
@@ -70,18 +61,18 @@ public class BeepHub : Hub
 
     public async Task AddToChannel(string channelName)
     {
-        var devicesInCurrentChannel = _channelService.AddConnectionToChannel(channelName, Context.ConnectionId);
-        await Groups.AddToGroupAsync(Context.ConnectionId, channelName);
+        var devicesInCurrentChannel = _channelService.AddConnectionToChannel(channelName, Context.ConnectionId);        
         await Clients.Group(channelName)
             .SendAsync("addedToChannel", devicesInCurrentChannel);
+        await Groups.AddToGroupAsync(Context.ConnectionId, channelName);
     }
 
     public async Task RemoveFromChannel(string channelName)
     {
         var devicesInCurrentChannel = _channelService.RemoveConnectionFromChannel(channelName, Context.ConnectionId);
-        await Groups.RemoveFromGroupAsync(Context.ConnectionId, channelName);
         await Clients.Group(channelName)
             .SendAsync("removedFromChannel", devicesInCurrentChannel);
+        await Groups.RemoveFromGroupAsync(Context.ConnectionId, channelName);
     }
 
 }
