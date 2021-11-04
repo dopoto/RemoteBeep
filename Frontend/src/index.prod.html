@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta
   http-equiv="Content-Security-Policy"
-  content="script-src 'self'; style-src 'self' fonts.googleapis.com 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' #{CorsConnectSrcWhiteList}#"
+  content="script-src 'self' #{ApiEndpoint}#; style-src 'self' fonts.googleapis.com #{ApiEndpoint}# 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' #{CorsConnectSrcWhiteList}#"
 />
   <!-- TODO icon-->
   <link rel="icon" type="image/x-icon" href="favicon.ico">
