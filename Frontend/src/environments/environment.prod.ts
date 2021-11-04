@@ -5,6 +5,6 @@ export const environment: IConfig = {
   version: '0.0.1',
   clientBuildNumber: '#{Build.BuildNumber}#',
   serverBuildNumber: 'TODO',
-  apiEndpoint: '#{ApiEndpoint}#',
+  serverUrl: '#{ServerUrl}#',
   corsConnectSrcWhiteList: '#{CorsConnectSrcWhiteList}#'
 };

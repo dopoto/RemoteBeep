@@ -20,7 +20,7 @@ import { addClientToChannel, removeClientFromChannel } from 'src/app/state/actio
     providedIn: 'root',
 })
 export class CommandService {
-    private readonly baseUrl: string = environment.apiEndpoint;
+    private readonly baseUrl: string = `${environment.serverUrl}/hub`;
     public hubConnection!: HubConnection;
     ngDestroyed$ = new Subject();
 

@@ -3,6 +3,6 @@ export interface IConfig {
     version: string;
     clientBuildNumber: string,
     serverBuildNumber: string,
-    apiEndpoint: string;
+    serverUrl: string;
     corsConnectSrcWhiteList: string;
 }

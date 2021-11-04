@@ -9,7 +9,7 @@ export const environment: IConfig = {
     version: '0.0.1',
     clientBuildNumber: 'DEV',
     serverBuildNumber: 'DEV',
-    apiEndpoint: 'https://localhost:7133/hub',
+    serverUrl: 'https://localhost:7133',
     corsConnectSrcWhiteList: ' -- Not in use. Set directly in index.html -- '
 };
 
