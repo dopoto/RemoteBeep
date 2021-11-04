@@ -17,6 +17,15 @@ builder.Configuration
 
 builder.Services.AddSignalR();
 builder.Services.AddCors();
+//builder.Services.AddCors(options =>
+//{
+//    var frontEndUrl = environmentSettings.FrontEndUrl ?? "";
+//    var allowedOrigins = new[] { frontEndUrl };
+//    options.AddDefaultPolicy(builder =>
+//    {
+//        builder.WithOrigins(allowedOrigins).AllowAnyHeader().AllowAnyMethod();
+//    });
+//});
 builder.Services.AddApplicationInsightsTelemetry(environmentSettings.ApplicationInsightsInstrumentationKey);
 builder.Services.Add(ServiceDescriptor.Singleton<IMemoryCache, MemoryCache>());
 
