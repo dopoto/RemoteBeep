@@ -8,3 +8,8 @@ export const selectChannel = createSelector(
     sendReceiveSelector,
     (state: SendReceiveState) => state?.channel
 );
+
+export const selectConnectionId = createSelector(
+    sendReceiveSelector,
+    (state: SendReceiveState) => state?.connectionId
+);

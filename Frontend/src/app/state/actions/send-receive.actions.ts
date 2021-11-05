@@ -23,7 +23,7 @@ export const addClientToChannel = createAction(
     /**
      * connectionIds: the list of connected clients after the add operation.
      */
-    props<{ connectionIds: string[] }>()
+    props<{ addedConnectionId: string, connectionIds: string[] }>()
 );
 
 export const removeClientFromChannel = createAction(
@@ -31,7 +31,7 @@ export const removeClientFromChannel = createAction(
     /**
      * connectionIds: the list of connected clients after the remove operation.
      */
-    props<{ connectionIds: string[] }>()
+    props<{ removedConnectionId: string, connectionIds: string[] }>()
 );
 
 export const updateListOfClientsConnectedToChannel = createAction(

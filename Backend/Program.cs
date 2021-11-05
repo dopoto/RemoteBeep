@@ -91,7 +91,7 @@ public class BeepHub : Hub
         var devicesInCurrentChannel =_channelService.GetConnectionsByChannel(channelName);
         await Clients
             .Group(channelName)
-            .SendAsync("addedToChannel", devicesInCurrentChannel);
+            .SendAsync("addedToChannel", Context.ConnectionId, devicesInCurrentChannel);
     }
 
     public async Task RemoveFromChannel(string channelName)
@@ -102,7 +102,7 @@ public class BeepHub : Hub
         var devicesInCurrentChannel = _channelService.GetConnectionsByChannel(channelName);
         await Clients
             .Group(channelName)
-            .SendAsync("removedFromChannel", devicesInCurrentChannel);        
+            .SendAsync("removedFromChannel", Context.ConnectionId, devicesInCurrentChannel);        
     }
 
 }

@@ -41,6 +41,8 @@ export class PlayerComponent {
                 this.durationInSeconds = res.durationInSeconds;
             });
 
+        //TODO Refactor - extract common logic to a function:
+            
         const playOrStop = {
             isPlaying: this.isPlaying$,
             mode: this.mode$,

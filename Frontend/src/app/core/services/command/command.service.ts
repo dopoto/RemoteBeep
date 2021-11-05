@@ -114,15 +114,15 @@ export class CommandService {
             this.logService.info('Disconnected');
         });
 
-        this.hubConnection.on('addedToChannel', (connectionIds: string[]) => {
-            const data = { connectionIds };
+        this.hubConnection.on('addedToChannel', (addedConnectionId: string, connectionIds: string[]) => {
+            const data = { addedConnectionId, connectionIds };
             this.store.dispatch(addClientToChannel(data));
         });
 
         this.hubConnection.on(
             'removedFromChannel',
-            (connectionIds: string[]) => {
-                const data = { connectionIds };
+            (removedConnectionId: string, connectionIds: string[]) => {
+                const data = { removedConnectionId, connectionIds };
                 this.store.dispatch(removeClientFromChannel(data));
             }
         );
