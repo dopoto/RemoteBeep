@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { tap } from 'rxjs';
+import { combineLatest, map, tap, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import * as actions from '../actions/app-config.actions'; 
-import { emitNotification } from '../actions/app-config.actions';
+import * as actions from '../actions/app-config.actions';
+import { emitNotification, updatePanelStates } from '../actions/app-config.actions';
 import { AppNotification } from 'src/app/core/models/app-notification';
 import { LogService } from 'src/app/core/services/log/log.service';
+import { selectPanelStates } from '../selectors/app-config.selectors';
 
 @Injectable()
 export class AppConfigEffects {
@@ -28,9 +29,9 @@ export class AppConfigEffects {
                 tap(() => {
                     const appNotification: AppNotification = {
                         text: 'Connected to server.',
-                        type: 'info'
-                    }
-                    this.store.dispatch(emitNotification({appNotification}));
+                        type: 'info',
+                    };
+                    this.store.dispatch(emitNotification({ appNotification }));
                 })
             ),
         {
@@ -40,17 +41,50 @@ export class AppConfigEffects {
 
     // TODO keep?
     initError$ = createEffect(
-        () => this.actions$.pipe(
-            ofType(actions.initError),
-            tap(() => {
-                const appNotification: AppNotification = {
-                    text: 'Could not connect to server.',
-                    type: 'error'
-                }
-                this.store.dispatch(emitNotification({appNotification}));
-            })
+        () =>
+            this.actions$.pipe(
+                ofType(actions.initError),
+                tap(() => {
+                    const appNotification: AppNotification = {
+                        text: 'Could not connect to server.',
+                        type: 'error',
+                    };
+                    this.store.dispatch(emitNotification({ appNotification }));
+                })
             ),
         { dispatch: false }
+    );
+
+    expandPanel$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(actions.expandPanel),
+                withLatestFrom(this.store.select(selectPanelStates)),
+                tap(([panelType, panelStates]) => {
+                    let newPanelStates = {...panelStates};
+                    newPanelStates[panelType.panel] = {isExpanded: true}; //TODO not extensible
+                    this.store.dispatch(updatePanelStates({ panelStates : newPanelStates }));
+                })
+            ),
+        {
+            dispatch: false,
+        }
+    );
+
+    collapsePanel$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(actions.collapsePanel),
+                withLatestFrom(this.store.select(selectPanelStates)),
+                tap(([panelType, panelStates]) => {
+                    let newPanelStates = {...panelStates};
+                    newPanelStates[panelType.panel] = {isExpanded: false}; //TODO not extensible
+                    this.store.dispatch(updatePanelStates({ panelStates : newPanelStates }));
+                })
+            ),
+        {
+            dispatch: false,
+        }
     );
 
     emitNotification$ = createEffect(

@@ -13,6 +13,9 @@ export enum AppConfigActionTypes {
     initOk = 'initOk',
     initError = 'initError',
     emitNotification = 'emitNotification',
+    expandPanel = 'expandPanel',
+    collapsePanel = 'collapsePanel',
+    updatePanelStates = 'updatePanelStates'
 }
 
 export enum SendReceiveActionTypes {

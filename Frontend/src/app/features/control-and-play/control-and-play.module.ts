@@ -11,7 +11,7 @@ import { NotificationsComponent } from './components/notifications/notifications
 import { FooterComponent } from './components/footer/footer.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { GeneralErrorComponent } from './components/general-error/general-error.component';
-import { InfoComponent } from './components/info/info.component';
+import { GroupInfoComponent } from './components/group-info/group-info.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +24,7 @@ import { InfoComponent } from './components/info/info.component';
         FooterComponent,
         LoaderComponent,
         GeneralErrorComponent,
-        InfoComponent,
+        GroupInfoComponent,
     ],
     imports: [BrowserModule, SharedModule],
     providers: [],

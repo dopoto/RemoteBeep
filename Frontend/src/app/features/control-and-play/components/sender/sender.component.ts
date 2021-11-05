@@ -49,10 +49,6 @@ export class SenderComponent implements OnInit {
     }
 
     stop(): void {
-        const beepCommand = {
-            freqInKhz: 0,
-            durationInSeconds:0
-        } as BeepCommand;
         this.store.dispatch(sendStopCommand());
     }
 

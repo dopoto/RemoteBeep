@@ -2,7 +2,13 @@ import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { filter, map, Observable } from 'rxjs';
 import { AppNotification } from 'src/app/core/models/app-notification';
-import { emitNotification } from 'src/app/state/actions/app-config.actions';
+import { PanelType } from 'src/app/core/models/panel-type';
+import {
+    collapsePanel,
+    emitNotification,
+    expandPanel,
+} from 'src/app/state/actions/app-config.actions';
+import { selectComponentState } from 'src/app/state/selectors/app-config.selectors';
 
 import {
     selectGroup,
@@ -10,15 +16,20 @@ import {
 } from 'src/app/state/selectors/send-receive.selectors';
 
 @Component({
-    selector: 'app-info',
-    templateUrl: './info.component.html',
-    styleUrls: ['./info.component.scss'],
+    selector: 'app-group-info',
+    templateUrl: './group-info.component.html',
+    styleUrls: ['./group-info.component.scss'],
 })
-export class InfoComponent {
+export class GroupInfoComponent {
     groupUrl$: Observable<string> | undefined;
     otherDevicesMessage$: Observable<string> | undefined;
+    componentState$: Observable<{ isExpanded: boolean }> | undefined;
 
     constructor(private readonly store: Store) {
+        this.componentState$ = this.store.pipe(
+            select(selectComponentState(PanelType.GroupInfo))
+        );
+
         this.groupUrl$ = this.store.pipe(
             select(selectGroup),
             map((group) => `${location.origin}#/home;group=${group}`)
@@ -47,5 +58,13 @@ export class InfoComponent {
             type: 'info',
         };
         this.store.dispatch(emitNotification({ appNotification }));
+    }
+
+    expand(): void {
+        this.store.dispatch(expandPanel({ panel: PanelType.GroupInfo }));
+    }
+
+    collapse(): void {
+        this.store.dispatch(collapsePanel({ panel: PanelType.GroupInfo }));
     }
 }

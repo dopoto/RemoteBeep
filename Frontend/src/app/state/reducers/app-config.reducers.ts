@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
+import { PanelType } from 'src/app/core/models/panel-type';
 import { environment } from 'src/environments/environment';
- 
+
 import * as actions from '../actions/app-config.actions';
 import { AppConfigState } from '../models/app-config-state';
 
@@ -11,6 +12,12 @@ export const initialAppConfigState: AppConfigState = {
     isLoading: false,
     isConnectedToServer: false,
     isInGeneralError: false,
+    panelStates: {
+        [PanelType.GroupInfo]: { isExpanded: false },
+        [PanelType.PlayMode]: { isExpanded: true },
+        [PanelType.SoundPlayer]: { isExpanded: true },
+        [PanelType.Control]: { isExpanded: true },
+    },
 };
 
 export const appConfigReducer = createReducer(
@@ -36,9 +43,14 @@ export const appConfigReducer = createReducer(
         isLoading: false,
         isInGeneralError: true,
     })),
-    
+
     on(actions.emitNotification, (state, { appNotification }) => ({
         ...state,
-        lastNotification: appNotification
+        lastNotification: appNotification,
+    })),
+
+    on(actions.updatePanelStates, (state, { panelStates }) => ({
+        ...state,
+        panelStates: panelStates
     })),
 );

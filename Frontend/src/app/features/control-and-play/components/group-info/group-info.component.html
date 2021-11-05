@@ -1,0 +1,49 @@
+<mat-card *ngIf="((componentState$|async)?.isExpanded === true)" class="group-info__card--normal-mode">
+    <mat-card-header>
+        <mat-card-title>Group Info</mat-card-title>
+        <mat-card-subtitle>
+            Share the address below to join new devices to your group.
+            <span (click)="collapse()"  class="material-icons group-info__collapse">expand_less</span>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="group-info__content">
+        <mat-form-field appearance="fill">
+            <mat-label>Your RemoteBeep group address</mat-label>
+            <input matInput type="text" readonly [value]="groupUrl$ | async" />
+            <button
+                mat-icon-button
+                matSuffix
+                [attr.aria-label]="'Copy to clipboard'"
+                [cdkCopyToClipboard]="
+                    copyToClipboard((groupUrl$ | async) ?? '')
+                "
+                (click)="confirmCopyToClipboard()"
+            >
+                <mat-icon>content_copy</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <div class="group-info__others">
+            <mat-icon class="group-info__others-icon" *ngIf="(otherDevicesMessage$ | async)">info</mat-icon>
+            <div class="group-info__others-text">{{ otherDevicesMessage$ | async }}</div>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="((componentState$|async)?.isExpanded === false)" class="group-info__card--mini-mode">
+    <mat-card-header>
+        <mat-card-subtitle class="group-info__card-subtitle">
+            <div class="group-info__others">
+                <mat-icon
+                    class="group-info__others-icon"
+                    *ngIf="otherDevicesMessage$ | async"
+                    >info</mat-icon
+                >
+                <div class="group-info__others-text">
+                    {{ otherDevicesMessage$ | async }}
+                </div>
+            </div>
+            <span (click)="expand()" class="material-icons group-info__expand">expand_more</span>
+        </mat-card-subtitle>
+    </mat-card-header>
+</mat-card>
