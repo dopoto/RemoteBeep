@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { CommandService } from 'src/app/core/services/command/command.service';
-import { LogService } from 'src/app/core/services/log/log.service'; 
+import { LogService } from 'src/app/core/services/log/log.service';
 import * as actions from '../actions/send-receive.actions';
 import { sendBeepCommandOk } from '../actions/send-receive.actions';
 import { emitNotification } from '../actions/app-config.actions';
@@ -28,7 +28,7 @@ export class SendReceiveEffects {
                 const dbg = JSON.stringify(data.beepCommand);
                 this.logService.info(`Sending ${dbg}`);
 
-                this.commandService.sendCommandToRemoteClients(
+                this.commandService.sendPlayCommandToRemoteClients(
                     data.beepCommand
                 );
 
@@ -47,42 +47,55 @@ export class SendReceiveEffects {
         { dispatch: false }
     );
 
+    sendStopCommand$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(actions.sendStopCommand),
+            tap(() => {
+                // TODO Handle errors
+                this.commandService.sendStopCommandToRemoteClients();
+            })
+        ),
+        { dispatch: false }
+    );
+
     // TODO Join new channel on server.
     changeChannel$ = createEffect(
         () => this.actions$.pipe(ofType(actions.changeChannel)),
         { dispatch: false }
     );
-    
+
     changeChannelOk$ = createEffect(
         () => this.actions$.pipe(ofType(actions.changeChannelOk)),
         { dispatch: false }
     );
 
     addClientToChannel$ = createEffect(
-        () => this.actions$.pipe(
-            ofType(actions.addClientToChannel),
-            tap(() => {
-                const appNotification: AppNotification = {
-                    text: 'A new client has joined your channel!',
-                    type: 'info'
-                }
-                this.store.dispatch(emitNotification({appNotification}));
-            })
-        ),
+        () =>
+            this.actions$.pipe(
+                ofType(actions.addClientToChannel),
+                tap(() => {
+                    const appNotification: AppNotification = {
+                        text: 'A new client has joined your channel!',
+                        type: 'info',
+                    };
+                    this.store.dispatch(emitNotification({ appNotification }));
+                })
+            ),
         { dispatch: false }
     );
-    
+
     removeClientFromChannel$ = createEffect(
-        () => this.actions$.pipe(
-            ofType(actions.removeClientFromChannel),
-            tap(() => {
-                const appNotification: AppNotification = {
-                    text: 'A client has left your channel.',
-                    type: 'info'
-                }
-                this.store.dispatch(emitNotification({appNotification}));
-            })
-        ),
+        () =>
+            this.actions$.pipe(
+                ofType(actions.removeClientFromChannel),
+                tap(() => {
+                    const appNotification: AppNotification = {
+                        text: 'A client has left your channel.',
+                        type: 'info',
+                    };
+                    this.store.dispatch(emitNotification({ appNotification }));
+                })
+            ),
         { dispatch: false }
     );
 }

@@ -5,7 +5,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 import { BeepCommand } from 'src/app/core/models/beep-command';
 import { PlaySoundsMode } from 'src/app/core/models/play-sounds-mode';
 import { changeFreq, changeDuration } from 'src/app/state/actions/play-sounds.actions';
-import { sendBeepCommandStart } from 'src/app/state/actions/send-receive.actions';
+import { sendBeepCommandStart, sendStopCommand } from 'src/app/state/actions/send-receive.actions';
 import { selectMode, selectIsPlaying } from 'src/app/state/selectors/play-sound.selectors';
 import { playSoundsSelector } from 'src/app/state/selectors/play-sound.selectors';
 
@@ -53,7 +53,7 @@ export class SenderComponent implements OnInit {
             freqInKhz: 0,
             durationInSeconds:0
         } as BeepCommand;
-        this.store.dispatch(sendBeepCommandStart({ beepCommand }));
+        this.store.dispatch(sendStopCommand());
     }
 
     changeFreq($event: any): void {

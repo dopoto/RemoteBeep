@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-import { BeepCommand } from 'src/app/core/models/beep-command'; 
+import { BeepCommand } from 'src/app/core/models/beep-command';
 import { SendReceiveActionTypes } from './_app-action-types';
 
 const actions = SendReceiveActionTypes;
@@ -39,9 +39,7 @@ export const updateListOfClientsConnectedToChannel = createAction(
     props<{ connectionIds: string[] }>()
 );
 
-export const changeChannelOk = createAction(
-    actions.changeChannelOk
-);
+export const changeChannelOk = createAction(actions.changeChannelOk);
 
 export const sendBeepCommandStart = createAction(
     actions.sendBeepCommandStart,
@@ -52,3 +50,5 @@ export const sendBeepCommandError = createAction(
     actions.sendBeepCommandError,
     props<{ errorMessage: string }>()
 );
+
+export const sendStopCommand = createAction(actions.sendStopCommand);

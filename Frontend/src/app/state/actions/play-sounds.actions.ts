@@ -6,19 +6,19 @@ import { PlaySoundsActionTypes } from './_app-action-types';
 
 const actionTypes = PlaySoundsActionTypes;
 
-export const beginPlayStart = createAction(
-    actionTypes.beginPlayStart,
+export const requestPlay = createAction(
+    actionTypes.requestPlay,
     props<{ beepCommand: BeepCommand }>()
 );
-export const beginPlayOk = createAction(
-    actionTypes.beginPlayOk,
+export const playOk = createAction(
+    actionTypes.playOk,
     props<{ beepCommand: BeepCommand }>()
 );
-export const beginPlayError = createAction(actionTypes.beginPlayError);
+export const playError = createAction(actionTypes.playError);
 
-export const stopPlayStart = createAction(actionTypes.stopPlayStart);
-export const stopPlayOk = createAction(actionTypes.stopPlayOk);
-export const stopPlayError = createAction(actionTypes.stopPlayError);
+export const requestStop = createAction(actionTypes.requestStop);
+export const stopOk = createAction(actionTypes.stopOk);
+export const stopError = createAction(actionTypes.stopError);
 
 export const changePlayMode = createAction(
     actionTypes.changePlayMode,

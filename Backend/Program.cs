@@ -67,10 +67,20 @@ public class BeepHub : Hub
     }
  
 
-    public async Task NewMessage(string freqInKhz, string durationInSeconds, string channelName)
+    public async Task Play(string freqInKhz, string durationInSeconds, string channelName)
     {
-        Console.WriteLine("NewMessage -  freqInKhz=" + freqInKhz + ", durationInSeconds:" + durationInSeconds + ", channel:" + channelName);
-        await Clients.Group(channelName).SendAsync("messageReceived", freqInKhz, durationInSeconds);
+        Console.WriteLine("Play -  freqInKhz=" + freqInKhz + ", durationInSeconds:" + durationInSeconds + ", channel:" + channelName);
+        await Clients
+            .Group(channelName)
+            .SendAsync("playCommandReceived", freqInKhz, durationInSeconds);
+    }
+
+    public async Task Stop(string channelName)
+    {
+        Console.WriteLine("Stop, channel:" + channelName);
+        await Clients
+            .Group(channelName)
+            .SendAsync("stopCommandReceived");
     }
 
     public async Task AddToChannel(string channelName)
@@ -79,7 +89,8 @@ public class BeepHub : Hub
         await Groups.AddToGroupAsync(Context.ConnectionId, channelName);
 
         var devicesInCurrentChannel =_channelService.GetConnectionsByChannel(channelName);
-        await Clients.Group(channelName)
+        await Clients
+            .Group(channelName)
             .SendAsync("addedToChannel", devicesInCurrentChannel);
     }
 
@@ -89,7 +100,8 @@ public class BeepHub : Hub
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, channelName);
 
         var devicesInCurrentChannel = _channelService.GetConnectionsByChannel(channelName);
-        await Clients.Group(channelName)
+        await Clients
+            .Group(channelName)
             .SendAsync("removedFromChannel", devicesInCurrentChannel);        
     }
 

@@ -14,14 +14,14 @@ export const initialPlaySoundsState: PlaySoundsState = {
 export const playSoundsReducer = createReducer(
     initialPlaySoundsState,
 
-    on(actions.beginPlayOk, (state, { beepCommand }) => ({
+    on(actions.playOk, (state, { beepCommand }) => ({
         ...state,
         isPlaying: true,
         freqInKhz: beepCommand.freqInKhz,
         durationInSeconds: beepCommand.durationInSeconds,
     })),
 
-    on(actions.stopPlayOk, (state) => ({
+    on(actions.stopOk, (state) => ({
         ...state,
         isPlaying: false,
     })),

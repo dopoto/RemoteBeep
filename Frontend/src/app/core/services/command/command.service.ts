@@ -12,7 +12,10 @@ import {
     initOk,
     initError,
 } from 'src/app/state/actions/app-config.actions';
-import { beginPlayStart } from 'src/app/state/actions/play-sounds.actions';
+import {
+    requestPlay,
+    requestStop,
+} from 'src/app/state/actions/play-sounds.actions';
 import { selectChannel } from 'src/app/state/selectors/send-receive.selectors';
 import {
     addClientToChannel,
@@ -75,16 +78,27 @@ export class CommandService {
             });
     }
 
-    sendCommandToRemoteClients(command: BeepCommand): void {
+    sendPlayCommandToRemoteClients(command: BeepCommand): void {
         this.hubConnection
             .send(
-                'newMessage',
+                'play',
                 command.freqInKhz.toString(),
                 command.durationInSeconds.toString(),
                 this.channel
             )
             .then(() => {
-                this.logService.info('msg sent');
+                this.logService.info('play msg sent');
+            });
+    }
+
+    sendStopCommandToRemoteClients(): void {
+        this.hubConnection
+            .send(
+                'stop',
+                this.channel
+            )
+            .then(() => {
+                this.logService.info('stop msg sent');
             });
     }
 
@@ -114,20 +128,23 @@ export class CommandService {
         );
 
         this.hubConnection.on(
-            'messageReceived',
+            'playCommandReceived',
             (freqInKhz: string, durationInSeconds: string) => {
                 this.logService.info(
-                    `Got msg: ${freqInKhz}|${durationInSeconds}`
+                    `Got play command : ${freqInKhz}|${durationInSeconds}`
                 );
                 const beepCommand = {
                     freqInKhz: +freqInKhz,
                     durationInSeconds: +durationInSeconds,
                 } as BeepCommand;
-                this.store.dispatch(
-                    beginPlayStart({ beepCommand: beepCommand })
-                );
+                this.store.dispatch(requestPlay({ beepCommand: beepCommand }));
             }
         );
+
+        this.hubConnection.on('stopCommandReceived', () => {
+            this.logService.info(`Got stop command`);
+            this.store.dispatch(requestStop());
+        });
     }
 
     startConnection(channel: string): void {
@@ -138,7 +155,7 @@ export class CommandService {
                     const connData = {
                         connectionId: this.hubConnection.connectionId ?? '',
                     };
-                    this.store.dispatch(updateConnectionId(connData));                   
+                    this.store.dispatch(updateConnectionId(connData));
 
                     this.hubConnection
                         .send('addToChannel', channel)

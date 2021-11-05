@@ -42,7 +42,9 @@ export class PlayService {
 
     stop(delayInSeconds: number) {
         setTimeout(() => {
-            this.oscillator.stop();
+            if (this.oscillator) {
+                this.oscillator.stop();
+            }
             this.logService.info(`Stopped after ${delayInSeconds} seconds.`);
         }, delayInSeconds * 1000);
     }

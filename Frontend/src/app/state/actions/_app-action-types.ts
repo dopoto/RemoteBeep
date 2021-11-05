@@ -12,7 +12,7 @@ export enum AppConfigActionTypes {
     initStart = 'initStart',
     initOk = 'initOk',
     initError = 'initError',
-    emitNotification = 'emitNotification'
+    emitNotification = 'emitNotification',
 }
 
 export enum SendReceiveActionTypes {
@@ -25,16 +25,17 @@ export enum SendReceiveActionTypes {
     sendBeepCommandStart = 'sendBeepCommandStart',
     sendBeepCommandOk = 'sendBeepCommandOk',
     sendBeepCommandError = 'sendBeepCommandError',
+    sendStopCommand = 'sendStopCommand',
 }
 
 export enum PlaySoundsActionTypes {
-    beginPlayStart = 'beginPlayStart',
-    beginPlayOk = 'beginPlayOk',
-    beginPlayError = 'beginPlayError',
-    stopPlayStart = 'stopPlayStart',
-    stopPlayOk = 'stopPlayOk',
-    stopPlayError = 'stopPlayError',
-    changePlayMode= 'changePlayMode',
+    requestPlay = 'requestPlay',
+    playOk = 'playOk',
+    playError = 'playError',
+    requestStop = 'requestStop',
+    stopOk = 'stopOk',
+    stopError = 'stopError',
+    changePlayMode = 'changePlayMode',
     changeFreq = 'changeFreq',
     changeDuration = 'changeDuration',
 }

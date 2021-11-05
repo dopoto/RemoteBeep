@@ -14,36 +14,47 @@ export class PlaySoundsEffects {
         { dispatch: false }
     );
 
-    beginPlayStart$ = createEffect(
+    requestPlay$ = createEffect(
         () =>
             this.actions$.pipe(
-                ofType(actions.beginPlayStart),
+                ofType(actions.requestPlay),
                 map((res) => {
                     const props = { beepCommand: res.beepCommand };
-                    return actions.beginPlayOk(props);
+                    return actions.playOk(props);
                 })
             ),
         { dispatch: true }
     );
 
-    beginPlayOk$ = createEffect(
+    playOk$ = createEffect(
         () =>
             this.actions$.pipe(
-                ofType(actions.beginPlayOk),
+                ofType(actions.playOk),
                 mergeMap((res) => {
                     return of(res).pipe(
                         delay(res.beepCommand.durationInSeconds * 1000)
                     );
                 }),
                 map(() => {
-                    return actions.stopPlayOk();
+                    return actions.stopOk();
                 })
             ),
         { dispatch: true }
     );
 
-    stopPlayOk$ = createEffect(
-        () => this.actions$.pipe(ofType(actions.stopPlayOk)),
+    requestStop$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(actions.requestStop),
+                map(() => {
+                    return actions.stopOk();
+                })
+            ),
+        { dispatch: true }
+    );
+
+    stopOk$ = createEffect(
+        () => this.actions$.pipe(ofType(actions.stopOk)),
         { dispatch: false }
     );
 
