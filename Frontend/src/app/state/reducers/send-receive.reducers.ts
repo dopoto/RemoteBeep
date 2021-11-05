@@ -4,16 +4,16 @@ import * as actions from '../actions/send-receive.actions';
 import { SendReceiveState } from '../models/send-receive-state';
 
 export const initialSendReceiveState: SendReceiveState = {
-    channel: generateChannelName(),
+    group: generateGroupName(),
     recentCommands: [],
 }
 
 export const sendReceiveReducer = createReducer(
     initialSendReceiveState,
 
-    on(actions.changeChannel, (state, { channel }) => ({ 
+    on(actions.changeGroup, (state, { group }) => ({ 
         ...state,
-        channel: channel
+        group: group
     })),
 
     on(actions.updateConnectionId, (state, { connectionId }) => ({ 
@@ -21,24 +21,24 @@ export const sendReceiveReducer = createReducer(
         connectionId: connectionId
     })),
 
-    on(actions.addClientToChannel, (state, { connectionIds }) => ({ 
+    on(actions.addClientToGroup, (state, { connectionIds }) => ({ 
         ...state,
-        devicesInChannel: connectionIds
+        devicesInGroup: connectionIds
     })),
     
-    on(actions.removeClientFromChannel, (state, { connectionIds }) => ({ 
+    on(actions.removeClientFromGroup, (state, { connectionIds }) => ({ 
         ...state,
-        devicesInChannel: connectionIds
+        devicesInGroup: connectionIds
     })),    
     
-    on(actions.updateListOfClientsConnectedToChannel, (state, { connectionIds }) => ({ 
+    on(actions.updateListOfClientsConnectedToGroup, (state, { connectionIds }) => ({ 
         ...state,
-        devicesInChannel: connectionIds
+        devicesInGroup: connectionIds
     })),    
 );
 
 
-function generateChannelName(): string {
+function generateGroupName(): string {
     return (
         Date.now().toString(36) +
         Math.random().toString(36).substr(2, 5)

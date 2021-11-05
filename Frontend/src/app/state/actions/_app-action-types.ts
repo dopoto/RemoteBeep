@@ -16,12 +16,12 @@ export enum AppConfigActionTypes {
 }
 
 export enum SendReceiveActionTypes {
-    changeChannel = 'changeChannel',
-    changeChannelOk = 'changeChannelOk',
+    changeGroup = 'changeGroup',
+    changeGroupOk = 'changeGroupOk',
     updateConnectionId = 'updateConnectionId',
-    addClientToChannel = 'addClientToChannel',
-    removeClientFromChannel = 'removeClientFromChannel',
-    updateListOfClientsConnectedToChannel = 'updateListOfClientsConnectedToChannel',
+    addClientToGroup = 'addClientToGroup',
+    removeClientFromGroup = 'removeClientFromGroup',
+    updateListOfClientsConnectedToGroup = 'updateListOfClientsConnectedToGroup',
     sendBeepCommandStart = 'sendBeepCommandStart',
     sendBeepCommandOk = 'sendBeepCommandOk',
     sendBeepCommandError = 'sendBeepCommandError',

@@ -60,8 +60,8 @@ export class HydrateEffects implements OnInitEffects {
 
             const sr = storageState.sendReceive;
             if (sr) {
-                if (sr.channel) {
-                    state.sendReceive.channel = sr.channel;
+                if (sr.group) {
+                    state.sendReceive.group = sr.group;
                 }
             }
         }
@@ -89,7 +89,7 @@ export class HydrateEffects implements OnInitEffects {
                     }
                 }
 
-                //const routeChannel = this.route.snapshot.params.channel;
+                //const routeGroup = this.route.snapshot.params.group;
 
                //
 

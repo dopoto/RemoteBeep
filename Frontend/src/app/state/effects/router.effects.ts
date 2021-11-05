@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { routerNavigatedAction } from '@ngrx/router-store';
 
-import { selectRouteChannelAndStoredChannel } from '../selectors/router.selectors';
+import { selectRouteGroupAndStoredGroup } from '../selectors/router.selectors';
 import * as actions from '../actions/send-receive.actions';
 import { LogService } from 'src/app/core/services/log/log.service';
 import { Router } from '@angular/router';
@@ -18,25 +18,25 @@ export class RouterEffects {
         private logService: LogService,
     ) {}
 
-    updateChannel$ = createEffect(() =>
+    updateGroup$ = createEffect(() =>
         this.actions$.pipe(
             ofType(routerNavigatedAction),
             concatLatestFrom(() =>
-                this.store.select(selectRouteChannelAndStoredChannel)
+                this.store.select(selectRouteGroupAndStoredGroup)
             ),
-            map(([, channelData]) => {
-                let channel = '';
-                if(channelData.routeChannel){
-                    channel = channelData.routeChannel;
-                    this.logService.info("[REFFE] Route channel found: " + channel);
+            map(([, groupData]) => {
+                let group = '';
+                if(groupData.routeGroup){
+                    group = groupData.routeGroup;
+                    this.logService.info("[REFFE] Route group found: " + group);
                 }                
-                else if(channelData.storedChannel)
+                else if(groupData.storedGroup)
                 {
-                    channel = channelData.storedChannel;
-                    this.logService.info("[REFFE] Stored channel found: " + channel);
+                    group = groupData.storedGroup;
+                    this.logService.info("[REFFE] Stored group found: " + group);
                 }          
-                this.router.navigate(['/home', {channel}]);  
-                return actions.changeChannel({channel});
+                this.router.navigate(['/home', {group}]);  
+                return actions.changeGroup({group});
             })
         ),
         { dispatch: true }

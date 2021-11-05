@@ -4,7 +4,7 @@ import { map, Observable } from 'rxjs';
 import { AppNotification } from 'src/app/core/models/app-notification';
 import { emitNotification } from 'src/app/state/actions/app-config.actions';
 
-import { selectChannel } from 'src/app/state/selectors/send-receive.selectors';
+import { selectGroup } from 'src/app/state/selectors/send-receive.selectors';
 
 @Component({
     selector: 'app-info',
@@ -12,12 +12,12 @@ import { selectChannel } from 'src/app/state/selectors/send-receive.selectors';
     styleUrls: ['./info.component.scss'],
 })
 export class InfoComponent {
-    channelUrl$: Observable<string> | undefined;
+    groupUrl$: Observable<string> | undefined;
 
     constructor(private readonly store: Store) {
-        this.channelUrl$ = this.store.pipe(
-            select(selectChannel),
-            map((channel) => `${location.origin}#/home;channel=${channel}`)
+        this.groupUrl$ = this.store.pipe(
+            select(selectGroup),
+            map((group) => `${location.origin}#/home;group=${group}`)
         );
     }
 

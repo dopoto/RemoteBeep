@@ -60,26 +60,26 @@ export class SendReceiveEffects {
         { dispatch: false }
     );
 
-    // TODO Join new channel on server.
-    changeChannel$ = createEffect(
-        () => this.actions$.pipe(ofType(actions.changeChannel)),
+    // TODO Join new group on server.
+    changeGroup$ = createEffect(
+        () => this.actions$.pipe(ofType(actions.changeGroup)),
         { dispatch: false }
     );
 
-    changeChannelOk$ = createEffect(
-        () => this.actions$.pipe(ofType(actions.changeChannelOk)),
+    changeGroupOk$ = createEffect(
+        () => this.actions$.pipe(ofType(actions.changeGroupOk)),
         { dispatch: false }
     );
 
-    addClientToChannel$ = createEffect(
+    addClientToGroup$ = createEffect(
         () =>
             this.actions$.pipe(
-                ofType(actions.addClientToChannel),
+                ofType(actions.addClientToGroup),
                 concatLatestFrom(() => this.store.select(selectConnectionId)),
                 tap(([{ addedConnectionId }, connectionId]) => {
                     if (addedConnectionId !== connectionId) {
                         const appNotification: AppNotification = {
-                            text: 'A new client has joined your channel!',
+                            text: 'A new client has joined your group!',
                             type: 'info',
                         };
                         this.store.dispatch(
@@ -91,15 +91,15 @@ export class SendReceiveEffects {
         { dispatch: false }
     );
 
-    removeClientFromChannel$ = createEffect(
+    removeClientFromGroup$ = createEffect(
         () =>
             this.actions$.pipe(
-                ofType(actions.removeClientFromChannel),
+                ofType(actions.removeClientFromGroup),
                 concatLatestFrom(() => this.store.select(selectConnectionId)),
                 tap(([{ removedConnectionId }, connectionId]) => {
                     if (removedConnectionId !== connectionId) {
                         const appNotification: AppNotification = {
-                            text: 'A  client has leftt your channel',
+                            text: 'A  client has left your group',
                             type: 'info',
                         };
                         this.store.dispatch(

@@ -5,9 +5,9 @@ import { SendReceiveActionTypes } from './_app-action-types';
 
 const actions = SendReceiveActionTypes;
 
-export const changeChannel = createAction(
-    actions.changeChannel,
-    props<{ channel: string }>()
+export const changeGroup = createAction(
+    actions.changeGroup,
+    props<{ group: string }>()
 );
 
 export const updateConnectionId = createAction(
@@ -18,28 +18,28 @@ export const updateConnectionId = createAction(
     props<{ connectionId: string }>()
 );
 
-export const addClientToChannel = createAction(
-    actions.addClientToChannel,
+export const addClientToGroup = createAction(
+    actions.addClientToGroup,
     /**
      * connectionIds: the list of connected clients after the add operation.
      */
     props<{ addedConnectionId: string, connectionIds: string[] }>()
 );
 
-export const removeClientFromChannel = createAction(
-    actions.removeClientFromChannel,
+export const removeClientFromGroup = createAction(
+    actions.removeClientFromGroup,
     /**
      * connectionIds: the list of connected clients after the remove operation.
      */
     props<{ removedConnectionId: string, connectionIds: string[] }>()
 );
 
-export const updateListOfClientsConnectedToChannel = createAction(
-    actions.updateListOfClientsConnectedToChannel,
+export const updateListOfClientsConnectedToGroup = createAction(
+    actions.updateListOfClientsConnectedToGroup,
     props<{ connectionIds: string[] }>()
 );
 
-export const changeChannelOk = createAction(actions.changeChannelOk);
+export const changeGroupOk = createAction(actions.changeGroupOk);
 
 export const sendBeepCommandStart = createAction(
     actions.sendBeepCommandStart,

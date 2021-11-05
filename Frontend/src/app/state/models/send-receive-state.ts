@@ -1,8 +1,8 @@
 import { BeepCommand } from 'src/app/core/models/beep-command';
 
 export interface SendReceiveState {
-    channel: string;
+    group: string;
     connectionId?: string;
-    devicesInChannel?: string[];
+    devicesInGroup?: string[];
     recentCommands: BeepCommand[];
 }

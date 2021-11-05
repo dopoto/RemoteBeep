@@ -16,12 +16,12 @@ import {
     requestPlay,
     requestStop,
 } from 'src/app/state/actions/play-sounds.actions';
-import { selectChannel } from 'src/app/state/selectors/send-receive.selectors';
+import { selectGroup } from 'src/app/state/selectors/send-receive.selectors';
 import {
-    addClientToChannel,
-    removeClientFromChannel,
+    addClientToGroup,
+    removeClientFromGroup,
     updateConnectionId,
-    updateListOfClientsConnectedToChannel,
+    updateListOfClientsConnectedToGroup,
 } from 'src/app/state/actions/send-receive.actions';
 import { HttpClient } from '@angular/common/http';
 
@@ -33,7 +33,7 @@ export class CommandService {
     public hubConnection!: HubConnection;
     ngDestroyed$ = new Subject();
 
-    public channel = '';
+    public group = '';
 
     constructor(
         private logService: LogService,
@@ -43,15 +43,15 @@ export class CommandService {
 
     init() {
         this.store
-            .select(selectChannel)
+            .select(selectGroup)
             .pipe(takeUntil(this.ngDestroyed$), distinctUntilChanged())
-            .subscribe((channel) => {
-                this.channel = channel;
+            .subscribe((group) => {
+                this.group = group;
                 this.logService.info('DISPAATCXHING IINIITSTART');
                 this.store.dispatch(initStart());
                 this.hubConnection = this.buildConnection();
-                this.startConnection(channel);
-                this.addHandlers(channel);
+                this.startConnection(group);
+                this.addHandlers(group);
             });
     }
 
@@ -64,16 +64,16 @@ export class CommandService {
             .build();
     }
 
-    dispatchInitialClientsInChannelCount(channelName: string) {
+    dispatchInitialClientsInGroupCount(groupName: string) {
         this.http
             .get<string[]>(
-                `${environment.serverUrl}/devices-in-channel?channelName=${channelName}`
+                `${environment.serverUrl}/devices-in-group?groupName=${groupName}`
             )
             .pipe(takeUntil(this.ngDestroyed$), distinctUntilChanged())
             .subscribe((connectionIds) => {
                 const data = { connectionIds };
                 this.store.dispatch(
-                    updateListOfClientsConnectedToChannel(data)
+                    updateListOfClientsConnectedToGroup(data)
                 );
             });
     }
@@ -84,7 +84,7 @@ export class CommandService {
                 'play',
                 command.freqInKhz.toString(),
                 command.durationInSeconds.toString(),
-                this.channel
+                this.group
             )
             .then(() => {
                 this.logService.info('play msg sent');
@@ -95,35 +95,35 @@ export class CommandService {
         this.hubConnection
             .send(
                 'stop',
-                this.channel
+                this.group
             )
             .then(() => {
                 this.logService.info('stop msg sent');
             });
     }
 
-    leaveChannel(): Promise<any> {
-        return this.hubConnection.send('removeFromChannel', this.channel);
+    leaveGroup(): Promise<any> {
+        return this.hubConnection.send('removeFromGroup', this.group);
     }
 
-    addHandlers(channel: string) {
+    addHandlers(group: string) {
         this.hubConnection.onclose(() => {
-            this.hubConnection.send('removeFromChannel', channel).then(() => {
-                this.logService.info('removed from channel ' + channel);
+            this.hubConnection.send('removeFromGroup', group).then(() => {
+                this.logService.info('removed from group ' + group);
             });
             this.logService.info('Disconnected');
         });
 
-        this.hubConnection.on('addedToChannel', (addedConnectionId: string, connectionIds: string[]) => {
+        this.hubConnection.on('addedToGroup', (addedConnectionId: string, connectionIds: string[]) => {
             const data = { addedConnectionId, connectionIds };
-            this.store.dispatch(addClientToChannel(data));
+            this.store.dispatch(addClientToGroup(data));
         });
 
         this.hubConnection.on(
-            'removedFromChannel',
+            'removedFromGroup',
             (removedConnectionId: string, connectionIds: string[]) => {
                 const data = { removedConnectionId, connectionIds };
-                this.store.dispatch(removeClientFromChannel(data));
+                this.store.dispatch(removeClientFromGroup(data));
             }
         );
 
@@ -147,7 +147,7 @@ export class CommandService {
         });
     }
 
-    startConnection(channel: string): void {
+    startConnection(group: string): void {
         this.hubConnection
             .start()
             .then(() => {
@@ -158,12 +158,12 @@ export class CommandService {
                     this.store.dispatch(updateConnectionId(connData));
 
                     this.hubConnection
-                        .send('addToChannel', channel)
+                        .send('addToGroup', group)
                         .then(() => {
                             this.logService.info(
-                                'addToChannel / dispatchInitialClientsInChannelCount'
+                                'addToGroup / dispatchInitialClientsInGroupCount'
                             );
-                            this.dispatchInitialClientsInChannelCount(channel);
+                            this.dispatchInitialClientsInGroupCount(group);
                         });
 
                     this.store.dispatch(initOk());

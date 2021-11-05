@@ -10,13 +10,13 @@ export class HomeComponent {
 
     constructor(private commandService: CommandService) {}
 
-    leaveChannel(): Promise<any> {
+    leaveGroup(): Promise<any> {
         //Return a promise so that ngOnDestroy will wait for it to finish
-        return this.commandService.leaveChannel();
+        return this.commandService.leaveGroup();
     }
 
     @HostListener('window:beforeunload')
     async ngOnDestroy() {
-        await this.leaveChannel();
+        await this.leaveGroup();
     }
 }
