@@ -1,22 +1,29 @@
 <mat-card class="info__card">
     <mat-card-header>
         <mat-card-subtitle>
-            All devices connected to a RemoteBeep group send and receive beep commands between each other.
+            Share the address below to join new devices to your group.
         </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content class="info__content">
         <mat-form-field appearance="fill">
             <mat-label>Your RemoteBeep group address</mat-label>
-            <input matInput type="text" readonly [value]="(groupUrl$ | async)" />
+            <input matInput type="text" readonly [value]="groupUrl$ | async" />
             <button
                 mat-icon-button
                 matSuffix
                 [attr.aria-label]="'Copy to clipboard'"
-                [cdkCopyToClipboard]="copyToClipboard((groupUrl$ | async) ?? '')"
+                [cdkCopyToClipboard]="
+                    copyToClipboard((groupUrl$ | async) ?? '')
+                "
                 (click)="confirmCopyToClipboard()"
             >
                 <mat-icon>content_copy</mat-icon>
             </button>
         </mat-form-field>
+
+        <div class="info__others">
+            <mat-icon class="info__others-icon" *ngIf="(otherDevicesMessage$ | async)">info</mat-icon>
+            <div class="info__others-text">{{ otherDevicesMessage$ | async }}</div>
+        </div>
     </mat-card-content>
 </mat-card>

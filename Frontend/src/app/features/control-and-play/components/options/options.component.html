@@ -2,14 +2,13 @@
     <mat-card-header>
         <mat-card-title>Play Mode</mat-card-title>
         <mat-card-subtitle *ngIf="(mode$ | async) === modeEnum.ControlOnly"
-            >No sounds will be played on this device. All devices connected to
-            xxx will play sounds.</mat-card-subtitle
+            >This device sends commands to the other devices in this group, but will not play any sounds.</mat-card-subtitle
         >
         <mat-card-subtitle *ngIf="(mode$ | async) === modeEnum.PlayOnly"
-            >po
+            >This device plays when requested by other devices in this group.
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="(mode$ | async) === modeEnum.ControlAndPlay"
-            >c and p</mat-card-subtitle
+            >When you click the Play button, a sound will be played on this device and a play command will be sent to all other devices in the group.</mat-card-subtitle
         >
     </mat-card-header>
     <mat-card-content>

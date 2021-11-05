@@ -29,7 +29,7 @@ builder.Services.AddCors();
 builder.Services.AddApplicationInsightsTelemetry(environmentSettings.ApplicationInsightsInstrumentationKey);
 builder.Services.Add(ServiceDescriptor.Singleton<IMemoryCache, MemoryCache>());
 
-builder.Services.AddSingleton<ChannelService>();
+builder.Services.AddSingleton<GroupService>();
 
 var app = builder.Build();
 
@@ -48,9 +48,9 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapHub<BeepHub>("/hub");
 });
-app.MapGet("/devices-in-channel", 
-    (HttpContext context, ChannelService channelService) => 
-        channelService.GetConnectionsByChannel(context.Request.Query["channelName"])
+app.MapGet("/devices-in-group", 
+    (HttpContext context, GroupService groupService) => 
+        groupService.GetConnectionsByGroup(context.Request.Query["groupName"])
 );
 
 
@@ -59,50 +59,50 @@ app.Run();
 
 public class BeepHub : Hub
 {
-    private readonly ChannelService _channelService;
+    private readonly GroupService _groupService;
 
-    public BeepHub(ChannelService channelService)
+    public BeepHub(GroupService groupService)
     {
-        _channelService = channelService;
+        _groupService = groupService;
     }
  
 
-    public async Task Play(string freqInKhz, string durationInSeconds, string channelName)
+    public async Task Play(string freqInKhz, string durationInSeconds, string groupName)
     {
-        Console.WriteLine("Play -  freqInKhz=" + freqInKhz + ", durationInSeconds:" + durationInSeconds + ", channel:" + channelName);
+        Console.WriteLine("Play -  freqInKhz=" + freqInKhz + ", durationInSeconds:" + durationInSeconds + ", group:" + groupName);
         await Clients
-            .Group(channelName)
+            .Group(groupName)
             .SendAsync("playCommandReceived", freqInKhz, durationInSeconds);
     }
 
-    public async Task Stop(string channelName)
+    public async Task Stop(string groupName)
     {
-        Console.WriteLine("Stop, channel:" + channelName);
+        Console.WriteLine("Stop, group:" + groupName);
         await Clients
-            .Group(channelName)
+            .Group(groupName)
             .SendAsync("stopCommandReceived");
     }
 
-    public async Task AddToChannel(string channelName)
+    public async Task AddToGroup(string groupName)
     {
-        _channelService.AddConnectionToChannel(channelName, Context.ConnectionId);
-        await Groups.AddToGroupAsync(Context.ConnectionId, channelName);
+        _groupService.AddConnectionToGroup(groupName, Context.ConnectionId);
+        await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
-        var devicesInCurrentChannel =_channelService.GetConnectionsByChannel(channelName);
+        var devicesInCurrentGroup =_groupService.GetConnectionsByGroup(groupName);
         await Clients
-            .Group(channelName)
-            .SendAsync("addedToChannel", Context.ConnectionId, devicesInCurrentChannel);
+            .Group(groupName)
+            .SendAsync("addedToGroup", Context.ConnectionId, devicesInCurrentGroup);
     }
 
-    public async Task RemoveFromChannel(string channelName)
+    public async Task RemoveFromGroup(string groupName)
     {
-        _channelService.RemoveConnectionFromChannel(channelName, Context.ConnectionId);
-        await Groups.RemoveFromGroupAsync(Context.ConnectionId, channelName);
+        _groupService.RemoveConnectionFromGroup(groupName, Context.ConnectionId);
+        await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
 
-        var devicesInCurrentChannel = _channelService.GetConnectionsByChannel(channelName);
+        var devicesInCurrentGroup = _groupService.GetConnectionsByGroup(groupName);
         await Clients
-            .Group(channelName)
-            .SendAsync("removedFromChannel", Context.ConnectionId, devicesInCurrentChannel);        
+            .Group(groupName)
+            .SendAsync("removedFromGroup", Context.ConnectionId, devicesInCurrentGroup);        
     }
 
 }

@@ -6,3 +6,22 @@
     margin-left: 10px;
     margin-right: 10px;
 }
+
+.info__others {
+    display: flex;
+    padding-bottom: 3px;
+}
+
+.info__others-icon {
+    font-size: 21px;
+    color: #6057ad;
+}
+
+.info__others-text {
+    font-size: 12px;
+    padding-bottom: 4px;
+    padding-top: 5px;
+    color: #5446c5;
+    font-weight: bold;
+    padding-left: 3 px;
+}
