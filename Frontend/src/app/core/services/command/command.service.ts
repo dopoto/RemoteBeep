@@ -47,8 +47,8 @@ export class CommandService {
                 this.logService.info('DISPAATCXHING IINIITSTART');
                 this.store.dispatch(initStart());
                 this.hubConnection = this.buildConnection();
-                this.addHandlers(channel);
                 this.startConnection(channel);
+                this.addHandlers(channel);
             });
     }
 
@@ -80,22 +80,12 @@ export class CommandService {
             .send(
                 'newMessage',
                 command.freqInKhz.toString(),
-                command.durationInSeconds.toString()
+                command.durationInSeconds.toString(),
+                this.channel
             )
             .then(() => {
                 this.logService.info('msg sent');
             });
-    }
-
-    onMessageReceived(freqInKhz: string, durationInSeconds: string) {
-        this.logService.info(
-            'Message received!:' + freqInKhz + '|' + durationInSeconds
-        );
-        const beepCommand = {
-            freqInKhz: +freqInKhz,
-            durationInSeconds: +durationInSeconds,
-        } as BeepCommand;
-        this.store.dispatch(beginPlayStart({ beepCommand: beepCommand }));
     }
 
     leaveChannel(): Promise<any> {
@@ -148,7 +138,7 @@ export class CommandService {
                     const connData = {
                         connectionId: this.hubConnection.connectionId ?? '',
                     };
-                    this.store.dispatch(updateConnectionId(connData));
+                    this.store.dispatch(updateConnectionId(connData));                   
 
                     this.hubConnection
                         .send('addToChannel', channel)
@@ -160,17 +150,15 @@ export class CommandService {
                         });
 
                     this.store.dispatch(initOk());
+
                     this.logService.info('Connection started');
                 }, 500);
             })
             .catch((err) => {
                 this.logService.info('Error while starting connection: ' + err);
-                this.store.dispatch(
-                    initError({
-                        errorMessage:
-                            'Error while initializing the application. Please refresh the page or try again later.',
-                    })
-                );
+                const errorMessage =
+                    'Error while initializing the application. Please refresh the page or try again later.';
+                this.store.dispatch(initError({ errorMessage }));
             });
     }
 

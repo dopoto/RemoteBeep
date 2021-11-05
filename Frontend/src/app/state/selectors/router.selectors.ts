@@ -1,5 +1,6 @@
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
-import { createFeatureSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { selectChannel } from './send-receive.selectors';
 
 export const selectRouter = createFeatureSelector<RouterReducerState>('router');
 
@@ -14,5 +15,10 @@ export const {
     selectUrl, // select the current url
 } = getSelectors(selectRouter);
 
-
- 
+export const selectRouteChannelAndStoredChannel = createSelector(
+    selectRouteParam('channel'),
+    selectChannel,
+    (routeChannel, storedChannel) => {
+        return {routeChannel, storedChannel}
+    }
+);

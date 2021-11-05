@@ -3,27 +3,39 @@ import { map } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { routerNavigatedAction } from '@ngrx/router-store';
- 
-import { selectRouteParam } from '../selectors/router.selectors';
+
+import { selectRouteChannelAndStoredChannel } from '../selectors/router.selectors';
 import * as actions from '../actions/send-receive.actions';
 import { LogService } from 'src/app/core/services/log/log.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class RouterEffects {
     constructor(
         private actions$: Actions,
+        private store: Store,
+        private router: Router,
         private logService: LogService,
-        private store: Store
     ) {}
 
     updateChannel$ = createEffect(() =>
         this.actions$.pipe(
             ofType(routerNavigatedAction),
             concatLatestFrom(() =>
-                this.store.select(selectRouteParam('channel'))
+                this.store.select(selectRouteChannelAndStoredChannel)
             ),
-            map(([, routeChannel]) => {
-                const channel = routeChannel ?? '';
+            map(([, channelData]) => {
+                let channel = '';
+                if(channelData.routeChannel){
+                    channel = channelData.routeChannel;
+                    this.logService.info("[REFFE] Route channel found: " + channel);
+                }                
+                else if(channelData.storedChannel)
+                {
+                    channel = channelData.storedChannel;
+                    this.logService.info("[REFFE] Stored channel found: " + channel);
+                }          
+                this.router.navigate(['/home', {channel}]);  
                 return actions.changeChannel({channel});
             })
         ),
