@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { EMPTY, from } from 'rxjs';
 import { map, mergeMap, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { CommandService } from 'src/app/core/services/command/command.service';
 import { LogService } from 'src/app/core/services/log/log.service'; 
 import * as actions from '../actions/send-receive.actions';
 import { sendBeepCommandOk } from '../actions/send-receive.actions';
-import { selectChannel } from '../selectors/send-receive.selectors';
 import { emitNotification } from '../actions/app-config.actions';
 import { AppNotification } from 'src/app/core/models/app-notification';
 
@@ -24,15 +23,13 @@ export class SendReceiveEffects {
     sendBeepCommandStart$ = createEffect(() =>
         this.actions$.pipe(
             ofType(actions.sendBeepCommandStart),
-            concatLatestFrom(() => this.store.select(selectChannel)),
-            mergeMap(([data, channel]) => {
+            mergeMap((data) => {
                 // TODO Handle errors
                 const dbg = JSON.stringify(data.beepCommand);
                 this.logService.info(`Sending ${dbg}`);
 
                 this.commandService.sendCommandToRemoteClients(
-                    data.beepCommand,
-                    channel
+                    data.beepCommand
                 );
 
                 // TODO Revisit

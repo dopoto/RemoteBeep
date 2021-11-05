@@ -48,6 +48,11 @@ app.UseEndpoints(endpoints =>
 {
     endpoints.MapHub<BeepHub>("/hub");
 });
+app.MapGet("/devices-in-channel", 
+    (HttpContext context, ChannelService channelService) => 
+        channelService.GetConnectionsByChannel(context.Request.Query["channelName"])
+);
+
 
 app.Run();
 
@@ -70,18 +75,22 @@ public class BeepHub : Hub
 
     public async Task AddToChannel(string channelName)
     {
-        var devicesInCurrentChannel = _channelService.AddConnectionToChannel(channelName, Context.ConnectionId);        
+        _channelService.AddConnectionToChannel(channelName, Context.ConnectionId);
+        await Groups.AddToGroupAsync(Context.ConnectionId, channelName);
+
+        var devicesInCurrentChannel =_channelService.GetConnectionsByChannel(channelName);
         await Clients.Group(channelName)
             .SendAsync("addedToChannel", devicesInCurrentChannel);
-        await Groups.AddToGroupAsync(Context.ConnectionId, channelName);
     }
 
     public async Task RemoveFromChannel(string channelName)
     {
-        var devicesInCurrentChannel = _channelService.RemoveConnectionFromChannel(channelName, Context.ConnectionId);
-        await Clients.Group(channelName)
-            .SendAsync("removedFromChannel", devicesInCurrentChannel);
+        _channelService.RemoveConnectionFromChannel(channelName, Context.ConnectionId);
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, channelName);
+
+        var devicesInCurrentChannel = _channelService.GetConnectionsByChannel(channelName);
+        await Clients.Group(channelName)
+            .SendAsync("removedFromChannel", devicesInCurrentChannel);        
     }
 
 }

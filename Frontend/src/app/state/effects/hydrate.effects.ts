@@ -89,7 +89,9 @@ export class HydrateEffects implements OnInitEffects {
                     }
                 }
 
-                this.router.navigate(['/home', {channel: state.sendReceive.channel}]);
+                //const routeChannel = this.route.snapshot.params.channel;
+
+               //
 
                 return hydrateActions.hydrateOk({state});
 

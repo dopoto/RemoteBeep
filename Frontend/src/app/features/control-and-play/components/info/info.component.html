@@ -7,12 +7,13 @@
     <mat-card-content class="info__content">
         <mat-form-field appearance="fill">
             <mat-label>Your RemoteBeep channel address</mat-label>
-            <input matInput type="text" [value]="(channelUrl$ | async)" />
+            <input matInput type="text" readonly [value]="(channelUrl$ | async)" />
             <button
                 mat-icon-button
                 matSuffix
                 [attr.aria-label]="'Copy to clipboard'"
-                
+                [cdkCopyToClipboard]="copyToClipboard((channelUrl$ | async) ?? '')"
+                (click)="confirmCopyToClipboard()"
             >
                 <mat-icon>content_copy</mat-icon>
             </button>

@@ -48,7 +48,13 @@ export class SenderComponent implements OnInit {
         this.store.dispatch(sendBeepCommandStart({ beepCommand }));
     }
 
-    stop(): void {}
+    stop(): void {
+        const beepCommand = {
+            freqInKhz: 0,
+            durationInSeconds:0
+        } as BeepCommand;
+        this.store.dispatch(sendBeepCommandStart({ beepCommand }));
+    }
 
     changeFreq($event: any): void {
         this.store.dispatch(changeFreq({ newFreqInKhz: $event.value }));

@@ -16,14 +16,24 @@ export const sendReceiveReducer = createReducer(
         channel: channel
     })),
 
-    on(actions.addClientToChannel, (state, { newChannelMembersCount }) => ({ 
+    on(actions.updateConnectionId, (state, { connectionId }) => ({ 
         ...state,
-        connectedClientsCount: newChannelMembersCount
+        connectionId: connectionId
+    })),
+
+    on(actions.addClientToChannel, (state, { connectionIds }) => ({ 
+        ...state,
+        devicesInChannel: connectionIds
     })),
     
-    on(actions.removeClientFromChannel, (state, { newChannelMembersCount }) => ({ 
+    on(actions.removeClientFromChannel, (state, { connectionIds }) => ({ 
         ...state,
-        connectedClientsCount: newChannelMembersCount
+        devicesInChannel: connectionIds
+    })),    
+    
+    on(actions.updateListOfClientsConnectedToChannel, (state, { connectionIds }) => ({ 
+        ...state,
+        devicesInChannel: connectionIds
     })),    
 );
 

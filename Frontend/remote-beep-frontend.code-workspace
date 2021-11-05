@@ -30,6 +30,7 @@
 		"peacock.color": "#0000be",
 		"files.exclude": {
 			"**/.angular": true,
+			"**/.cache": true,
 			"**/cypress/_samples": true,
 			"**/cypress/reports": true,
 			"**/dist": true,

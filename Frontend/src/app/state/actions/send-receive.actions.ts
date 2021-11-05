@@ -10,14 +10,33 @@ export const changeChannel = createAction(
     props<{ channel: string }>()
 );
 
+export const updateConnectionId = createAction(
+    actions.updateConnectionId,
+    /**
+     * connectionId: the Id of the current device..
+     */
+    props<{ connectionId: string }>()
+);
+
 export const addClientToChannel = createAction(
     actions.addClientToChannel,
-    props<{ newChannelMembersCount: number }>()
+    /**
+     * connectionIds: the list of connected clients after the add operation.
+     */
+    props<{ connectionIds: string[] }>()
 );
 
 export const removeClientFromChannel = createAction(
     actions.removeClientFromChannel,
-    props<{ newChannelMembersCount: number }>()
+    /**
+     * connectionIds: the list of connected clients after the remove operation.
+     */
+    props<{ connectionIds: string[] }>()
+);
+
+export const updateListOfClientsConnectedToChannel = createAction(
+    actions.updateListOfClientsConnectedToChannel,
+    props<{ connectionIds: string[] }>()
 );
 
 export const changeChannelOk = createAction(
