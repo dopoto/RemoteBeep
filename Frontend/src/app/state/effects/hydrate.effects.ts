@@ -26,8 +26,6 @@ export class HydrateEffects implements OnInitEffects {
     constructor(
         private actions$: Actions,
         private store: Store,
-        private router: Router,
-        private route: ActivatedRoute,
         private logService: LogService
     ) {}
 
@@ -45,6 +43,15 @@ export class HydrateEffects implements OnInitEffects {
 
         const storageState = JSON.parse(storageValue) as AppState;
         if (storageState) {
+            // Pick state to restore:
+
+            const ac = storageState.appConfig;
+            if (ac) {
+                if (ac.panelStates) {
+                    state.appConfig.panelStates = ac.panelStates;
+                }
+            }
+
             const ps = storageState.playSounds;
             if (ps) {
                 if (ps.durationInSeconds) {
@@ -88,10 +95,6 @@ export class HydrateEffects implements OnInitEffects {
                         localStorage.removeItem('state');
                     }
                 }
-
-                //const routeGroup = this.route.snapshot.params.group;
-
-               //
 
                 return hydrateActions.hydrateOk({state});
 
