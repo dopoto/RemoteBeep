@@ -2,6 +2,11 @@
 
 A demo for playing sounds remotely, using .NET 6, SignalR, Angular and NGRX.
 
+## Demo
+
+https://remotebeepstorage.z6.web.core.windows.net/
+
+
 ## Running in a local environment
 
 ### Backend
