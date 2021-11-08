@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, filter, Observable, Subject, takeUntil } from 'rxjs';
+import { ComponentType } from 'src/app/core/models/component-type';
 
 import { PlaySoundsMode } from 'src/app/core/models/play-sounds-mode';
 import { PlayService } from 'src/app/core/services/play/play.service';
+import { collapsePanel, expandPanel } from 'src/app/state/actions/app-config.actions';
 import { AppState } from 'src/app/state/app.state';
+import { selectComponentState } from 'src/app/state/selectors/app-config.selectors';
 import {
     playSoundsSelector,
     selectIsPlaying,
@@ -24,6 +27,8 @@ export class PlayerComponent {
 
     isPlaying$: Observable<boolean> | undefined;
 
+    componentState$: Observable<{ isExpanded: boolean }> | undefined;
+
     freqInKhz: number = 0;
     durationInSeconds: number = 0;
 
@@ -34,6 +39,10 @@ export class PlayerComponent {
         this.isPlaying$ = this.store.pipe(select(selectIsPlaying));
         this.mode$ = this.store.pipe(select(selectMode));
 
+        this.componentState$ = this.store.pipe(
+            select(selectComponentState(ComponentType.SoundPlayer))
+        );
+        
         this.store
             .pipe(takeUntil(this.ngDestroyed$), select(playSoundsSelector))
             .subscribe((res) => {
@@ -77,6 +86,14 @@ export class PlayerComponent {
         });
     }
 
+    expand(): void {
+        this.store.dispatch(expandPanel({ componentType: ComponentType.SoundPlayer }));
+    }
+
+    collapse(): void {
+        this.store.dispatch(collapsePanel({ componentType: ComponentType.SoundPlayer }));
+    }
+    
     ngOnDestroy() {
         this.ngDestroyed$.next(null);
     }

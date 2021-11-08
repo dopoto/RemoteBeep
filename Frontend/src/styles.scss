@@ -4,64 +4,88 @@ body {
     background-color: #f5f5f5;
 }
 
-// [node_modules/@ngx-tiny/switch-input/theme.scss]
+.app__expand-icon,
+.app__collapse-icon {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    cursor: pointer;
+}
 
-$color-handle: #fff !default;
-$color-background: #ccc !default;
-$color-selected: #1ba875 !default;
+.app__collapsed-card,
+.app__expanded-card {
+    margin-top: 16px;
+    margin-bottom: 16px;
 
-ngx-switch-input {
-    .ngx-switch-input {
-        &-handle {
-            background: $color-handle;
-        }
-
-        &-background {
-            background: $color-background;
-        }
-    }
-
-    .ngx-switch-input-checked .ngx-switch-input-background {
-        background: $color-selected;
+    .mat-card {
+        padding: 10px !important;
+        margin-top: 16px;
+        margin-bottom: 16px;
     }
 }
 
-// /[node_modules/@ngx-tiny/switch-input/theme.scss]
+.app__collapsed-card {
+    height: 16px;
+    display: flex;
+
+    .app__collapsed-card-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .app__collapsed-card-title {
+        width:150px;
+    }
+
+    .app__collapsed-card-subtitle {
+        // padding-top: 3px;
+        font-size: 12px;
+    }
+
+    .mat-button-toggle {
+        padding-top: 2px;
+    }
+
+    .mat-button-toggle-appearance-standard .mat-button-toggle-label-content {
+        height: 16px;
+        line-height: 12px;
+    }
+}
+
+.app__expanded-card {
+    .mat-slider-thumb-label {
+        transform: rotate(45deg) !important;
+        border-radius: 50% 50% 0 !important;
+    }
+
+    .mat-slider-thumb {
+        transform: scale(0) !important;
+    }
+
+    .mat-slider-thumb-label-text {
+        opacity: 1 !important;
+    }
+
+    .mat-slider,
+    .mat-form-field {
+        width: 100%;
+    }
+
+    .mat-raised-button {
+        width: 220px;
+    }
+
+    .mat-card-header-text {
+        margin: 0 10px !important;
+    }
+}
 
 //html, body { height: 100%; }
 body {
     margin: 16px;
     font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-.mat-slider-thumb-label {
-    transform: rotate(45deg) !important;
-    border-radius: 50% 50% 0 !important;
-}
-
-.mat-slider-thumb {
-    transform: scale(0) !important;
-}
-
-.mat-slider-thumb-label-text {
-    opacity: 1 !important;
-}
-
-.mat-slider,
-.mat-form-field {
-    width: 100%;
-}
-
-.mat-raised-button {
-    width: 220px;
-}
-
-.mat-card {
-    padding:10px !important;
-}
-
-.mat-card-header-text {
-    margin: 0 10px !important;
 }
 
 .cdk-overlay-pane {

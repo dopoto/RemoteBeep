@@ -1,19 +1,28 @@
-<mat-card class="options__card">
+<mat-card
+    *ngIf="(componentState$ | async)?.isExpanded === true"
+    class="app__expanded-card options__card"
+>
     <mat-card-header>
         <mat-card-title>Play Mode</mat-card-title>
         <mat-card-subtitle *ngIf="(mode$ | async) === modeEnum.ControlOnly"
-            >This device sends commands to the other devices in this group, but will not play any sounds.</mat-card-subtitle
+            >This device sends commands to the other devices in this group, but
+            will not play any sounds.</mat-card-subtitle
         >
         <mat-card-subtitle *ngIf="(mode$ | async) === modeEnum.PlayOnly"
             >This device plays when requested by other devices in this group.
         </mat-card-subtitle>
         <mat-card-subtitle *ngIf="(mode$ | async) === modeEnum.ControlAndPlay"
-            >When you click the Play button, a sound will be played on this device and a play command will be sent to all other devices in the group.</mat-card-subtitle
+            >When you click the Play button, a sound will be played on this
+            device and a play command will be sent to all other devices in the
+            group.</mat-card-subtitle
+        >
+        <span (click)="collapse()" class="material-icons app__expand-icon"
+            >expand_less</span
         >
     </mat-card-header>
     <mat-card-content>
         <mat-button-toggle-group
-            class="options__toggle-group"
+            class="options__toggle-group--expanded"
             [ngModel]="mode$ | async"
             (change)="onModeChange($event)"
         >
@@ -28,4 +37,33 @@
             >
         </mat-button-toggle-group>
     </mat-card-content>
+</mat-card>
+
+<mat-card
+    *ngIf="(componentState$ | async)?.isExpanded === false"
+    class="app__collapsed-card"
+>
+    <div class="app__collapsed-card-container">
+        <div class="app__collapsed-card-title">Play Mode</div>
+        <div class="app__collapsed-card-subtitle options__collapsed-card-subtitle">
+            <mat-button-toggle-group
+                class="options__toggle-group--collapsed"
+                [ngModel]="mode$ | async"
+                (change)="onModeChange($event)"
+            >
+                <mat-button-toggle [value]="modeEnum.ControlOnly"
+                    >Control only</mat-button-toggle
+                >
+                <mat-button-toggle [value]="modeEnum.PlayOnly"
+                    >Play only</mat-button-toggle
+                >
+                <mat-button-toggle [value]="modeEnum.ControlAndPlay"
+                    >Control &amp; Play</mat-button-toggle
+                >
+            </mat-button-toggle-group>
+        </div>
+        <span (click)="expand()" class="material-icons app__collapse-icon"
+            >expand_more</span
+        >
+    </div>
 </mat-card>

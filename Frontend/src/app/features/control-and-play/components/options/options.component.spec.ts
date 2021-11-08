@@ -1,10 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { cold } from 'jasmine-marbles';
+
 import { PlaySoundsMode } from 'src/app/core/models/play-sounds-mode';
-
-import { AppState } from 'src/app/core/store/app.state';
-
+import { AppState } from 'src/app/state/app.state';
 import { OptionsComponent } from './options.component';
 
 describe('OptionsComponent', () => {

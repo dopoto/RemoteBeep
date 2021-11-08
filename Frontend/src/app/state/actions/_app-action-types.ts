@@ -15,7 +15,7 @@ export enum AppConfigActionTypes {
     emitNotification = 'emitNotification',
     expandPanel = 'expandPanel',
     collapsePanel = 'collapsePanel',
-    updatePanelStates = 'updatePanelStates'
+    updateComponentUiStates = 'updateComponentUiStates'
 }
 
 export enum SendReceiveActionTypes {

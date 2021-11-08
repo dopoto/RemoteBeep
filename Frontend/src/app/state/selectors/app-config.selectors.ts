@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { PanelType } from 'src/app/core/models/panel-type';
+import { ComponentType } from 'src/app/core/models/component-type';
 
 import { AppConfigState } from '../models/app-config-state';
 
@@ -16,10 +16,10 @@ export const selectIsLoading = createSelector(
     (state: AppConfigState) => state?.isLoading
 );
 
-export const selectPanelStates = createSelector(
+export const selectComponentUiStates = createSelector(
     appConfigSelector,
-    (state: AppConfigState) => state?.panelStates
+    (state: AppConfigState) => state?.componentUiStates
 );
 
-export const selectComponentState = (panelType: PanelType) =>
-    createSelector(appConfigSelector, (state) => state.panelStates[panelType]);
+export const selectComponentState = (panelType: ComponentType) =>
+    createSelector(appConfigSelector, (state) => state.componentUiStates[panelType]);

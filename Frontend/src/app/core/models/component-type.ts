@@ -1,4 +1,4 @@
-export enum PanelType {
+export enum ComponentType {
     "GroupInfo" = "GroupInfo",
     "PlayMode" = "PlayMode",
     "SoundPlayer" = "SoundPlayer",

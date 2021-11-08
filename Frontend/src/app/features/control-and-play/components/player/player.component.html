@@ -1,11 +1,12 @@
 <mat-card
-    class="player-container"
+    *ngIf="(componentState$ | async)?.isExpanded === true"
+    class="app__expanded-card"
     [class.control-only]="(mode$ | async) === modeEnum.ControlOnly"
 >
     <mat-card-header>
         <mat-card-title>Sound Player</mat-card-title>
 
-        <mat-card-subtitle *ngIf="(isPlaying$ | async)">
+        <mat-card-subtitle *ngIf="isPlaying$ | async">
             <img src="/assets/img/sound-trans.gif" />
             <span class="primary">
                 Playing
@@ -17,6 +18,10 @@
         <mat-card-subtitle *ngIf="!(isPlaying$ | async)">
             {{ (mode$ | async) === modeEnum.ControlOnly ? "Disabled" : "Idle" }}
         </mat-card-subtitle>
+
+        <span (click)="collapse()" class="material-icons app__expand-icon"
+            >expand_less</span
+        >
     </mat-card-header>
     <mat-icon
         *ngIf="(mode$ | async) === modeEnum.ControlOnly"
@@ -26,4 +31,28 @@ play sounds here, please switch to Control &amp; Play."
         class="volume-off"
         >volume_off</mat-icon
     >
+</mat-card>
+
+<mat-card
+    *ngIf="(componentState$ | async)?.isExpanded === false"
+    [class.control-only]="(mode$ | async) === modeEnum.ControlOnly"
+    class="app__collapsed-card"
+>
+    <div class="app__collapsed-card-container">
+        <div class="app__collapsed-card-title">Sound Player</div>
+        <div class="app__collapsed-card-subtitle" *ngIf="isPlaying$ | async">
+            <span class="primary">
+                Playing
+                {{ freqInKhz }} kHz for
+                {{ durationInSeconds }}
+                seconds...</span
+            >
+        </div>
+        <div class="app__collapsed-card-subtitle" *ngIf="!(isPlaying$ | async)">
+            {{ (mode$ | async) === modeEnum.ControlOnly ? "Disabled" : "Idle" }}
+        </div>
+        <span (click)="expand()" class="material-icons app__collapse-icon"
+            >expand_more</span
+        >
+    </div>
 </mat-card>

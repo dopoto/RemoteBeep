@@ -1,7 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
 import { AppNotification } from 'src/app/core/models/app-notification';
-import { PanelType } from 'src/app/core/models/panel-type';
+import { ComponentType } from 'src/app/core/models/component-type';
 import { AppConfigActionTypes } from './_app-action-types';
 
 const actions = AppConfigActionTypes;
@@ -20,15 +20,15 @@ export const emitNotification = createAction(
 
 export const expandPanel = createAction(
     actions.expandPanel,
-    props<{ panel: PanelType }>()
+    props<{ componentType: ComponentType }>()
 );
 
 export const collapsePanel = createAction(
     actions.collapsePanel,
-    props<{ panel: PanelType }>()
+    props<{ componentType: ComponentType }>()
 );
 
-export const updatePanelStates = createAction(
-    actions.updatePanelStates,
-    props<{ panelStates: { [key in PanelType] : { isExpanded: boolean } } }>() //TODO Extract type
+export const updateComponentUiStates = createAction(
+    actions.updateComponentUiStates,
+    props<{ componentUiStates: { [key in ComponentType] : { isExpanded: boolean } } }>() //TODO Extract type
 );

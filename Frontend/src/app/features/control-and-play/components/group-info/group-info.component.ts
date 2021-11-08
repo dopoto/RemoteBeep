@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { filter, map, Observable } from 'rxjs';
 import { AppNotification } from 'src/app/core/models/app-notification';
-import { PanelType } from 'src/app/core/models/panel-type';
+import { ComponentType } from 'src/app/core/models/component-type';
 import {
     collapsePanel,
     emitNotification,
@@ -27,7 +27,7 @@ export class GroupInfoComponent {
 
     constructor(private readonly store: Store) {
         this.componentState$ = this.store.pipe(
-            select(selectComponentState(PanelType.GroupInfo))
+            select(selectComponentState(ComponentType.GroupInfo))
         );
 
         this.groupUrl$ = this.store.pipe(
@@ -61,10 +61,10 @@ export class GroupInfoComponent {
     }
 
     expand(): void {
-        this.store.dispatch(expandPanel({ panel: PanelType.GroupInfo }));
+        this.store.dispatch(expandPanel({ componentType: ComponentType.GroupInfo }));
     }
 
     collapse(): void {
-        this.store.dispatch(collapsePanel({ panel: PanelType.GroupInfo }));
+        this.store.dispatch(collapsePanel({ componentType: ComponentType.GroupInfo }));
     }
 }

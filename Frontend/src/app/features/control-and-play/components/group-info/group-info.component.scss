@@ -1,28 +1,4 @@
-.group-info__card--normal-mode {
-    .group-info__collapse {
-        position: absolute;
-        right:10px;
-        top:12px;
-        cursor: pointer;
-    }
-
-
-}
-
-.group-info__card--mini-mode {
-    .group-info__card-subtitle {
-        margin-bottom: 0;
-    }
-
-    .group-info__expand {
-        position: absolute;
-        right:10px;
-        top:12px;
-        cursor: pointer;
-    }
-}
-
-.group-info__card--normal-mode, .group-info__card--mini-mode {
+.group-info__card{
     background-color: ALICEBLUE;
 
     .group-info__content {
@@ -32,20 +8,18 @@
 
     .group-info__others {
         display: flex;
-        padding-bottom: 3px;
-    }
-
-    .group-info__others-icon {
-        font-size: 21px;
-        color: #6057ad;
+        padding-bottom: 0;
     }
 
     .group-info__others-text {
         font-size: 12px;
         padding-bottom: 4px;
-        padding-top: 5px;
-        color: #5446c5;
+        
+        color: #3c2ea8;
         font-weight: bold;
         padding-left: 3 px;
     }
 }
+
+ 
+ 

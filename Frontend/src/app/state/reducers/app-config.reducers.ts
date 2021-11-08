@@ -1,22 +1,19 @@
 import { createReducer, on } from '@ngrx/store';
-import { PanelType } from 'src/app/core/models/panel-type';
+import { ComponentType } from 'src/app/core/models/component-type';
 import { environment } from 'src/environments/environment';
 
 import * as actions from '../actions/app-config.actions';
 import { AppConfigState } from '../models/app-config-state';
 
 export const initialAppConfigState: AppConfigState = {
-    appVersion: environment.version,
-    stateVersion: '1',
-    initializedOn: new Date(),
     isLoading: false,
     isConnectedToServer: false,
     isInGeneralError: false,
-    panelStates: {
-        [PanelType.GroupInfo]: { isExpanded: false },
-        [PanelType.PlayMode]: { isExpanded: true },
-        [PanelType.SoundPlayer]: { isExpanded: true },
-        [PanelType.Control]: { isExpanded: true },
+    componentUiStates: {
+        [ComponentType.GroupInfo]: { isExpanded: false },
+        [ComponentType.PlayMode]: { isExpanded: true },
+        [ComponentType.SoundPlayer]: { isExpanded: true },
+        [ComponentType.Control]: { isExpanded: true },
     },
 };
 
@@ -37,11 +34,12 @@ export const appConfigReducer = createReducer(
         isInGeneralError: false,
     })),
 
-    on(actions.initError, (state) => ({
+    on(actions.initError, (state, { errorMessage}) => ({
         ...state,
         isConnectedToServer: false,
         isLoading: false,
         isInGeneralError: true,
+        //TODO errorMessage?
     })),
 
     on(actions.emitNotification, (state, { appNotification }) => ({
@@ -49,8 +47,8 @@ export const appConfigReducer = createReducer(
         lastNotification: appNotification,
     })),
 
-    on(actions.updatePanelStates, (state, { panelStates }) => ({
+    on(actions.updateComponentUiStates, (state, { componentUiStates }) => ({
         ...state,
-        panelStates: panelStates
+        componentUiStates: componentUiStates
     })),
 );

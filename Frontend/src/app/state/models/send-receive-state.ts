@@ -4,5 +4,4 @@ export interface SendReceiveState {
     group: string;
     connectionId?: string;
     devicesInGroup?: string[];
-    recentCommands: BeepCommand[];
 }

@@ -5,7 +5,6 @@ import { SendReceiveState } from '../models/send-receive-state';
 
 export const initialSendReceiveState: SendReceiveState = {
     group: generateGroupName(),
-    recentCommands: [],
 }
 
 export const sendReceiveReducer = createReducer(

@@ -1,60 +1,156 @@
-<mat-card *ngIf="(mode$ | async) !== modeEnum.PlayOnly" class="sender-card">
-    <mat-card-header>
-        <mat-card-title>Control</mat-card-title>
-        <mat-card-subtitle
-            >Send a Play command to all connected clients</mat-card-subtitle
-        >
-    </mat-card-header>
-    <mat-card-content>
-        <div>
-            <mat-grid-list cols="1" rowHeight="100px" style="width: 100%">
-                <mat-grid-tile>
-                    <fieldset>
-                        <legend>kHz</legend>
-                        <mat-slider
-                            min="0"
-                            max="25"
-                            step="1"
-                            thumbLabel
+<div *ngIf="(mode$ | async) !== modeEnum.PlayOnly">
+    <mat-card
+        class="app__expanded-card"
+        *ngIf="(componentState$ | async)?.isExpanded === true"
+    >
+        <mat-card-header>
+            <mat-card-title>Control</mat-card-title>
+            <mat-card-subtitle
+                >Send a Play command to all connected clients</mat-card-subtitle
+            >
+            <span (click)="collapse()" class="material-icons app__expand-icon"
+                >expand_less</span
+            >
+        </mat-card-header>
+        <mat-card-content>
+            <div>
+                <mat-grid-list cols="1" rowHeight="100px" style="width: 100%">
+                    <mat-grid-tile>
+                        <fieldset>
+                            <legend>kHz</legend>
+                            <mat-slider
+                                min="0"
+                                max="25"
+                                step="1"
+                                thumbLabel
+                                [ngModel]="freqInKhz"
+                                (change)="changeFreq($event.value)"
+                                tickInterval="1"
+                            ></mat-slider>
+                        </fieldset>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <fieldset>
+                            <legend>Seconds</legend>
+                            <mat-slider
+                                min="0"
+                                max="60"
+                                step="1"
+                                thumbLabel
+                                [ngModel]="durationInSeconds"
+                                (change)="changeDuration($event)"
+                                tickInterval="5"
+                            ></mat-slider>
+                        </fieldset>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <button
+                            *ngIf="!(isPlaying$ | async)"
+                            mat-raised-button
+                            color="primary"
+                            (click)="play()"
+                        >
+                            Play!
+                        </button>
+                        <button
+                            *ngIf="isPlaying$ | async"
+                            mat-raised-button
+                            color="secondary"
+                            (click)="stop()"
+                        >
+                            Stop
+                        </button>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card
+        *ngIf="(componentState$ | async)?.isExpanded === false"
+        class="app__collapsed-card sender__collapsed-card"
+    >
+        <div class="app__collapsed-card-container">
+            <div class="app__collapsed-card-title">Control</div>
+            <div
+                class="
+                    app__collapsed-card-subtitle
+                    sender__collapsed-card-subtitle
+                "
+            >
+                <form (change)="validateFreq($event)">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Frequency (kHz)</mat-label>
+                        <input
                             [ngModel]="freqInKhz"
-                            (change)="changeFreq($event)"
-                            tickInterval="1"
-                        ></mat-slider>
-                    </fieldset>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                    <fieldset>
-                        <legend>Seconds</legend>
-                        <mat-slider
-                            min="0"
-                            max="60"
-                            step="1"
-                            thumbLabel
+                            type="text"
+                            matInput
+                            [formControl]="freqInKhzFormControl"
+                            placeholder="0 - 25 Khz"
+                        />
+                        <mat-error *ngIf="isFreqInKhzInvalid()">
+                            Please enter a valid frequency (0 - 25 kHz)
+                        </mat-error>
+                        <mat-error
+                            *ngIf="freqInKhzFormControl.hasError('required')"
+                        >
+                            Frequency is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+                <form (change)="validateDuration($event)">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Duration (seconds)</mat-label>
+                        <input
                             [ngModel]="durationInSeconds"
-                            (change)="changeDuration($event)"
-                            tickInterval="5"
-                        ></mat-slider>
-                    </fieldset>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                    <button
-                        *ngIf="!(isPlaying$ | async)"
-                        mat-raised-button
-                        color="primary"
-                        (click)="play()"
-                    >
-                        Play!
-                    </button>
-                    <button
-                        *ngIf="isPlaying$ | async"
-                        mat-raised-button
-                        color="secondary"
-                        (click)="stop()"
-                    >
-                        Stop
-                    </button>
-                </mat-grid-tile>
-            </mat-grid-list>
+                            type="text"
+                            matInput
+                            [formControl]="durationInSecondsFormControl"
+                            placeholder="0 - 60 seconds"
+                        />
+                        <mat-error *ngIf="isDurationInSecondsInvalid()">
+                            Please enter a valid duration (0 - 60 seconds)
+                        </mat-error>
+                        <mat-error
+                            *ngIf="
+                                durationInSecondsFormControl.hasError(
+                                    'required'
+                                )
+                            "
+                        >
+                            Duration is <strong>required</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+                <!-- <div
+                    class="sender__collapsed-play"
+                    *ngIf="!(isPlaying$ | async)"
+                    (click)="play()"
+                >
+                    Play!
+                </div> -->
+                <button
+                    *ngIf="!(isPlaying$ | async)"
+                    class="sender__collapsed-button"
+                    mat-raised-button
+                    color="primary"
+                    (click)="play()"
+                >
+                    Play!
+                </button>
+                <button
+                    *ngIf="isPlaying$ | async"
+                    class="sender__collapsed-button"
+                    mat-raised-button
+                    color="secondary"
+                    (click)="stop()"
+                >
+                    Stop
+                </button>
+            </div>
+            <span (click)="expand()" class="material-icons app__collapse-icon"
+                >expand_more</span
+            >
         </div>
-    </mat-card-content>
-</mat-card>
+    </mat-card>
+</div>

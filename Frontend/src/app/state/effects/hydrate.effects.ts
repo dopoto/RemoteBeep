@@ -47,8 +47,8 @@ export class HydrateEffects implements OnInitEffects {
 
             const ac = storageState.appConfig;
             if (ac) {
-                if (ac.panelStates) {
-                    state.appConfig.panelStates = ac.panelStates;
+                if (ac.componentUiStates) {
+                    state.appConfig.componentUiStates = ac.componentUiStates;
                 }
             }
 

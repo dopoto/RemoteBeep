@@ -3,3 +3,7 @@
 // export type PanelState<K extends PanelType, T> = {
 //     [P in K]: T;
 // }
+
+export interface ComponentUiState {
+    isExpanded: boolean;
+}

@@ -1,6 +1,16 @@
-.sender-card {
-    margin-top: 16px;
+.sender__collapsed-card {
+    height: 54px;
 }
+
+.sender__collapsed-card-subtitle {
+    display: flex;
+    gap: 10px;
+}
+
+.sender__collapsed-button {
+    height: 43px;
+}
+
 
 fieldset {
     width: 100%;
