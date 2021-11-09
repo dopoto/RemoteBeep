@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { TranslateModule } from '@ngx-translate/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ClipboardModule } from '@angular/cdk/clipboard'
@@ -16,8 +15,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgxSwitchInputModule } from '@ngx-tiny/switch-input';
-
+ 
 import { AppRoutingModule } from '../app-routing.module';
 
 /**
@@ -49,7 +47,6 @@ import { AppRoutingModule } from '../app-routing.module';
         MatCardModule,
         MatProgressSpinnerModule,
         MatFormFieldModule,
-        NgxSwitchInputModule,
         AppRoutingModule,
         CommonModule,
         FormsModule,
@@ -70,8 +67,6 @@ import { AppRoutingModule } from '../app-routing.module';
         MatCardModule,
         MatProgressSpinnerModule,
         MatFormFieldModule,
-        NgxSwitchInputModule,
-        TranslateModule,
         AppRoutingModule,
         CommonModule,
         FormsModule,
