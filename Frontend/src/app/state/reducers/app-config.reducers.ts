@@ -10,7 +10,7 @@ export const initialAppConfigState: AppConfigState = {
     isConnectedToServer: false,
     isInGeneralError: false,
     componentUiStates: {
-        [ComponentType.GroupInfo]: { isExpanded: false },
+        [ComponentType.GroupInfo]: { isExpanded: true },
         [ComponentType.PlayMode]: { isExpanded: true },
         [ComponentType.SoundPlayer]: { isExpanded: true },
         [ComponentType.Control]: { isExpanded: true },

@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, map, tap, withLatestFrom } from 'rxjs';
+import { map, withLatestFrom } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import * as actions from '../actions/app-config.actions';
-import { emitNotification } from '../actions/app-config.actions';
-import { AppNotification } from 'src/app/core/models/app-notification';
 import { LogService } from 'src/app/core/services/log/log.service';
 import { selectComponentUiStates } from '../selectors/app-config.selectors';
 import { ComponentType } from 'src/app/core/models/component-type';
 import { ComponentUiState } from 'src/app/core/models/component-ui-state';
+import { AppConfigActionTypes } from '../actions/_app-action-types';
 
 @Injectable()
 export class AppConfigEffects {
@@ -19,75 +18,39 @@ export class AppConfigEffects {
         private readonly store: Store
     ) {}
 
-    initStart$ = createEffect(
-        () => this.actions$.pipe(ofType(actions.initStart)),
-        { dispatch: false }
-    );
-
-    initOk$ = createEffect(
-        () =>
-            this.actions$.pipe(
-                ofType(actions.initOk),
-                tap(() => {
-                    const appNotification: AppNotification = {
+    initOk$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(actions.initOk),
+            map(() => {
+                return {
+                    type: AppConfigActionTypes.emitNotification,
+                    appNotification: {
                         text: 'Connected to server.',
                         type: 'info',
-                    };
-                    this.store.dispatch(emitNotification({ appNotification }));
-                })
-            ),
-        {
-            dispatch: false,
-        }
+                    },
+                };
+            })
+        )
     );
 
-    // TODO keep?
-    initError$ = createEffect(
-        () =>
-            this.actions$.pipe(
-                ofType(actions.initError),
-                tap(() => {
-                    const appNotification: AppNotification = {
-                        text: 'Could not connect to server.',
-                        type: 'error',
-                    };
-                    this.store.dispatch(emitNotification({ appNotification }));
-                })
-            ),
-        { dispatch: false }
+    expandPanel$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(actions.expandPanel),
+            withLatestFrom(this.store.select(selectComponentUiStates)),
+            map(([componentType, componentUiStates]) =>
+                this.togglePanel(componentUiStates, componentType, true)
+            )
+        )
     );
 
-    expandPanel$ = createEffect(
-        () =>
-            this.actions$.pipe(
-                ofType(actions.expandPanel),
-                withLatestFrom(this.store.select(selectComponentUiStates)),
-                tap(([componentType, componentUiStates]) => {
-                    this.togglePanel(componentUiStates, componentType, true);
-                })
-            ),
-        {
-            dispatch: false,
-        }
-    );
-
-    collapsePanel$ = createEffect(
-        () =>
-            this.actions$.pipe(
-                ofType(actions.collapsePanel),
-                withLatestFrom(this.store.select(selectComponentUiStates)),
-                tap(([componentType, componentUiStates]) => {
-                    this.togglePanel(componentUiStates, componentType, false);
-                })
-            ),
-        {
-            dispatch: false,
-        }
-    );
-
-    emitNotification$ = createEffect(
-        () => this.actions$.pipe(ofType(actions.emitNotification)),
-        { dispatch: false }
+    collapsePanel$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(actions.collapsePanel),
+            withLatestFrom(this.store.select(selectComponentUiStates)),
+            map(([componentType, componentUiStates]) =>
+                this.togglePanel(componentUiStates, componentType, false)
+            )
+        )
     );
 
     private togglePanel(
@@ -100,10 +63,8 @@ export class AppConfigEffects {
             ...newComponentUiStates[panelData.componentType],
             isExpanded: toggleTo,
         };
-        this.store.dispatch(
-            actions.updateComponentUiStates({
-                componentUiStates: newComponentUiStates,
-            })
-        );
+        return actions.updateComponentUiStates({
+            componentUiStates: newComponentUiStates,
+        });
     }
 }

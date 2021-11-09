@@ -4,31 +4,31 @@ import { AppNotification } from 'src/app/core/models/app-notification';
 import { ComponentType } from 'src/app/core/models/component-type';
 import { AppConfigActionTypes } from './_app-action-types';
 
-const actions = AppConfigActionTypes;
-
-export const initStart = createAction(actions.initStart);
-export const initOk = createAction(actions.initOk);
+export const initStart = createAction(AppConfigActionTypes.initStart);
+export const initOk = createAction(AppConfigActionTypes.initOk);
 export const initError = createAction(
-    actions.initError,
+    AppConfigActionTypes.initError,
     props<{ errorMessage: string }>()
 );
 
 export const emitNotification = createAction(
-    actions.emitNotification,
+    AppConfigActionTypes.emitNotification,
     props<{ appNotification: AppNotification }>()
 );
 
 export const expandPanel = createAction(
-    actions.expandPanel,
+    AppConfigActionTypes.expandPanel,
     props<{ componentType: ComponentType }>()
 );
 
 export const collapsePanel = createAction(
-    actions.collapsePanel,
+    AppConfigActionTypes.collapsePanel,
     props<{ componentType: ComponentType }>()
 );
 
 export const updateComponentUiStates = createAction(
-    actions.updateComponentUiStates,
-    props<{ componentUiStates: { [key in ComponentType] : { isExpanded: boolean } } }>() //TODO Extract type
+    AppConfigActionTypes.updateComponentUiStates,
+    props<{
+        componentUiStates: { [key in ComponentType]: { isExpanded: boolean } };
+    }>() //TODO Extract type
 );
