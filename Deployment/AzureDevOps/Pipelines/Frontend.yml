@@ -59,12 +59,12 @@ steps:
   displayName: 'Perform unit tests'
   workingDirectory: ./Frontend
 
-- task: PublishTestResults@2
-  condition: succeededOrFailed()
-  inputs:
-    testResultsFormat: 'JUnit'
-    testResultsFiles: '**/TESTS-*.xml'
-  displayName: 'Publish unit test results'
+# - task: PublishTestResults@2
+#   condition: succeededOrFailed()
+#   inputs:
+#     testResultsFormat: 'JUnit'
+#     testResultsFiles: '**/TESTS-*.xml'
+#   displayName: 'Publish unit test results'
 
 - script: |
     npm install -g @angular/cli
@@ -75,13 +75,13 @@ steps:
   workingDirectory: ./Frontend
 
 ## TODO
-# - task: PublishCodeCoverageResults@1
-#   displayName: 'publish code coverage report'
-#   condition: succeededOrFailed()
-#   inputs:
-#     codeCoverageTool: Cobertura
-#     summaryFileLocation: '$(Build.SourcesDirectory)/coverage/cobertura-coverage.xml'
-#     failIfCoverageEmpty: true  
+- task: PublishCodeCoverageResults@1
+  displayName: 'publish code coverage report'
+  condition: succeededOrFailed()
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)/coverage/cobertura-coverage.xml'
+    failIfCoverageEmpty: true  
 
 - task: PublishPipelineArtifact@1
   displayName: 'Publish Output'

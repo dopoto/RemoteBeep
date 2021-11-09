@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { EMPTY, from } from 'rxjs';
-import { map, mergeMap, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 
@@ -24,28 +23,14 @@ export class SendReceiveEffects {
     sendBeepCommandStart$ = createEffect(() =>
         this.actions$.pipe(
             ofType(actions.sendBeepCommandStart),
-            mergeMap((data) => {
+            map((data) => {
                 // TODO Handle errors
-                const dbg = JSON.stringify(data.beepCommand);
-                this.logService.info(`Sending ${dbg}`);
-
                 this.commandService.sendPlayCommandToRemoteClients(
                     data.beepCommand
                 );
-
-                // TODO Revisit
-                return from(EMPTY).pipe(
-                    map(() => {
-                        return sendBeepCommandOk();
-                    })
-                );
+                return sendBeepCommandOk();
             })
         )
-    );
-
-    sendBeepCommandOk$ = createEffect(
-        () => this.actions$.pipe(ofType(actions.sendBeepCommandOk)),
-        { dispatch: false }
     );
 
     sendStopCommand$ = createEffect(
@@ -57,17 +42,6 @@ export class SendReceiveEffects {
                     this.commandService.sendStopCommandToRemoteClients();
                 })
             ),
-        { dispatch: false }
-    );
-
-    // TODO Join new group on server.
-    changeGroup$ = createEffect(
-        () => this.actions$.pipe(ofType(actions.changeGroup)),
-        { dispatch: false }
-    );
-
-    changeGroupOk$ = createEffect(
-        () => this.actions$.pipe(ofType(actions.changeGroupOk)),
         { dispatch: false }
     );
 
