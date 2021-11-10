@@ -47,7 +47,6 @@ export class CommandService {
             .pipe(takeUntil(this.ngDestroyed$), distinctUntilChanged())
             .subscribe((group) => {
                 this.group = group;
-                this.logService.info('DISPAATCXHING IINIITSTART');
                 this.store.dispatch(initStart());
                 this.hubConnection = this.buildConnection();
                 this.startConnection(group);
@@ -56,7 +55,7 @@ export class CommandService {
     }
 
     buildConnection(): HubConnection {
-        return new signalR.HubConnectionBuilder()
+        return (window as any).signalrMock || new signalR.HubConnectionBuilder()
             .withUrl(this.baseUrl, <IHttpConnectionOptions>{
                 withCredentials: false,
             })

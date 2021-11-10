@@ -5,7 +5,6 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>876cbf62-6147-4fcd-b89d-a047f2ff7cb5</UserSecretsId>
-    <ApplicationInsightsResourceId>/subscriptions/bc1147f0-62fa-4c84-b4ca-e734292b133f/resourceGroups/remote-beep-resource-group/providers/microsoft.insights/components/remote-beep-dev</ApplicationInsightsResourceId>
   </PropertyGroup>
 
   <ItemGroup>
