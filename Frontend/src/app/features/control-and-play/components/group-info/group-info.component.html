@@ -6,7 +6,10 @@
         <mat-card-title>Group Info</mat-card-title>
         <mat-card-subtitle>
             Share the address below to join new devices to your group.
-            <span (click)="collapse()" class="material-icons app__collapse-icon"
+            <span
+                (click)="collapse()"
+                class="material-icons app__collapse-icon"
+                data-cy="group-info-collapse"
                 >expand_less</span
             >
         </mat-card-subtitle>
@@ -14,7 +17,13 @@
     <mat-card-content class="group-info__content">
         <mat-form-field appearance="fill">
             <mat-label>Your RemoteBeep group address</mat-label>
-            <input matInput type="text" readonly [value]="groupUrl$ | async" />
+            <input
+                matInput
+                data-cy="group-url"
+                type="text"
+                readonly
+                [value]="groupUrl$ | async"
+            />
             <button
                 mat-icon-button
                 matSuffix
@@ -29,7 +38,7 @@
         </mat-form-field>
 
         <div class="group-info__others">
-            <div class="group-info__others-text">
+            <div class="group-info__others-text" data-cy="group-others">
                 {{ otherDevicesMessage$ | async }}
             </div>
         </div>
@@ -49,7 +58,10 @@
                 </div>
             </div>
         </div>
-        <span (click)="expand()" class="material-icons app__collapse-icon"
+        <span
+            (click)="expand()"
+            class="material-icons app__collapse-icon"
+            data-cy="group-info-expand"
             >expand_more</span
         >
     </div>

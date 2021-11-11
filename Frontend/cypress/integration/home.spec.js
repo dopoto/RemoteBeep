@@ -14,10 +14,6 @@ describe("When server responds as expected, ", () => {
                     SoundPlayer: { isExpanded: true },
                     Control: { isExpanded: false },
                 },
-                lastNotification: {
-                    text: "Connected to server.",
-                    type: "info",
-                },
             },
             sendReceive: {
                 group: "my-group",
@@ -48,9 +44,32 @@ describe("When server responds as expected, ", () => {
         ).as("devices-in-group"); // and assign an alias
 
         cy.visit("/");
+
+        // TODO hack - remove. Without this, the page will get stuck in infinite loader mode.
+        cy.get("#cdk-overlay-2").click();
     });
 
-    it("displays text on home page", () => {
+    it("displays title", () => {
         cy.get(".logo").should("contain.text", "RemoteBeep");
+    });
+
+    describe("Group Info component", () => {
+        it("display a group address", () => {
+            cy.get("[data-cy=group-url]").should(
+                "have.value",
+                "http://localhost:4220#/home;group=my-group"
+            );
+        });
+
+        it("display a group info text", () => {
+            cy.get("[data-cy=group-others]").should(
+                "contain.text",
+                "There is 1 other device in this group."
+            );
+        });
+
+        it("displays a collapse button", () => {
+            cy.get("[data-cy=group-info-collapse]").should("be.visible");
+        });        
     });
 });

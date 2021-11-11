@@ -37,7 +37,7 @@
     "@types/jasmine": "~3.10.2",
     "@types/node": "^16.11.6",
     "concurrently": "^6.3.0",
-    "cypress": "^8.6.0",
+    "cypress": "^9.0.0",
     "cypress-localstorage-commands": "^1.6.0",
     "cypress-mochawesome-reporter": "^2.3.0",
     "cypress-multi-reporters": "^1.5.0",
