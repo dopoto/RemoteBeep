@@ -4,7 +4,7 @@ steps:
 - task: AzureFileCopy@3
   displayName: 'AzureBlob File Copy'
   inputs:
-    SourcePath: '$(System.DefaultWorkingDirectory)/_Frontend/Frontend/dist/remote-beep-client'
+    SourcePath: '$(System.DefaultWorkingDirectory)/_FrontEnd/FrontEnd/dist/remote-beep-client'
     azureSubscription: 'azure-service-connection'
     Destination: AzureBlob
     storage: remotebeepstorage
