@@ -16,7 +16,10 @@
             device and a play command will be sent to all other devices in the
             group.</mat-card-subtitle
         >
-        <span (click)="collapse()" class="material-icons app__expand-icon"
+        <span
+            (click)="collapse()"
+            class="material-icons app__expand-icon"
+            data-cy="play-mode-collapse"
             >expand_less</span
         >
     </mat-card-header>
@@ -45,24 +48,32 @@
 >
     <div class="app__collapsed-card-container">
         <div class="app__collapsed-card-title">Play Mode</div>
-        <div class="app__collapsed-card-subtitle options__collapsed-card-subtitle">
+        <div
+            class="
+                app__collapsed-card-subtitle
+                options__collapsed-card-subtitle
+            "
+        >
             <mat-button-toggle-group
                 class="options__toggle-group--collapsed"
                 [ngModel]="mode$ | async"
                 (change)="onModeChange($event)"
             >
-                <mat-button-toggle [value]="modeEnum.ControlOnly"
+                <mat-button-toggle [value]="modeEnum.ControlOnly" data-cy="toggle-control-only"
                     >Control only</mat-button-toggle
                 >
-                <mat-button-toggle [value]="modeEnum.PlayOnly"
+                <mat-button-toggle [value]="modeEnum.PlayOnly" data-cy="toggle-play-only"
                     >Play only</mat-button-toggle
                 >
-                <mat-button-toggle [value]="modeEnum.ControlAndPlay"
+                <mat-button-toggle [value]="modeEnum.ControlAndPlay"  data-cy="toggle-control-and-play"
                     >Control &amp; Play</mat-button-toggle
                 >
             </mat-button-toggle-group>
         </div>
-        <span (click)="expand()" class="material-icons app__collapse-icon"
+        <span
+            (click)="expand()"
+            class="material-icons app__collapse-icon"
+            data-cy="play-mode-expand"
             >expand_more</span
         >
     </div>

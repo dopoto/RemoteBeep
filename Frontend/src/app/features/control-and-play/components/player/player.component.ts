@@ -67,7 +67,11 @@ export class PlayerComponent {
                     playChanges.mode === PlaySoundsMode.ControlAndPlay
             )
         );
-        playChanges$.subscribe(() => {
+        playChanges$
+        .pipe(
+            filter(() => !isNaN(this.freqInKhz) && !isNaN(this.durationInSeconds))
+        )
+        .subscribe(() => {
             this.playService.playBeep(this.freqInKhz, this.durationInSeconds);
         });
 

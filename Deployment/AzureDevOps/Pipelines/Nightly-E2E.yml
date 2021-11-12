@@ -1,0 +1,41 @@
+trigger: none
+
+# Cron Schedules have been converted using UTC Time Zone and may need to be updated for your location
+schedules:
+- cron: 0 4 * * 1,2,3,4,5
+  branches:
+    include:
+    - main
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: main
+jobs:
+- job: Job_1
+  displayName: Agent job 1
+  pool:
+    vmImage: vs2017-win2016
+  steps:
+  - checkout: self
+    clean: true
+  - task: Npm@1
+    displayName: npm install
+    inputs:
+      workingDir: FrontEnd
+      verbose: false
+  - task: PowerShell@2
+    displayName: PowerShell Script
+    continueOnError: True
+    inputs:
+      targetType: inline
+      script: ./node_modules/cypress/bin/cypress run --config-file cypress-ci
+      errorActionPreference: continue
+      workingDirectory: FrontEnd
+  - task: PublishTestResults@2
+    displayName: Publish Test Results **/FrontEnd/cypress/reports/*.xml
+    condition: succeededOrFailed()
+    continueOnError: True
+    inputs:
+      testResultsFiles: '**/FrontEnd/cypress/reports/*.xml'
+...

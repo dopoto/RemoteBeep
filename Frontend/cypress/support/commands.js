@@ -34,3 +34,45 @@ Cypress.Commands.overwrite("visit", (originalFn, url) => {
         },
     });
 });
+
+/**
+ * Initialized from a known good app state in storage, with SignalR fully mocked.
+ */
+Cypress.Commands.add("initHappyPath", () => {
+    const initialState = {
+        appConfig: {
+            isLoading: false,
+            isConnectedToServer: true,
+            isInGeneralError: false,
+            componentUiStates: {
+                GroupInfo: { isExpanded: true },
+                PlayMode: { isExpanded: false },
+                SoundPlayer: { isExpanded: true },
+                Control: { isExpanded: false },
+            },
+        },
+        sendReceive: {
+            group: "my-group",
+            connectionId: "my-conn",
+            devicesInGroup: ["my-conn"],
+        },
+        playSounds: {
+            isPlaying: false,
+            mode: "PlayOnly",
+            freqInKhz: 21,
+            durationInSeconds: 27,
+        },
+    };
+    cy.setLocalStorage("state", JSON.stringify(initialState));
+
+    cy.hubPublish("removeFromGroup", "My removeFromGroup");
+    cy.hubPublish("addedToGroup", "My addedToGroup");
+    cy.hubPublish("removedFromGroup", "My removedFromGroup");
+    cy.hubPublish("playCommandReceived", "My playCommandReceived");
+    cy.hubPublish("stopCommandReceived", "My stopCommandReceived");
+
+    cy.visit("/");
+
+    // TODO hack - remove. Without this, the page will get stuck in infinite loader mode.
+    cy.get("#cdk-overlay-2").click();
+});
