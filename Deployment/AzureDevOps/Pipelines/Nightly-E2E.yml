@@ -33,9 +33,9 @@ jobs:
       errorActionPreference: continue
       workingDirectory: FrontEnd
   - task: PublishTestResults@2
-    displayName: Publish Test Results **/FrontEnd/cypress/reports/*.xml
+    displayName: Publish Test Results **/Frontend/cypress/reports/*.xml
     condition: succeededOrFailed()
     continueOnError: True
     inputs:
-      testResultsFiles: '**/FrontEnd/cypress/reports/*.xml'
+      testResultsFiles: '**/Frontend/cypress/reports/*.xml'
 ...

@@ -43,4 +43,4 @@ steps:
   displayName: 'Package the file and upload it as artifact of the build'    
   inputs:
     targetPath: '$(Build.ArtifactStagingDirectory)' 
-    artifactName: 'BackEnd'
+    artifactName: 'Backend'
