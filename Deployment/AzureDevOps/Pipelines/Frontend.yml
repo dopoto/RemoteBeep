@@ -21,7 +21,7 @@ steps:
   displayName: 'Install Node.js 16.10'
 
 - task: replacetokens@4
-  displayName: 'Replace environment.prod.ts tokens'
+  displayName: 'Replace  environment.prod.ts tokens'
   inputs:
     targetFiles: '**/environments/environment.*'
     encoding: 'auto'

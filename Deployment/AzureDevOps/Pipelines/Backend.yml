@@ -25,7 +25,7 @@ variables:
 steps:
 
 - task: UseDotNet@2
-  displayName: 'Build .NET 6 Application'
+  displayName: 'Build .NET 6  Application'
   inputs:
     version: $(dotNetVersion)
     includePreviewVersions: true
