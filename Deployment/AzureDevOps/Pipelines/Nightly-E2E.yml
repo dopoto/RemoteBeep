@@ -38,14 +38,14 @@ jobs:
      inputs:
        testResultsFormat: 'JUnit'
        testResultsFiles: '*.xml'
-       searchFolder: '$(System.DefaultWorkingDirectory)/cypress/reports/junit'
+       searchFolder: '**/cypress/reports/junit'
        mergeTestResults: true
        testRunTitle: 'Cypress tests'
              
   - task: PublishTestResults@2
-    displayName: Publish Test Results **/Frontend/cypress/reports/*.xml
+    displayName: Publish Test Results **/cypress/reports/*.xml
     condition: succeededOrFailed()
     continueOnError: True
     inputs:
-      testResultsFiles: '**/Frontend/cypress/reports/*.xml'
+      testResultsFiles: '**/cypress/reports/*.xml'
 ...
