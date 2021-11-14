@@ -24,14 +24,20 @@ jobs:
     inputs:
       workingDir: FrontEnd
       verbose: false
-  - task: PowerShell@2
-    displayName: PowerShell Script
-    continueOnError: True
-    inputs:
-      targetType: inline
-      script: ./node_modules/cypress/bin/cypress run --config-file cypress-ci
-      errorActionPreference: continue
-      workingDirectory: FrontEnd
+  # - task: PowerShell@2
+  #   displayName: PowerShell Script
+  #   continueOnError: True
+  #   inputs:
+  #     targetType: inline
+  #     script: ./node_modules/cypress/bin/cypress run --config-file cypress-ci
+  #     errorActionPreference: continue
+  #     workingDirectory: FrontEnd
+
+  - script: |
+       ./node_modules/.bin/cypress run --browser chrome
+    workingDirectory: FrontEnd
+    displayName: 'Run cypress tests'
+    continueOnError: true
 
   - task: PublishTestResults@2
     displayName: Publish test results JUnit
