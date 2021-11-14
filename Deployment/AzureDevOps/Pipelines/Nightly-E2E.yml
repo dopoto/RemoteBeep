@@ -33,15 +33,15 @@ jobs:
       errorActionPreference: continue
       workingDirectory: FrontEnd
 
-- task: PublishTestResults@2
-     displayName: 'Publish test results'
-     inputs:
+  - task: PublishTestResults@2
+    displayName: Publish test results JUnit
+    inputs:
        testResultsFormat: 'JUnit'
        testResultsFiles: '*.xml'
        searchFolder: '**/cypress/reports/junit'
        mergeTestResults: true
        testRunTitle: 'Cypress tests'
-             
+
   - task: PublishTestResults@2
     displayName: Publish Test Results **/cypress/reports/*.xml
     condition: succeededOrFailed()
