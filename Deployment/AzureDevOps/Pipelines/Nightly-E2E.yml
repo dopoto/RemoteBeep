@@ -32,6 +32,16 @@ jobs:
       script: ./node_modules/cypress/bin/cypress run --config-file cypress-ci
       errorActionPreference: continue
       workingDirectory: FrontEnd
+
+- task: PublishTestResults@2
+     displayName: 'Publish test results'
+     inputs:
+       testResultsFormat: 'JUnit'
+       testResultsFiles: '*.xml'
+       searchFolder: '$(System.DefaultWorkingDirectory)/cypress/reports/junit'
+       mergeTestResults: true
+       testRunTitle: 'Cypress tests'
+             
   - task: PublishTestResults@2
     displayName: Publish Test Results **/Frontend/cypress/reports/*.xml
     condition: succeededOrFailed()

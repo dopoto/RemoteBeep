@@ -28,14 +28,14 @@ describe("When server responds as expected, ", () => {
             );
         });
 
-        it("displays a group info text", () => {
-            cy.wait('@devices-in-group').then(() => {
-                cy.get("[data-cy=group-others]").should(
-                    "contain.text",
-                    "There is 1 other device in this group."
-                );
-            })            
-        });
+        // it("displays a group info text", () => {
+        //     cy.wait('@devices-in-group').then(() => {
+        //         cy.get("[data-cy=group-others]").should(
+        //             "contain.text",
+        //             "There is 1 other device in this group."
+        //         );
+        //     })            
+        // });
 
         it("displays a collapse button", () => {
             cy.get("[data-cy=group-info-collapse]").should("be.visible");
