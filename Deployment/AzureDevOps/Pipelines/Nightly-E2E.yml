@@ -19,6 +19,21 @@ jobs:
   steps:
   - checkout: self
     clean: true
+
+  - task: replacetokens@4
+    displayName: 'Replace cypress.json tokens'
+    inputs:
+      targetFiles: '**/cypress-ci.json'
+      encoding: 'auto'
+      tokenPattern: 'default'
+      writeBOM: true
+      actionOnMissing: 'warn'
+      keepToken: false
+      actionOnNoFiles: 'continue'
+      enableTransforms: false
+      useLegacyPattern: false
+      enableTelemetry: true
+
   - task: Npm@1
     displayName: npm install
     inputs:
