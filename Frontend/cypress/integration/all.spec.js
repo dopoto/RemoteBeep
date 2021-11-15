@@ -26,7 +26,7 @@ describe("When server responds as expected, ", () => {
         it("displays a group address", () => {
             cy.get("[data-cy=group-url]").should(
                 "have.value",
-                Cypress.config().baseUrl + "/home;group=my-group"
+                Cypress.config().baseUrl + "/#/home;group=my-group"
             );
         });
 
