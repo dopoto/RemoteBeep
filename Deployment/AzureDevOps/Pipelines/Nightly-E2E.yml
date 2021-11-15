@@ -6,6 +6,10 @@ schedules:
   branches:
     include:
     - main
+
+variables:
+  - group: PROD
+
 resources:
   repositories:
   - repository: self
@@ -19,19 +23,40 @@ jobs:
   steps:
   - checkout: self
     clean: true
+
+  - task: replacetokens@4
+    displayName: 'Replace cypress.json tokens'
+    inputs:
+      targetFiles: '**/cypress-ci.json'
+      encoding: 'auto'
+      tokenPattern: 'default'
+      writeBOM: true
+      actionOnMissing: 'warn'
+      keepToken: false
+      actionOnNoFiles: 'continue'
+      enableTransforms: false
+      useLegacyPattern: false
+      enableTelemetry: true
+
   - task: Npm@1
     displayName: npm install
     inputs:
       workingDir: FrontEnd
       verbose: false
-  - task: PowerShell@2
-    displayName: PowerShell Script
-    continueOnError: True
-    inputs:
-      targetType: inline
-      script: ./node_modules/cypress/bin/cypress run --config-file cypress-ci
-      errorActionPreference: continue
-      workingDirectory: FrontEnd
+  # - task: PowerShell@2
+  #   displayName: PowerShell Script
+  #   continueOnError: True
+  #   inputs:
+  #     targetType: inline
+  #     script: ./node_modules/cypress/bin/cypress run --config-file cypress-ci
+  #     errorActionPreference: continue
+  #     workingDirectory: FrontEnd
+
+  - script: |
+       ./node_modules/.bin/cypress run --browser chrome --config-file cypress-ci
+    workingDirectory: FrontEnd
+    displayName: 'Run cypress tests'
+    continueOnError: true
 
   - task: PublishTestResults@2
     displayName: Publish test results JUnit
