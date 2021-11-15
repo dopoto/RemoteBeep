@@ -14,5 +14,8 @@
             "mochaFile": "cypress/reports/junit/results-[hash].xml"
         }
     },
-    "video": false
+    "video": false,
+    "env": {
+        "serverUrl": "https://localhost:7133"
+    }
 }

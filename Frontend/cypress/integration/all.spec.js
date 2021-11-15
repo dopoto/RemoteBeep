@@ -10,7 +10,9 @@ describe("When server responds as expected, ", () => {
         cy.intercept(
             {
                 method: "GET",
-                url: "https://localhost:7133/devices-in-group?groupName=my-group",
+                url:
+                    Cypress.env("ServerUrl") +
+                    "/devices-in-group?groupName=my-group",
             },
             ["my-conn"]
         ).as("devices-in-group");
@@ -24,7 +26,7 @@ describe("When server responds as expected, ", () => {
         it("displays a group address", () => {
             cy.get("[data-cy=group-url]").should(
                 "have.value",
-                "http://localhost:4220#/home;group=my-group"
+                Cypress.config().baseUrl + "/home;group=my-group"
             );
         });
 
@@ -34,7 +36,7 @@ describe("When server responds as expected, ", () => {
         //             "contain.text",
         //             "There is 1 other device in this group."
         //         );
-        //     })            
+        //     })
         // });
 
         it("displays a collapse button", () => {
@@ -44,9 +46,10 @@ describe("When server responds as expected, ", () => {
 
     describe("Play Mode component", () => {
         it("has Play Only checked", () => {
-            cy.get(
-                "[data-cy=toggle-play-only]"
-            ).should("have.class", "mat-button-toggle-checked");
+            cy.get("[data-cy=toggle-play-only]").should(
+                "have.class",
+                "mat-button-toggle-checked"
+            );
         });
 
         it("displays an expand button", () => {

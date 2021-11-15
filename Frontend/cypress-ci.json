@@ -17,5 +17,6 @@
     },
     "video": false,
     "env": {
+        "serverUrl": "#{ServerUrl}#"
     }
 }
