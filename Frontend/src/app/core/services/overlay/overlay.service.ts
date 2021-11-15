@@ -34,5 +34,3 @@ export class OverlayService {
             .centerVertically();
     }
 }
-
-// export interface AppOverlayConfig extends OverlayConfig { }

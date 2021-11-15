@@ -7,8 +7,6 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { RouterEffects } from './router.effects';
 import { AppState } from '../app.state';
- 
-import { ComponentType } from 'src/app/core/models/component-type';
 
 describe('RouterEffects', () => {
     let actions$ = new Observable<Action>();

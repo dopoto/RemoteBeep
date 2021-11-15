@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { map } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
@@ -7,7 +8,6 @@ import { routerNavigatedAction } from '@ngrx/router-store';
 import { selectRouteGroupAndStoredGroup } from '../selectors/router.selectors';
 import * as actions from '../actions/send-receive.actions';
 import { LogService } from 'src/app/core/services/log/log.service';
-import { Router } from '@angular/router';
 
 @Injectable()
 export class RouterEffects {

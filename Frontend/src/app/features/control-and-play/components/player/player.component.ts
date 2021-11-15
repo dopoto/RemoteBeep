@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, filter, Observable, Subject, takeUntil } from 'rxjs';
-import { ComponentType } from 'src/app/core/models/component-type';
 
+import { ComponentType } from 'src/app/core/models/component-type';
 import { PlaySoundsMode } from 'src/app/core/models/play-sounds-mode';
 import { PlayService } from 'src/app/core/services/play/play.service';
 import { collapsePanel, expandPanel } from 'src/app/state/actions/app-config.actions';

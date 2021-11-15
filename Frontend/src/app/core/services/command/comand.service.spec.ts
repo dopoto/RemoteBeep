@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import {
     HttpClientTestingModule,
     HttpTestingController,
-    TestRequest,
 } from '@angular/common/http/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 

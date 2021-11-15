@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { filter, map, Observable } from 'rxjs';
+
 import { AppNotification } from 'src/app/core/models/app-notification';
 import { ComponentType } from 'src/app/core/models/component-type';
 import {
@@ -9,7 +10,6 @@ import {
     expandPanel,
 } from 'src/app/state/actions/app-config.actions';
 import { selectComponentState } from 'src/app/state/selectors/app-config.selectors';
-
 import {
     selectGroup,
     selectOtherDevicesCount,

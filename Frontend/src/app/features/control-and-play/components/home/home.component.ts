@@ -10,8 +10,10 @@ export class HomeComponent {
 
     constructor(private commandService: CommandService) {}
 
+    /**
+     * Returns a promise so that ngOnDestroy will wait for it to finish.
+     */
     leaveGroup(): Promise<any> {
-        //Return a promise so that ngOnDestroy will wait for it to finish
         return this.commandService.leaveGroup();
     }
 

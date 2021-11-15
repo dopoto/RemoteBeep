@@ -1,10 +1,11 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HubConnection, IHttpConnectionOptions } from '@microsoft/signalr';
 import * as signalR from '@microsoft/signalr';
-import { BeepCommand } from 'src/app/core/models/beep-command';
 import { Store } from '@ngrx/store';
 import { distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
+import { BeepCommand } from 'src/app/core/models/beep-command';
 import { environment } from 'src/environments/environment';
 import { LogService } from '../log/log.service';
 import {
@@ -23,7 +24,6 @@ import {
     updateConnectionId,
     updateListOfClientsConnectedToGroup,
 } from 'src/app/state/actions/send-receive.actions';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root',

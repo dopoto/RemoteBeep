@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { AppState } from 'src/app/state/app.state';
 
+import { AppState } from 'src/app/state/app.state';
 import { SenderComponent } from './sender.component';
 
 describe('SenderComponent', () => {
