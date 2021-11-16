@@ -32,7 +32,7 @@ export class GroupInfoComponent {
 
         this.groupUrl$ = this.store.pipe(
             select(selectGroup),
-            map((group) => `${location.origin}#/home;group=${group}`)
+            map((group) => `${location.origin}/#/home;group=${group}`)
         );
 
         this.otherDevicesMessage$ = this.store.pipe(
