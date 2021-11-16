@@ -1,5 +1,5 @@
 {
-    "baseUrl": "http://localhost:4220/#",
+    "baseUrl": "http://localhost:4220",
     "reporter": "cypress-multi-reporters",
     "reporterOptions": {
         "reporterEnabled": "cypress-mochawesome-reporter, mocha-junit-reporter",
